@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mansfield Digital Dentistry — Site Redesign Report</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1a1f1c;
+      --ink-soft: #4a5650;
+      --paper: #faf8f4;
+      --line: #e3ddd2;
+      --accent: #4a7c6f;
+      --accent-soft: #f4faf7;
+      --warn: #c4780a;
+      --crit: #b04545;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: 'Inter', system-ui, sans-serif; font-size: 14px; line-height: 1.6; }
+    a { color: var(--accent); }
+    .page { max-width: 920px; margin: 0 auto; padding: 56px 48px 96px; }
+    .toc { position: sticky; top: 0; background: var(--paper); padding: 16px 0; border-bottom: 1px solid var(--line); margin-bottom: 32px; font-size: 12px; }
+    .toc a { color: var(--ink-soft); margin-right: 18px; text-decoration: none; }
+    .toc a:hover { color: var(--accent); }
+    h1, h2, h3, h4 { font-family: 'Lora', Georgia, serif; font-weight: 700; color: var(--ink); margin: 0 0 12px; }
+    h1 { font-size: 38px; line-height: 1.1; letter-spacing: -0.01em; }
+    h2 { font-size: 26px; line-height: 1.2; margin-top: 0; }
+    h3 { font-size: 17px; }
+    h4 { font-size: 14px; font-family: 'Inter', sans-serif; font-weight: 600; }
+    p { margin: 0 0 12px; }
+    ul, ol { margin: 0 0 12px; padding-left: 22px; }
+    li { margin-bottom: 6px; }
+    .eyebrow { text-transform: uppercase; letter-spacing: 0.12em; font-size: 11px; color: var(--ink-soft); font-weight: 600; margin-bottom: 6px; }
+    .meta-row { display: flex; gap: 12px; flex-wrap: wrap; font-size: 12px; color: var(--ink-soft); margin-top: 8px; }
+    section { padding: 40px 0; border-top: 1px solid var(--line); }
+    section:first-of-type { border-top: 0; padding-top: 0; }
+    .card { background: white; border: 1px solid var(--line); border-radius: 8px; padding: 24px; margin-bottom: 16px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .swatch { width: 100%; height: 56px; border-radius: 6px; margin-bottom: 6px; border: 1px solid var(--line); }
+    .swatch-label { font-size: 11px; color: var(--ink-soft); display: flex; justify-content: space-between; }
+    .severity { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-right: 8px; }
+    .sev-critical { background: #fbe9e9; color: var(--crit); }
+    .sev-important { background: #fbf2e3; color: var(--warn); }
+    .sev-optional { background: var(--accent-soft); color: var(--accent); }
+    .finding { padding: 16px 0; border-bottom: 1px solid var(--line); }
+    .finding:last-child { border-bottom: 0; }
+    .finding-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+    .finding-body { color: var(--ink-soft); font-size: 13px; }
+    .score-row { display: grid; grid-template-columns: 1fr auto 240px; gap: 16px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
+    .score-row:last-child { border-bottom: 0; }
+    .score-bar { background: var(--line); height: 6px; border-radius: 3px; overflow: hidden; }
+    .score-bar > div { background: var(--accent); height: 100%; }
+    .score-num { font-family: 'Lora', serif; font-weight: 700; font-size: 18px; color: var(--accent); min-width: 40px; text-align: right; }
+    .pitch-card { background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 12px; padding: 32px; }
+    .pitch-card h2 { color: var(--accent); }
+    .vp-list { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 20px 0; }
+    .vp-title { font-weight: 600; margin-bottom: 4px; }
+    .vp-body { font-size: 13px; color: var(--ink-soft); }
+    @media print { .toc { display: none; } body { background: white; } .page { padding: 24px; } }
+    @media (max-width: 720px) { .page { padding: 32px 20px; } .grid-2, .grid-3, .vp-list { grid-template-columns: 1fr; } .score-row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+
+    <nav class="toc">
+      <a href="#summary">Summary</a>
+      <a href="#audit">Audit</a>
+      <a href="#brand">Brand</a>
+      <a href="#built">What we built</a>
+      <a href="#seo">SEO</a>
+      <a href="#scores">Scores</a>
+      <a href="#actions">Action items</a>
+      <a href="#engagement">Engagement</a>
+    </nav>
+
+    <section id="summary">
+      <p class="eyebrow">Site redesign report</p>
+      <h1>Mansfield Digital Dentistry</h1>
+      <div class="meta-row">
+        <span>Joon Lee</span>
+        
+        
+      </div>
+      <p style="margin-top: 18px; font-size: 16px; line-height: 1.55;">A general-to-cosmetic dental practice that leads with technology as a brand name signal (Digital Dentistry) but does not clearly differentiate how that technology benefits patients beyond naming it</p>
+    </section>
+
+    <section id="audit">
+      <p class="eyebrow">Audit of existing site</p>
+      <h2>What's working — and what isn't</h2>
+      
+      
+    <div class="card">
+      <h3><span class="severity sev-critical">Warnings</span> 6 items</h3>
+      <div style="margin-top: 12px;">
+        <div class="finding"><div class="finding-title">Only 2 pages crawled</div><div class="finding-body">this is critically low and suggests either a very thin site, crawl-blocking (robots.txt, JS rendering, or noindex tags), or a site that is barely launched; the redesign brief must confirm actual page count before IA planning</div></div><div class="finding"><div class="finding-title">Phone number is missing from all scraped data</div><div class="finding-body">this may indicate the number is rendered in an image, loaded via JavaScript after page load, or stored only in a third-party widget; all three scenarios harm local SEO, accessibility, and click-to-call conversion</div></div><div class="finding"><div class="finding-title">No images found across the site</div><div class="finding-body">combined with only 2 crawled pages, this raises the possibility the current site is a placeholder or severely underdeveloped, which means the redesign is effectively a ground-up build rather than a refresh</div></div><div class="finding"><div class="finding-title">No testimonials present</div><div class="finding-body">in a technology-forward practice where patients may be skeptical of unfamiliar workflows, the absence of social proof is a conversion risk that should be treated as a launch-blocker for the new site</div></div><div class="finding"><div class="finding-title">City/state for Mansfield is unconfirmed</div><div class="finding-body">there are multiple Mansfields (TX, OH, MA, CT); the correct market must be confirmed before any local keyword targeting, schema markup, or citation-building work begins</div></div><div class="finding"><div class="finding-title">Social profiles found (2) but not identified by platform</div><div class="finding-body">these should be audited to confirm they are active, consistently branded as 'Mansfield Digital Dentistry', and linked bidirectionally from the new site for local SEO co-citation</div></div>
+      </div>
+    </div>
+  
+    <div class="card">
+      <h3><span class="severity sev-important">Content gaps</span> 7 items</h3>
+      <div style="margin-top: 12px;">
+        <div class="finding"><div class="finding-title">Zero patient testimonials or reviews surfaced</div><div class="finding-body">this is a critical trust gap for a practice asking patients to invest in technology-forward care; Google review schema and on-site testimonial blocks must be added</div></div><div class="finding"><div class="finding-title">No images found across crawled pages</div><div class="finding-body">a digital dentistry practice with no visual content of the technology, office, or doctor completely undercuts the brand promise; before/after galleries, equipment photography, and a doctor headshot are essential</div></div><div class="finding"><div class="finding-title">No phone number detected</div><div class="finding-body">the most basic conversion element is missing or unscrapable, suggesting it may not be crawlable text (e.g., image-based or JavaScript-rendered), which is an accessibility and SEO failure</div></div><div class="finding"><div class="finding-title">Service pages for high-value restorative treatments absent from the detected list</div><div class="finding-body">Dental Implants, Porcelain Veneers, Invisalign/Clear Aligners, and Root Canal Therapy are not present despite being top-searched services in any dental market; their absence is a significant organic traffic gap</div></div><div class="finding"><div class="finding-title">No hub pages planned for major service categories</div><div class="finding-body">without Restorative, Cosmetic, and Digital Technology hub pages, the site will have orphaned individual service pages and weak internal linking architecture</div></div><div class="finding"><div class="finding-title">No sedation dentistry page</div><div class="finding-body">given the technology positioning and likely anxious-patient audience, sedation options (even nitrous) should be addressed explicitly</div></div><div class="finding"><div class="finding-title">Doctor bio exists but its depth is unknown</div><div class="finding-body">needs to include dental school, years in practice, technology training/certifications, and any continuing education specifics to support E-E-A-T</div></div>
+      </div>
+    </div>
+  
+    <div class="card">
+      <h3><span class="severity sev-optional">SEO opportunities</span> 7 items</h3>
+      <div style="margin-top: 12px;">
+        <div class="finding"><div class="finding-title">Target 'digital dentistry Mansfield' and 'same-day crowns Mansfield'</div><div class="finding-body">the practice name directly matches high-intent local queries that competitors with generic names cannot easily win</div></div><div class="finding"><div class="finding-title">Build a Digital Dentistry hub page optimized for 'digital dental technology [city]' that links down to Digital Diagnostics, Crowns (same-day/CEREC angle), and Fillings</div><div class="finding-body">this creates a crawlable technology pillar with internal link equity flow</div></div><div class="finding"><div class="finding-title">Emergency dentistry page should target 'emergency dentist Mansfield' and 'same-day dentist Mansfield'</div><div class="finding-body">these are high-CPC, high-intent queries; the page needs a prominent phone CTA and hours information that are currently missing</div></div><div class="finding"><div class="finding-title">Implement LocalBusiness + Dentist schema with sameAs links to the two detected social profiles, and DentistPractice structured data for Dr. Lee</div><div class="finding-body">this directly supports the Google local knowledge panel given the missing phone number issue</div></div><div class="finding"><div class="finding-title">FAQ content already exists</div><div class="finding-body">wrap existing FAQs in FAQPage schema markup to capture featured snippet real estate for question-based queries like 'what is digital dentistry' and 'how long do digital crowns take'</div></div><div class="finding"><div class="finding-title">The practice phone number must be rendered as crawlable HTML text (not an image or JS-only element) sitewide</div><div class="finding-body">this is both an SEO and a Core Web Vitals / accessibility issue that blocks click-to-call tracking and local citation consistency</div></div><div class="finding"><div class="finding-title">If a third-party booking tool is used, ensure an on-domain /contact or /schedule page exists as a canonical scheduling entry point</div><div class="finding-body">orphaning all booking flow to an external domain loses link equity and breaks on-site conversion tracking</div></div>
+      </div>
+    </div>
+  
+    </section>
+
+    <section id="brand">
+      <p class="eyebrow">Brand &amp; design direction</p>
+      <h2>A new direction</h2>
+      
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Palette</h3>
+          <div class="grid-3" style="margin-top: 12px;">
+            
+          </div>
+          
+        </div>
+
+        <div class="card">
+          <h3>Typography</h3>
+          
+          
+        </div>
+      </div>
+
+      
+    </section>
+
+    <section id="built">
+      <p class="eyebrow">What we built</p>
+      <h2>Architecture &amp; layout decisions</h2>
+      
+      <div class="grid-2">
+        <div class="card">
+          <h4 style="text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-soft); font-size: 11px;">Archetype</h4>
+          <p style="font-family: 'Lora', serif; font-size: 18px; font-weight: 700; margin-top: 4px;">—</p>
+          <p style="font-size: 12px; color: var(--ink-soft);">Hero: — · Density: — · Radius: —</p>
+        </div>
+        <div class="card">
+          <h4 style="text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-soft); font-size: 11px;">Section order</h4>
+          <p style="margin-top: 4px;"></p>
+        </div>
+      </div>
+      
+    </section>
+
+    
+    <section id="seo">
+      <p class="eyebrow">SEO &amp; AEO (Answer Engine Optimization)</p>
+      <h2>How well the rebuilt site ranks across 26 pages</h2>
+      <p style="color: var(--ink-soft);">
+        Overall: <strong style="color: var(--accent); font-size: 20px; font-family: 'Lora', serif;">9.1/10</strong>
+        &nbsp;·&nbsp; Traditional SEO: <strong>9.1/10</strong>
+        &nbsp;·&nbsp; AEO score (AI search): <strong>8.7/10</strong>
+      </p>
+      
+        <div class="card" style="margin-top: 16px;">
+          <h3>Top opportunities</h3>
+          <p style="font-size: 12px; color: var(--ink-soft); margin-bottom: 12px;">Highest-leverage fixes from the per-page audit. The full per-page breakdown lives in <code>_pipeline/11-seo-audit.json</code>.</p>
+          
+            <div class="finding">
+              <div class="finding-title">[2/10] ai_citation_friendly <span style="font-weight: 400; color: var(--ink-soft); font-size: 12px;">on /about</span></div>
+              <div class="finding-body">Almost entirely generic marketing phrasing ('honest, transparent', 'commitment to excellence', 'human touch') with no verifiable facts an LLM could cite.</div>
+            </div>
+          
+            <div class="finding">
+              <div class="finding-title">[3/10] content_depth <span style="font-weight: 400; color: var(--ink-soft); font-size: 12px;">on /about</span></div>
+              <div class="finding-body">257 words on a about page — too thin (target ≥ 800).</div>
+            </div>
+          
+            <div class="finding">
+              <div class="finding-title">[3/10] ai_content_depth <span style="font-weight: 400; color: var(--ink-soft); font-size: 12px;">on /about</span></div>
+              <div class="finding-body">Extremely thin — three short paragraphs that describe intent and values but provide no specifics about Dr. Lee's education, credentials, training, or the technology used in the practice.</div>
+            </div>
+          
+            <div class="finding">
+              <div class="finding-title">[3/10] content_depth <span style="font-weight: 400; color: var(--ink-soft); font-size: 12px;">on /blog/why-digital-diagnostics-catch-problems-that-x-rays-miss</span></div>
+              <div class="finding-body">201 words on a blog-post page — too thin (target ≥ 1500).</div>
+            </div>
+          
+            <div class="finding">
+              <div class="finding-title">[3/10] content_depth <span style="font-weight: 400; color: var(--ink-soft); font-size: 12px;">on /gallery</span></div>
+              <div class="finding-body">144 words on a other page — too thin (target ≥ 400).</div>
+            </div>
+          
+            <div class="finding">
+              <div class="finding-title">[3/10] meta_description <span style="font-weight: 400; color: var(--ink-soft); font-size: 12px;">on /</span></div>
+              <div class="finding-body">Meta description is 41 chars — too short to be useful.</div>
+            </div>
+          
+            <div class="finding">
+              <div class="finding-title">[3/10] content_depth <span style="font-weight: 400; color: var(--ink-soft); font-size: 12px;">on /services/digital-diagnostics</span></div>
+              <div class="finding-body">121 words on a service-detail page — too thin (target ≥ 700).</div>
+            </div>
+          
+            <div class="finding">
+              <div class="finding-title">[3/10] content_depth <span style="font-weight: 400; color: var(--ink-soft); font-size: 12px;">on /services/emergency-dentistry</span></div>
+              <div class="finding-body">120 words on a service-detail page — too thin (target ≥ 700).</div>
+            </div>
+          
+            <div class="finding">
+              <div class="finding-title">[3/10] content_depth <span style="font-weight: 400; color: var(--ink-soft); font-size: 12px;">on /services/family-dentistry</span></div>
+              <div class="finding-body">122 words on a service-detail page — too thin (target ≥ 700).</div>
+            </div>
+          
+            <div class="finding">
+              <div class="finding-title">[3/10] content_depth <span style="font-weight: 400; color: var(--ink-soft); font-size: 12px;">on /services/fillings</span></div>
+              <div class="finding-body">113 words on a service-detail page — too thin (target ≥ 700).</div>
+            </div>
+          
+        </div>
+      
+    </section>
+    
+
+    
+    <section id="scores">
+      <p class="eyebrow">Quality scores — the rebuilt site</p>
+      <h2>Rubric scoring across 9 dimensions</h2>
+      <p style="color: var(--ink-soft);">Overall score: <strong style="color: var(--accent); font-size: 20px; font-family: 'Lora', serif;">5.6/10</strong></p>
+      <div class="card" style="margin-top: 16px;">
+        
+            <div class="score-row">
+              <div>
+                <div style="font-weight: 600;">Distinctiveness</div>
+                <div style="font-size: 12px; color: var(--ink-soft); margin-top: 2px;">Centered-headline + two-CTA hero is explicitly banned by the Must Not Do rules — this is the most disqualifying distinctiveness failure.</div>
+              </div>
+              <div class="score-num">5</div>
+              <div class="score-bar"><div style="width: 50%;"></div></div>
+            </div>
+          
+            <div class="score-row">
+              <div>
+                <div style="font-weight: 600;">Typography</div>
+                <div style="font-size: 12px; color: var(--ink-soft); margin-top: 2px;">No visible text-wrap: balance on headlines — the hero headline breaks awkwardly at 'Experience,' creating an orphaned 'Digitally Perfected' line.</div>
+              </div>
+              <div class="score-num">6</div>
+              <div class="score-bar"><div style="width: 60%;"></div></div>
+            </div>
+          
+            <div class="score-row">
+              <div>
+                <div style="font-weight: 600;">Color &amp; contrast</div>
+                <div style="font-size: 12px; color: var(--ink-soft); margin-top: 2px;">Brass accent is completely absent from the design — the brief mandates it land exactly once on the CTA as the only warmth signal. This is both a color and distinctiveness failure.</div>
+              </div>
+              <div class="score-num">6</div>
+              <div class="score-bar"><div style="width: 60%;"></div></div>
+            </div>
+          
+            <div class="score-row">
+              <div>
+                <div style="font-weight: 600;">Spatial &amp; layout</div>
+                <div style="font-size: 12px; color: var(--ink-soft); margin-top: 2px;">Fidelity failure: the outer page background must be sage green (#D9DFD3) — it renders as off-white/cream. This collapses the entire three-tier depth system.</div>
+              </div>
+              <div class="score-num">6</div>
+              <div class="score-bar"><div style="width: 60%;"></div></div>
+            </div>
+          
+            <div class="score-row">
+              <div>
+                <div style="font-weight: 600;">Information hierarchy</div>
+                <div style="font-size: 12px; color: var(--ink-soft); margin-top: 2px;">Two visually equivalent CTAs in the hero ('Schedule in Mansfield' and 'Explore Our Services') violate the single-primary-CTA-per-screen rule — one must be clearly subordinate.</div>
+              </div>
+              <div class="score-num">7</div>
+              <div class="score-bar"><div style="width: 70%;"></div></div>
+            </div>
+          
+            <div class="score-row">
+              <div>
+                <div style="font-weight: 600;">UX writing</div>
+                <div style="font-size: 12px; color: var(--ink-soft); margin-top: 2px;">Service row descriptions are boilerplate: 'Restore damaged teeth with precisely fitted crowns that look and feel completely natural' — this sentence could appear on any dental site without editing. Must reference Dr. Lee's digital workflow or Mansfield specifically.</div>
+              </div>
+              <div class="score-num">6</div>
+              <div class="score-bar"><div style="width: 60%;"></div></div>
+            </div>
+          
+            <div class="score-row">
+              <div>
+                <div style="font-weight: 600;">imagery</div>
+                <div style="font-size: 12px; color: var(--ink-soft); margin-top: 2px;">The doctor portrait placeholder ('L' on gray) is a hard imagery failure — it renders as an unresolved image state rather than an intentional design decision. This is a 404-equivalent broken image artifact.</div>
+              </div>
+              <div class="score-num">3</div>
+              <div class="score-bar"><div style="width: 30%;"></div></div>
+            </div>
+          
+            <div class="score-row">
+              <div>
+                <div style="font-weight: 600;">Trust signals</div>
+                <div style="font-size: 12px; color: var(--ink-soft); margin-top: 2px;">Phone number is absent from the mobile header — the Must Do rules require a tel: link in the mobile header with minimum 44px touch target. Mobile screenshot shows logo + hamburger only. This is a hard rule violation.</div>
+              </div>
+              <div class="score-num">5</div>
+              <div class="score-bar"><div style="width: 50%;"></div></div>
+            </div>
+          
+            <div class="score-row">
+              <div>
+                <div style="font-weight: 600;">Craft</div>
+                <div style="font-size: 12px; color: var(--ink-soft); margin-top: 2px;">Phone number absent from mobile header — 44px touch target requirement is unmet because the element doesn't exist, not just undersized.</div>
+              </div>
+              <div class="score-num">6</div>
+              <div class="score-bar"><div style="width: 60%;"></div></div>
+            </div>
+          
+      </div>
+    </section>
+    
+
+    <section id="actions">
+      <p class="eyebrow">Action items</p>
+      <h2>What's still needed</h2>
+      
+    <div class="card">
+      <h3><span class="severity sev-critical">Critical</span> 6 items</h3>
+      <div style="margin-top: 12px;">
+        <div class="finding"><div class="finding-title">Phone number</div></div><div class="finding"><div class="finding-title">Street address</div></div><div class="finding"><div class="finding-title">ZIP code</div></div><div class="finding"><div class="finding-title">Practice logo</div></div><div class="finding"><div class="finding-title">Doctor / team photo(s)</div></div><div class="finding"><div class="finding-title">axe-core violations</div></div>
+      </div>
+    </div>
+  
+    <div class="card">
+      <h3><span class="severity sev-important">Important</span> 5 items</h3>
+      <div style="margin-top: 12px;">
+        <div class="finding"><div class="finding-title">Google review link</div></div><div class="finding"><div class="finding-title">Office hours</div></div><div class="finding"><div class="finding-title">Doctor education</div></div><div class="finding"><div class="finding-title">Office / interior photos</div></div><div class="finding"><div class="finding-title">Hero / banner image</div></div>
+      </div>
+    </div>
+  
+    <div class="card">
+      <h3><span class="severity sev-optional">Optional</span> 8 items</h3>
+      <div style="margin-top: 12px;">
+        <div class="finding"><div class="finding-title">Patient testimonials</div></div><div class="finding"><div class="finding-title">Years in practice</div></div><div class="finding"><div class="finding-title">Google rating</div></div><div class="finding"><div class="finding-title">Before &amp; after gallery</div></div><div class="finding"><div class="finding-title">Insurance accepted</div></div><div class="finding"><div class="finding-title">Domain name</div></div><div class="finding"><div class="finding-title">Google Analytics ID</div></div><div class="finding"><div class="finding-title">Cloudflare Pages project</div></div>
+      </div>
+    </div>
+  
+      
+    </section>
+
+    
+    <section id="engagement">
+      <div class="pitch-card">
+        <p class="eyebrow" style="color: var(--accent);">Working with us</p>
+        <h2>We rebuild dental practice websites from scratch in under an hour.</h2>
+        <p style="font-family: 'Lora', serif; font-size: 17px; margin-top: 8px;">One automated pipeline. Brand-direction, design system, copy, and a deployable site — sourced from your existing site and tuned to your practice.</p>
+        <div class="vp-list">
+          
+            <div>
+              <div class="vp-title">Brand-first, not template-first</div>
+              <div class="vp-body">Every site starts with a fresh palette, typography, and voice that is specific to your practice — never picked from a template library.</div>
+            </div>
+          
+            <div>
+              <div class="vp-title">Real content, not lorem ipsum</div>
+              <div class="vp-body">We pull your existing copy verbatim where it's strong, and AI-write what's missing using your practice's own context — never generic boilerplate.</div>
+            </div>
+          
+            <div>
+              <div class="vp-title">Editable Astro project, not a CMS lock-in</div>
+              <div class="vp-body">You receive the full source — version-controlled, hostable anywhere. No monthly platform fees, no migration cost when you outgrow us.</div>
+            </div>
+          
+            <div>
+              <div class="vp-title">A starting point, not the finish line</div>
+              <div class="vp-body">This is groundwork. You'll have a clear list of what's missing, what we recommend next, and what would benefit from a deeper conversation.</div>
+            </div>
+          
+        </div>
+        
+          <h3 style="margin-top: 20px;">What you get</h3>
+          <ul><li>A complete redesign as a deployable Astro project</li><li>A detailed audit of your current site (this report)</li><li>A brand direction document with palette, typography, voice</li><li>A list of action items prioritized by impact</li></ul>
+        
+        <p style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--accent); font-weight: 500; color: var(--accent);">Reach out to schedule a 30-minute walkthrough of this report and discuss what an engagement could look like.</p>
+      </div>
+    </section>
+    
+
+  </main>
+</body>
+</html>
