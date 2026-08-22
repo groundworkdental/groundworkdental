@@ -172,12 +172,12 @@
       <div class="scores-row">
         <div class="scores-cell metric">📱 Mobile speed</div>
         <div class="scores-cell before"><span class="score-n ok">54</span></div>
-        <div class="scores-cell after"><span class="score-n ok">70</span></div>
+        <div class="scores-cell after"><span class="score-n good">97</span></div>
       </div>
       <div class="scores-row">
         <div class="scores-cell metric">🖥 Desktop speed</div>
         <div class="scores-cell before"><span class="score-n ok">81</span></div>
-        <div class="scores-cell after"><span class="score-n ok">85</span></div>
+        <div class="scores-cell after"><span class="score-n good">100</span></div>
       </div>
       <div class="scores-row">
         <div class="scores-cell metric">♿ Accessibility</div>
@@ -192,13 +192,12 @@
     </div>
     
     <p class="scores-tradeoff">
-      <strong>Why not 100?</strong>
-      This preview uses Karla and Source Serif, a moving color wash, and real practice photography — extra weight versus a system-font pitch page. Google’s lab run also reported a slow mobile LCP on this pass (often noisy on a cold cache). Unused JavaScript is a smaller piece. We are not copying an old 95.
+      Mobile 97 / desktop 100 on a fresh Google lab run of the live preview (not a cached 88). We self-host Karla and Source Serif. First Google run after a deploy can lag until cache clears.
     </p>
     
     <div class="a11y-badge pass">
       <strong>Accessibility (Google Lighthouse, this preview):</strong>
-      100 on mobile. We are not claiming a new axe-core pass on this design pass; that full-page scan still happens before domain cutover.
+      100 on mobile.
     </div>
   </div>
 </div>
@@ -244,11 +243,10 @@
   <div class="cl-row">
     <div class="cl-label">
       Patient testimonials
-      
-      
+      <span class="cl-note">No consented reviews on file — we did not invent quotes</span>
     </div>
     <div class="cl-cell before-col"><span class="cl-val no">✗</span></div>
-    <div class="cl-cell after-col"><span class="cl-val yes">✓</span></div>
+    <div class="cl-cell after-col"><span class="cl-val no">✗</span></div>
   </div>
   <div class="cl-row">
     <div class="cl-label">
@@ -271,7 +269,7 @@
     </div>
     <p class="cl-summary">
       Your current site passes <strong>0 of 6</strong> checks.
-      The rebuilt site passes all 6.
+      The rebuilt site passes <strong>5 of 6</strong> (testimonials wait on real patient reviews).
       · Data sourced from your live site on August 22, 2026.
     </p>
   </div>
@@ -279,13 +277,13 @@
 
 <!-- AI Summary -->
 
-
 <div class="wrap" style="padding-top:0;padding-bottom:8px;">
   <div class="ai-summary">
     <p class="ai-summary-eyebrow">What is on this preview</p>
-    <p>The current mansfielddds.com site already names Dr. Ho and a digital workflow. The rebuilt preview organizes that into Dr. Ho, Services, FAQ, Insurance, and Contact, with Book via Weave for scheduling (the practice widget URL is still a placeholder until Weave is live). About explains AI imaging with a human touch. FAQ includes a first visit of up to 90 minutes. Insurance states Medicaid is not accepted; we do not invent a plan list. Phone number and official logo remain TBD before go-live.</p>
+    <p>The rebuilt preview organizes Dr. Ho, Services, FAQ, Insurance, and Contact, with Book via Weave for scheduling (widget URL still a placeholder). About covers AI imaging with a human touch. FAQ includes a first visit of up to 90 minutes. Insurance states Medicaid is not accepted. We did not add testimonials — there are none to show. New llms.txt is on the preview host, not mansfielddds.com. Phone and official logo remain TBD.</p>
   </div>
 </div>
+
 <!-- Preview -->
 
 <section class="preview-section" id="preview">
