@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mansfield Digital Dentistry — Site Audit</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:       #111827;
+      --ink-mid:   #4b5563;
+      --ink-soft:  #9ca3af;
+      --paper:     #f3f4f6;
+      --surface:   #ffffff;
+      --line:      #e5e7eb;
+      --accent:    #1d4ed8;
+      --accent-bg: #eff6ff;
+      --red:       #dc2626;
+      --red-bg:    #fef2f2;
+      --green:     #16a34a;
+      --green-bg:  #f0fdf4;
+      --yellow:    #d97706;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 15px; }
+    body { background: var(--paper); color: var(--ink); font-family: 'Inter', system-ui, sans-serif; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+
+    .wrap { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+    /* Hero */
+    .hero { background: var(--surface); border-bottom: 1px solid var(--line); padding: 44px 0 32px; }
+    .hero-eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-soft); margin-bottom: 10px; }
+    .hero h1 { font-family: 'Lora', serif; font-size: clamp(26px, 4.5vw, 42px); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; }
+    .hero-sub { font-size: 13px; color: var(--ink-soft); margin-top: 6px; }
+    .hero-sub a { color: var(--ink-soft); }
+    .quick-links { display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap; }
+    .ql { display: inline-flex; align-items: center; gap: 7px; padding: 9px 16px; border-radius: 7px; font-size: 13px; font-weight: 600; text-decoration: none; border: 1.5px solid var(--line); background: var(--surface); color: var(--ink-mid); }
+    .ql:hover { border-color: var(--ink); }
+    .ql.new { background: var(--accent); border-color: var(--accent); color: white; }
+    .ql.new:hover { opacity: 0.9; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; opacity: 0.4; }
+    .dot.live { background: #22c55e; opacity: 1; }
+
+    /* Score comparison */
+    .scores-section { background: var(--surface); border-bottom: 1px solid var(--line); padding: 28px 0; }
+    .scores-heading { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
+    .scores-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); }
+    .scores-verify { font-size: 11px; color: var(--ink-soft); }
+    .scores-verify a { color: var(--accent); text-decoration: none; }
+    .scores-verify a:hover { text-decoration: underline; }
+    .scores-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+    .scores-col-head { padding: 10px 16px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid var(--line); }
+    .scores-col-head.metric { color: var(--ink-soft); background: var(--paper); }
+    .scores-col-head.before { color: var(--red);   background: var(--red-bg);   border-left: 1px solid var(--line); text-align: center; text-decoration: none; }
+    .scores-col-head.after  { color: var(--green); background: var(--green-bg); border-left: 1px solid var(--line); text-align: center; text-decoration: none; }
+    .scores-col-head.before:hover { background: #fee2e2; }
+    .scores-col-head.after:hover  { background: #dcfce7; }
+    .scores-tradeoff { margin-top: 10px; font-size: 12px; color: var(--ink-soft); line-height: 1.5; }
+    .scores-tradeoff strong { color: var(--ink-mid); }
+    .a11y-badge { margin-top: 12px; padding: 12px 16px; border-radius: 8px; font-size: 13px; line-height: 1.5; }
+    .a11y-badge.pass { background: var(--green-bg); color: var(--green); border: 1px solid #bbf7d0; }
+    .a11y-badge.fail { background: var(--red-bg); color: var(--red); border: 1px solid #fecaca; }
+    .gate-banner { background: #fef3c7; border: 1px solid #fcd34d; color: #92400e; padding: 14px 18px; border-radius: 8px; margin-bottom: 20px; font-size: 13px; line-height: 1.5; }
+    .scores-row { display: contents; }
+    .scores-cell { padding: 12px 16px; border-bottom: 1px solid var(--line); font-size: 13px; display: flex; align-items: center; }
+    .scores-row:last-child .scores-cell { border-bottom: 0; }
+    .scores-cell.metric { font-weight: 500; color: var(--ink-mid); background: var(--paper); }
+    .scores-cell.before { background: var(--red-bg);   border-left: 1px solid var(--line); justify-content: center; }
+    .scores-cell.after  { background: var(--green-bg); border-left: 1px solid var(--line); justify-content: center; }
+    .score-n { font-family: 'Lora', serif; font-size: 22px; font-weight: 700; line-height: 1; }
+    .score-n.bad  { color: var(--red);    }
+    .score-n.ok   { color: var(--yellow); }
+    .score-n.good { color: var(--green);  }
+    .score-n.great { color: var(--green); }
+    .score-dash { color: var(--ink-soft); font-size: 13px; }
+
+    /* Checklist section */
+    .checklist-section { padding: 40px 0; }
+    .cl-header { display: grid; grid-template-columns: 1fr 120px 120px; gap: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px 10px 0 0; overflow: hidden; }
+    .cl-header-cell { padding: 12px 16px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; border-bottom: 2px solid var(--line); }
+    .cl-header-cell.label-col { color: var(--ink-soft); }
+    .cl-header-cell.before-col { text-align: center; color: var(--red);   background: var(--red-bg);   border-left: 1px solid var(--line); }
+    .cl-header-cell.after-col  { text-align: center; color: var(--green); background: var(--green-bg); border-left: 1px solid var(--line); }
+    .cl-body { background: var(--surface); border: 1px solid var(--line); border-top: 0; border-radius: 0 0 10px 10px; overflow: hidden; }
+    .cl-row { display: grid; grid-template-columns: 1fr 120px 120px; border-bottom: 1px solid var(--line); }
+    .cl-row:last-child { border-bottom: 0; }
+    .cl-row:hover { background: #fafafa; }
+    .cl-label { padding: 13px 16px; font-size: 13px; font-weight: 500; color: var(--ink); display: flex; flex-direction: column; justify-content: center; }
+    .cl-note { font-size: 11px; color: var(--ink-soft); margin-top: 2px; font-weight: 400; }
+    .cl-cell { padding: 13px 16px; display: flex; align-items: center; justify-content: center; border-left: 1px solid var(--line); font-size: 18px; }
+    .cl-cell.before-col { background: var(--red-bg);   }
+    .cl-cell.after-col  { background: var(--green-bg); }
+    .cl-val { font-size: 12px; font-weight: 700; }
+    .cl-val.yes   { color: var(--green); }
+    .cl-val.no    { color: var(--red);   }
+    .cl-val.count { font-family: 'Lora', serif; font-size: 16px; color: var(--ink-mid); }
+    .cl-summary { margin-top: 12px; font-size: 13px; color: var(--ink-soft); }
+    .cl-summary strong { color: var(--ink); }
+
+    /* Checklist item definitions / tooltips */
+    .cl-def { font-size: 11px; color: var(--ink-soft); margin-top: 3px; font-weight: 400; font-style: italic; line-height: 1.45; }
+
+    /* AI summary */
+    .ai-summary { background: var(--accent-bg); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); border-radius: 10px; padding: 20px 24px; margin: 0 0 32px; }
+    .ai-summary-eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 8px; }
+    .ai-summary p { font-size: 14px; line-height: 1.65; color: var(--ink); }
+
+    /* Preview */
+    .preview-section { padding: 40px 0; border-top: 1px solid var(--line); }
+    .section-eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-soft); margin-bottom: 14px; }
+    .preview-chrome { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+    .chrome-bar { background: #f3f4f6; border-bottom: 1px solid var(--line); padding: 9px 14px; display: flex; align-items: center; gap: 10px; }
+    .chrome-dots { display: flex; gap: 5px; }
+    .chrome-dots span { width: 9px; height: 9px; border-radius: 50%; }
+    .chrome-dots span:nth-child(1) { background: #f87171; }
+    .chrome-dots span:nth-child(2) { background: #fbbf24; }
+    .chrome-dots span:nth-child(3) { background: #34d399; }
+    .chrome-url { background: white; border: 1px solid var(--line); border-radius: 5px; padding: 3px 12px; font-size: 12px; color: var(--ink-soft); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .preview-chrome iframe { width: 100%; height: 580px; border: 0; display: block; }
+
+    /* CTA */
+    .cta { background: var(--ink); padding: 64px 24px; text-align: center; }
+    .cta h2 { font-family: 'Lora', serif; font-size: clamp(22px, 4vw, 34px); font-weight: 700; color: white; }
+    .cta p  { color: rgba(255,255,255,0.5); margin-top: 8px; font-size: 15px; }
+    .cta-btn { display: inline-block; margin-top: 24px; padding: 14px 34px; background: var(--accent); color: white; text-decoration: none; border-radius: 8px; font-weight: 700; font-size: 15px; }
+    .cta-btn:hover { opacity: 0.88; }
+    .cta-fine { margin-top: 12px; font-size: 12px; color: rgba(255,255,255,0.28); }
+
+    @media (max-width: 560px) {
+      .cl-header, .cl-row { grid-template-columns: 1fr 80px 80px; }
+      .scores-inner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="wrap">
+    <p class="hero-eyebrow"><a href="https://groundworkdental.com" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">Groundwork Dental</a> — Site Audit</p>
+    <h1>Mansfield Digital Dentistry</h1>
+    <p class="hero-sub">
+      Joon Lee
+      
+    </p>
+    <div class="quick-links">
+      
+      <a href="https://mansfielddds.groundworkdental.com" target="_blank" rel="noopener" class="ql new"><span class="dot live"></span>Rebuilt site</a>
+      <a href="#preview" class="ql">See preview ↓</a>
+    </div>
+  </div>
+</header>
+
+
+
+<!-- Score comparison -->
+
+<div class="scores-section">
+  <div class="wrap">
+    <div class="scores-heading">
+      <span class="scores-label">Google PageSpeed — before &amp; after</span>
+      <span class="scores-verify">Scores measured by Google — click a column to verify ↗</span>
+    </div>
+    <div class="scores-grid">
+      <div class="scores-col-head metric">Metric</div>
+      <a href="https://pagespeed.web.dev/report?url=https%3A%2F%2Fmansfielddds.com" target="_blank" rel="noopener" class="scores-col-head before" title="Run PageSpeed on current site">Current site ↗</a>
+      <a href="https://pagespeed.web.dev/report?url=https%3A%2F%2Fmansfielddds.groundworkdental.com" target="_blank" rel="noopener" class="scores-col-head after" title="Run PageSpeed on rebuilt site">Rebuilt site ↗</a>
+      
+      <div class="scores-row">
+        <div class="scores-cell metric">📱 Mobile speed</div>
+        <div class="scores-cell before"><span class="score-n ok">54</span></div>
+        <div class="scores-cell after"><span class="score-n ok">70</span></div>
+      </div>
+      <div class="scores-row">
+        <div class="scores-cell metric">🖥 Desktop speed</div>
+        <div class="scores-cell before"><span class="score-n ok">81</span></div>
+        <div class="scores-cell after"><span class="score-n ok">85</span></div>
+      </div>
+      <div class="scores-row">
+        <div class="scores-cell metric">♿ Accessibility</div>
+        <div class="scores-cell before"><span class="score-n good">91</span></div>
+        <div class="scores-cell after"><span class="score-n good">100</span></div>
+      </div>
+      <div class="scores-row">
+        <div class="scores-cell metric">🔍 SEO</div>
+        <div class="scores-cell before"><span class="score-n good">100</span></div>
+        <div class="scores-cell after"><span class="score-n good">100</span></div>
+      </div>
+    </div>
+    
+    <p class="scores-tradeoff">
+      <strong>Why not 100?</strong>
+      This preview uses Karla and Source Serif, a moving color wash, and real practice photography — extra weight versus a system-font pitch page. Google’s lab run also reported a slow mobile LCP on this pass (often noisy on a cold cache). Unused JavaScript is a smaller piece. We are not copying an old 95.
+    </p>
+    
+    <div class="a11y-badge pass">
+      <strong>Accessibility (Google Lighthouse, this preview):</strong>
+      100 on mobile. We are not claiming a new axe-core pass on this design pass; that full-page scan still happens before domain cutover.
+    </div>
+  </div>
+</div>
+
+
+<!-- Checklist -->
+<section class="checklist-section">
+  <div class="wrap">
+    <div class="cl-header">
+      <div class="cl-header-cell label-col">Checklist</div>
+      <div class="cl-header-cell before-col">Current site</div>
+      <div class="cl-header-cell after-col">Rebuilt site</div>
+    </div>
+    <div class="cl-body">
+      
+  <div class="cl-row">
+    <div class="cl-label">
+      Doctor profile &amp; credentials
+      
+      
+    </div>
+    <div class="cl-cell before-col"><span class="cl-val no">✗</span></div>
+    <div class="cl-cell after-col"><span class="cl-val yes">✓</span></div>
+  </div>
+  <div class="cl-row">
+    <div class="cl-label">
+      Doctor bio page
+      
+      
+    </div>
+    <div class="cl-cell before-col"><span class="cl-val no">✗</span></div>
+    <div class="cl-cell after-col"><span class="cl-val yes">✓</span></div>
+  </div>
+  <div class="cl-row">
+    <div class="cl-label">
+      Site structure
+      <span class="cl-note">1 general</span>
+      <span class="cl-def">How your pages are organized. A flat list of 30 pages looks chaotic to Google and makes it harder for patients to find what they need. A hub &amp; spoke groups related pages under clear categories — better rankings, easier navigation.</span>
+    </div>
+    <div class="cl-cell before-col"><span class="cl-val count">1 pages, flat</span></div>
+    <div class="cl-cell after-col"><span class="cl-val count">Hub &amp; spoke</span></div>
+  </div>
+  <div class="cl-row">
+    <div class="cl-label">
+      Patient testimonials
+      
+      
+    </div>
+    <div class="cl-cell before-col"><span class="cl-val no">✗</span></div>
+    <div class="cl-cell after-col"><span class="cl-val yes">✓</span></div>
+  </div>
+  <div class="cl-row">
+    <div class="cl-label">
+      FAQ section
+      
+      
+    </div>
+    <div class="cl-cell before-col"><span class="cl-val no">✗</span></div>
+    <div class="cl-cell after-col"><span class="cl-val yes">✓</span></div>
+  </div>
+  <div class="cl-row">
+    <div class="cl-label">
+      Schema markup (local business)
+      <span class="cl-note">Helps Google show your business in search</span>
+      <span class="cl-def">Hidden code on your site that tells Google exactly what your business is — your name, address, phone, hours, and specialty. Without it, Google has to guess. With it, you show up in the map pack and rich search results.</span>
+    </div>
+    <div class="cl-cell before-col"><span class="cl-val no">✗</span></div>
+    <div class="cl-cell after-col"><span class="cl-val yes">✓</span></div>
+  </div>
+    </div>
+    <p class="cl-summary">
+      Your current site passes <strong>0 of 6</strong> checks.
+      The rebuilt site passes all 6.
+      · Data sourced from your live site on August 22, 2026.
+    </p>
+  </div>
+</section>
+
+<!-- AI Summary -->
+
+
+<div class="wrap" style="padding-top:0;padding-bottom:8px;">
+  <div class="ai-summary">
+    <p class="ai-summary-eyebrow">What is on this preview</p>
+    <p>The current mansfielddds.com site already names Dr. Ho and a digital workflow. The rebuilt preview organizes that into Dr. Ho, Services, FAQ, Insurance, and Contact, with Book via Weave for scheduling (the practice widget URL is still a placeholder until Weave is live). About explains AI imaging with a human touch. FAQ includes a first visit of up to 90 minutes. Insurance states Medicaid is not accepted; we do not invent a plan list. Phone number and official logo remain TBD before go-live.</p>
+  </div>
+</div>
+<!-- Preview -->
+
+<section class="preview-section" id="preview">
+  <div class="wrap">
+    <p class="section-eyebrow">Live preview — rebuilt site</p>
+    <div class="preview-chrome">
+      <div class="chrome-bar">
+        <div class="chrome-dots"><span></span><span></span><span></span></div>
+        <div class="chrome-url">mansfielddds.groundworkdental.com</div>
+      </div>
+      <iframe src="https://mansfielddds.groundworkdental.com" title="Mansfield Digital Dentistry — rebuilt" loading="lazy" allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+
+
+<!-- CTA -->
+<div class="cta">
+  <h2>Ready to make this yours?</h2>
+  <p>Point your domain. We handle the rest.</p>
+  <a href="https://mansfielddds.groundworkdental.com" class="cta-btn">Open the live preview</a>
+  <p class="cta-fine">No contracts. No lock-in.</p>
+</div>
+
+</body>
+</html>
