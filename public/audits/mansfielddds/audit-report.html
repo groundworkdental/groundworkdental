@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Site Audit — Mansfield Digital Dentistry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    /* Groundwork Dental design system v2 — see /docs/design/DESIGN.md.
+       Single source of truth: token names match the design doc 1:1.
+       Legacy aliases below (--ink, --terracotta, --cream, etc.) point at
+       the new tokens so existing CSS keeps working through the migration. */
+
+    /* Brand — sage is THE accent (non-text); sage-dark is text/links/buttons */
+    --sage:        #5F7F6B;
+    --sage-dark:   #4A6B55;
+    --sage-darker: #3D5A48;
+    --sage-tint:   #EBF0EC;
+
+    /* Neutrals */
+    --charcoal:    #334155;
+    --mid-gray:    #64748B;
+    --border-light:#E0DDD5;
+
+    /* Surfaces */
+    --surface-1:   #FFFFFF;
+    --surface-2:   #F8F8F3;
+    --on-dark:     #E7EBF0;
+    --on-dark-muted:#AAB4C2;
+
+    /* Semantic — contrast-audited against their own backgrounds */
+    --success:     #4A6B55;  /* same as sage-dark by design — one green */
+    --success-bg:  #EBF0EC;
+    --warning:     #92400E;
+    --warning-bg:  #FCF4E8;
+    --pending:     #475569;
+    --pending-bg:  #F1F0EB;
+    --danger:      #B42318;
+    --danger-bg:   #FDF0EE;
+
+    /* Legacy aliases — kept so existing rules in this file still resolve.
+       Prefer the design-system tokens above for new code. */
+    --ink:         var(--charcoal);
+    --terracotta:  var(--sage-dark);    /* design system has no terracotta */
+    --cream:       var(--surface-2);
+    --surface:     var(--surface-1);
+    --border:      var(--border-light);
+    --text-dim:    var(--mid-gray);
+    --green:       var(--success);
+    --red:         var(--danger);
+    --amber:       var(--warning);
+    --blue:        var(--sage-dark);    /* drop the blue, brand is sage */
+
+    /* Radius — design system: default = 4px, full = 9999. */
+    --radius:      4px;
+
+    /* Typography — Georgia for prose (zero font bytes), Figtree for UI
+       chrome (one webfont, on-brand), system mono for numerals. */
+    --font:        Georgia, "Times New Roman", serif;
+    --font-ui:     Figtree, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --mono:        ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  body { font-family: var(--font); background: var(--surface-1); color: var(--charcoal); font-size: 14px; line-height: 1.5; }
+
+  /* UI chrome — Figtree on buttons, badges, eyebrows, labels, nav, tabs.
+     Applied via class OR the selectors below cover the common cases. */
+  .ui, button, .tab-btn, .badge, .badge-green,
+  .gw-mark, .gw-logo .mark, .gw-logo .domain,
+  .section-note, .source-note,
+  .findings-group-title, .diff-group-title,
+  .diff-card-category, .diff-card-badge, .diff-fixed-line, .diff-side-label,
+  .score-name, .score-subtitle, .score-lbl, .score-pill,
+  .compare-table th, .metric-sublabel, .metric-label, .metric-threshold,
+  .finding-meta, .finding-source, .pages-label,
+  .fs-label, .fs-num, .ai-block h4, .current-tag, .rec-tag,
+  .tag-primary, .tag-secondary, .impr-finding-ref,
+  .ba-header, .ba-label, .design-info h4, .design-key,
+  .sev-badge, .section-title, .pair-found-severity, .pair-header,
+  .pair-found-pages-label, .lead-magnet-eyebrow, .lead-magnet-btn,
+  .lead-magnet-fineprint, .hero-screenshot-cap,
+  .scores-headline, .scores-attribution,
+  .report-footer, .empty-state {
+    font-family: var(--font-ui);
+  }
+
+  /* Score circles */
+  .score-circle {
+    width: 100px; height: 100px; border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    border: 4px solid currentColor;
+    flex-shrink: 0;
+  }
+  .score-num { font-size: 28px; font-weight: 800; line-height: 1; }
+  .score-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 3px; opacity: 0.75; }
+
+  /* Metric row */
+  .metric-status-pass { color: var(--green); }
+  .metric-status-warn { color: var(--amber); }
+  .metric-status-fail { color: var(--red); }
+  .metric-status-na   { color: var(--text-dim); }
+
+  /* Finding cards */
+  .finding-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; }
+  .finding-card.critical { border-left: 4px solid var(--red); }
+  .finding-card.warning  { border-left: 4px solid var(--amber); }
+  .finding-card.passed   { border-left: 4px solid var(--green); }
+
+  .finding-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
+  .finding-icon {
+    width: 24px; height: 24px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800; flex-shrink: 0; margin-top: 1px;
+  }
+  .finding-icon.critical { background: var(--danger-bg); color: var(--red); }
+  .finding-icon.warning  { background: var(--warning-bg); color: var(--amber); }
+  .finding-icon.passed   { background: var(--success-bg); color: var(--green); }
+
+  .finding-title  { font-family: var(--font); font-size: 17px; font-weight: 400; line-height: 1.3; color: var(--charcoal); letter-spacing: -0.1px; }
+  .finding-meta   { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-dim); margin-top: 2px; }
+  .finding-detail { font-size: 13px; color: var(--ink); line-height: 1.55; margin-top: 8px; }
+  .finding-evidence { font-size: 13px; font-weight: 700; color: var(--ink); line-height: 1.4; margin-top: 8px; }
+  .finding-impact { font-size: 12px; color: var(--sage); line-height: 1.5; margin-top: 6px; font-style: italic; }
+  .finding-source { font-size: 11px; color: var(--text-dim); margin-top: 6px; }
+  .finding-pages  { margin-top: 8px; font-size: 11px; color: var(--text-dim); }
+  .finding-pages summary { cursor: pointer; font-weight: 600; user-select: none; }
+  .finding-pages summary:hover { color: var(--ink); }
+  .finding-pages ul { list-style: none; margin-top: 5px; display: flex; flex-direction: column; gap: 2px; }
+  .finding-pages li { font-family: var(--mono); font-size: 11px; padding: 2px 0; word-break: break-all; }
+
+  /* Critical findings: show affected pages inline, no disclosure */
+  .finding-pages-inline { margin-top: 10px; }
+  .finding-pages-inline .pages-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-dim); margin-bottom: 4px; }
+  .finding-pages-inline ul { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+  .finding-pages-inline li { font-family: var(--mono); font-size: 11px; padding: 2px 0; word-break: break-all; color: var(--ink); }
+
+  .finding-page-evidence { margin-top: 14px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .finding-page-evidence summary { cursor: pointer; padding: 10px 14px; font-size: 12px; font-weight: 700; background: var(--surface-2); color: var(--sage-dark); list-style: none; }
+  .finding-page-evidence summary::-webkit-details-marker { display: none; }
+  .page-evidence-list { display: flex; flex-direction: column; }
+  .page-evidence-card { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+  .page-evidence-card:last-child { border-bottom: none; }
+  .page-evidence-path { font-size: 12px; font-weight: 700; font-family: var(--mono); color: var(--sage-dark); text-decoration: none; display: inline-block; margin-bottom: 10px; }
+  .page-evidence-path:hover { text-decoration: underline; }
+  .page-evidence-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .pe-side { border-radius: 6px; padding: 10px 12px; font-size: 12px; line-height: 1.5; }
+  .pe-side.pe-now { background: #FCF4E8; border: 1px solid #E8D4A8; }
+  .pe-side.pe-good { background: var(--sage-tint); border: 1px solid var(--sage); }
+  .pe-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; color: var(--text-dim); }
+  .pe-value { color: var(--ink); }
+  .pe-detail { margin-top: 6px; font-size: 11px; color: var(--text-dim); }
+  .page-evidence-foot { font-size: 11px; color: var(--text-dim); padding: 8px 14px; background: var(--surface-2); border-top: 1px solid var(--border); }
+  .finding-page-evidence .evidence-scroll { max-height: 280px; overflow-y: auto; }
+  .finding-page-evidence .evidence-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0; font-family: var(--mono); font-size: 11.5px; border-bottom: 1px solid var(--border); }
+  .finding-page-evidence .evidence-row.head { background: var(--surface-2); position: sticky; top: 0; font-family: var(--font-ui); font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-dim); }
+  .finding-page-evidence .evidence-row span { padding: 8px 12px; word-break: break-word; }
+  .finding-page-evidence .evidence-row .url { border-right: 1px solid var(--border); }
+  .finding-page-evidence .evidence-row .url a { color: var(--sage-dark); text-decoration: none; }
+  .finding-page-evidence .evidence-row .url a:hover { text-decoration: underline; }
+  @media (max-width: 700px) { .page-evidence-compare { grid-template-columns: 1fr; } }
+  
+
+/* ── Header ── */
+/* Header — charcoal band per design system. Wordmark + practice title.
+   Georgia for the practice title (it's prose, not UI chrome). */
+.header { background: var(--charcoal); color: var(--on-dark); padding: 24px 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.header-left h1 { font-family: var(--font); font-size: 22px; font-weight: 400; letter-spacing: -0.3px; color: var(--on-dark); }
+.header-left .sub { color: var(--on-dark-muted); font-size: 13px; margin-top: 4px; font-family: var(--font-ui); }
+.header-badge { font-size: 12px; color: var(--on-dark-muted); text-align: right; line-height: 1.7; }
+/* Brand wordmark per /docs/design/DESIGN.md — Georgia 'Groundwork' + sage divider + Figtree 'dental'. */
+.gw-mark { display: inline-flex; align-items: baseline; gap: 8px; font-size: 16px; }
+.gw-mark .word { font-family: var(--font); font-weight: 400; color: var(--on-dark); letter-spacing: -0.2px; }
+.gw-mark .divider { width: 1px; height: 12px; background: var(--sage); align-self: center; }
+.gw-mark .suffix { font-family: var(--font-ui); font-size: 10px; font-weight: 500; color: var(--sage); letter-spacing: 0.14em; text-transform: uppercase; }
+
+/* ── Tab Nav ── */
+.tab-nav { background: var(--surface); border-bottom: 2px solid var(--border); padding: 0 32px; display: flex; gap: 0; overflow-x: auto; }
+.tab-btn { background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -2px; padding: 13px 20px; font-size: 13px; font-weight: 600; color: var(--text-dim); cursor: pointer; white-space: nowrap; transition: color 0.15s, border-color 0.15s; }
+.tab-btn:hover { color: var(--ink); }
+.tab-btn.active { color: var(--terracotta); border-bottom-color: var(--terracotta); }
+.badge { background: var(--red); color: white; font-size: 10px; font-weight: 800; padding: 1px 6px; border-radius: 10px; margin-left: 5px; vertical-align: middle; }
+
+/* ── Main ── */
+.main { max-width: 1080px; margin: 0 auto; padding: 32px 32px 80px; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── Section layout ── */
+.section-header { display: flex; align-items: center; justify-content: space-between; padding-bottom: 16px; border-bottom: 1px solid var(--border); margin-bottom: 28px; }
+/* Section headings — Georgia per design system (prose). */
+.section-header h2 { font-family: var(--font); font-size: 22px; font-weight: 400; letter-spacing: -0.2px; color: var(--charcoal); }
+.section-note { font-size: 12px; color: var(--text-dim); }
+
+/* ── Audit Hero ── */
+.growth-hero { max-width: 1080px; margin: 28px auto 0; padding: 22px 28px; border-radius: var(--radius); display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+.growth-hero-eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); margin-bottom: 6px; }
+.growth-hero-headline { font-family: var(--font); font-size: 30px; font-weight: 400; line-height: 1.2; letter-spacing: -0.4px; }
+.growth-hero-sub { font-size: 12px; color: var(--text-dim); margin-top: 8px; }
+.growth-hero-right { display: flex; gap: 28px; }
+.growth-stat { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.growth-stat-num { font-size: 30px; font-weight: 800; font-family: var(--mono); line-height: 1; }
+.growth-stat-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-dim); }
+
+/* ── Diff hero + cards (re-scan / before→after mode) ── */
+.badge-green { background: var(--green); color: white; font-size: 10px; font-weight: 800; padding: 1px 6px; border-radius: 10px; margin-left: 5px; vertical-align: middle; }
+
+.diff-group { margin-bottom: 32px; }
+.diff-group-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 14px; }
+.diff-group-list { display: flex; flex-direction: column; gap: 12px; }
+
+.diff-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; }
+.diff-card-fixed { border-left: 4px solid var(--green); }
+.diff-card-regressed { border-left: 4px solid var(--red); }
+.diff-card-still-issue { border-left: 4px solid var(--amber); }
+.diff-card-preview-limited,
+.diff-card-not-measured { border-left: 4px solid var(--border); }
+.diff-card-new { border-left: 4px solid var(--amber); }
+.diff-card-unchanged { border-left: 4px solid var(--green); opacity: 0.7; }
+.diff-preview-note { font-size: 12px; line-height: 1.5; color: var(--text-dim); background: var(--surface-2); border-radius: var(--radius); padding: 10px 12px; margin-top: 10px; }
+.diff-card-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+.diff-card-symbol { font-size: 18px; font-weight: 800; line-height: 1.2; }
+.diff-card-titles { flex: 1; }
+.diff-card-title { font-family: var(--font); font-size: 17px; font-weight: 400; color: var(--charcoal); letter-spacing: -0.1px; }
+.diff-card-category { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-dim); margin-top: 2px; }
+.diff-card-badge { font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 12px; border: 1px solid; text-transform: uppercase; letter-spacing: 0.5px; }
+.diff-fixed-line { font-size: 13px; font-weight: 600; color: var(--green); margin-bottom: 12px; }
+.diff-card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.diff-card-side { padding: 12px 14px; }
+.diff-card-before { background: var(--danger-bg); border-right: 1px solid var(--border); }
+.diff-card-after  { background: var(--success-bg); }
+.diff-side-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-dim); margin-bottom: 4px; }
+.diff-side-detail { font-size: 12px; line-height: 1.5; }
+.diff-card-benefit { font-size: 12px; font-style: italic; color: var(--text-dim); margin-top: 10px; line-height: 1.5; }
+
+/* ── Scorecard ── */
+.score-strip { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 32px; }
+.score-cell { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.score-name { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-dim); text-align: center; }
+.score-subtitle { font-size: 11px; color: var(--text-dim); font-weight: 400; text-align: center; max-width: 90px; line-height: 1.35; }
+
+.lighthouse-callout { background: var(--sage-tint); border: 1px solid var(--sage); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 28px; font-size: 13px; line-height: 1.6; color: var(--charcoal); }
+.lighthouse-callout strong { color: var(--sage-dark); }
+.lighthouse-callout a { color: var(--sage-dark); }
+
+.compare-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 32px; }
+.compare-table th { text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-dim); padding: 8px 12px; background: var(--surface-2); border: 1px solid var(--border); }
+.compare-table td { padding: 10px 12px; border: 1px solid var(--border); font-weight: 600; }
+.compare-table td.score-desc { font-size: 11px; color: var(--text-dim); font-weight: 400; }
+.compare-table tr:nth-child(even) td { background: var(--surface-2); }
+.score-val { display: inline-flex; align-items: center; gap: 8px; }
+.score-pill { font-size: 13px; font-weight: 800; padding: 3px 10px; border-radius: 20px; display: inline-block; }
+
+.metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 32px; }
+@media (max-width: 700px) { .metrics-grid { grid-template-columns: 1fr 1fr; } }
+.metric-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+.metric-label { font-size: 12px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.metric-sublabel { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-dim); margin-bottom: 6px; }
+.metric-value { font-size: 22px; font-weight: 800; font-family: var(--mono); line-height: 1; }
+.metric-threshold { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
+.metric-desc { font-size: 11px; line-height: 1.45; color: var(--text-dim); margin-top: 6px; }
+.source-note { font-size: 11px; color: var(--text-dim); font-style: italic; margin-top: 8px; }
+
+/* ── Agentic browsing tab ── */
+.agentic-status-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 24px; }
+@media (max-width: 700px) { .agentic-status-grid { grid-template-columns: 1fr; } }
+.agentic-stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+.agentic-stat-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-dim); margin-bottom: 6px; }
+.agentic-stat-value { font-size: 20px; font-weight: 800; font-family: var(--mono); line-height: 1.1; }
+.agentic-stat-outof { font-size: 14px; font-weight: 600; color: var(--text-dim); }
+.agentic-stat-sublabel { font-size: 11px; line-height: 1.45; color: var(--text-dim); margin-top: 8px; }
+.agentic-headline { font-size: 14px; line-height: 1.55; padding: 14px 18px; border-radius: var(--radius); margin-bottom: 20px; }
+.agentic-headline.agentic-warn { background: #FCF4E8; border: 1px solid #E8D4A8; color: var(--amber); }
+.agentic-headline.agentic-ok { background: var(--sage-tint); border: 1px solid var(--sage); color: var(--sage-dark); }
+.agentic-evidence { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 16px; }
+.agentic-evidence-head { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 10px 14px; background: var(--surface-2); border-bottom: 1px solid var(--border); color: var(--text-dim); }
+.agentic-issues { padding: 12px 14px 12px 28px; font-size: 13px; line-height: 1.5; }
+.agentic-issues li { margin-bottom: 6px; }
+.agentic-details { margin: 12px 0; border: 1px solid var(--border); border-radius: var(--radius); }
+.agentic-details summary { cursor: pointer; padding: 10px 14px; font-size: 12px; font-weight: 700; background: var(--surface-2); }
+.agentic-pre { margin: 0; padding: 12px 14px; font-family: var(--mono); font-size: 11px; line-height: 1.45; white-space: pre-wrap; word-break: break-word; background: #FAFAF8; max-height: 240px; overflow: auto; }
+.agentic-pre-good { background: var(--sage-tint); }
+.agentic-checks { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 24px; }
+.agentic-checks-head { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 10px 14px; background: var(--surface-2); border-bottom: 1px solid var(--border); color: var(--text-dim); }
+.agentic-check-row { display: flex; gap: 14px; padding: 14px 16px; border-bottom: 1px solid var(--border); align-items: flex-start; }
+.agentic-check-row:last-child { border-bottom: none; }
+.agentic-check-badge { flex-shrink: 0; font-size: 10px; font-weight: 800; letter-spacing: 0.04em; padding: 4px 8px; border-radius: 4px; font-family: var(--mono); margin-top: 2px; }
+.agentic-check-badge.pass { background: var(--sage-tint); color: var(--sage-dark); border: 1px solid var(--sage); }
+.agentic-check-badge.fail { background: #FCE8E8; color: var(--red); border: 1px solid #E8B4B4; }
+.agentic-check-badge.na { background: var(--surface-2); color: var(--text-dim); border: 1px solid var(--border); }
+.agentic-check-badge.unknown { background: var(--surface-2); color: var(--text-dim); border: 1px solid var(--border); }
+.agentic-check-body { flex: 1; min-width: 0; }
+.agentic-check-title { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+.agentic-check-summary { font-size: 12px; line-height: 1.5; color: var(--text-dim); margin-bottom: 6px; }
+.agentic-check-note { font-size: 12px; line-height: 1.5; color: var(--charcoal); padding: 8px 10px; background: var(--surface-2); border-radius: 4px; }
+.agentic-check-note.future { background: #F5F5F3; color: var(--text-dim); font-style: italic; }
+
+/* ── Technical Findings ── */
+.findings-summary { background: var(--charcoal); color: var(--on-dark); border-radius: var(--radius); padding: 16px 22px; margin-bottom: 24px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+.fs-stat { display: flex; align-items: center; gap: 8px; }
+.fs-num { font-size: 22px; font-weight: 800; font-family: var(--mono); line-height: 1; }
+/* On the dark findings-summary band: brighter accents so the numerals
+   read against charcoal. AA-checked: #FF8B7E ~5.1:1 / #F5C745 ~9.5:1. */
+.fs-num.critical { color: #FF8B7E; }
+.fs-num.warning  { color: #F5C745; }
+.fs-label { font-size: 12px; font-weight: 600; color: var(--on-dark-muted); }
+
+.findings-group { margin-bottom: 28px; }
+.findings-group-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.findings-group-title.critical { color: var(--red); }
+.findings-group-title.warning  { color: var(--amber); }
+.findings-group-title.passed   { color: var(--green); }
+.findings-list { display: flex; flex-direction: column; gap: 10px; }
+
+.passed-checklist { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 8px; }
+.passed-item { background: var(--surface); border: 1px solid var(--success-bg); border-radius: var(--radius); padding: 10px 14px; display: flex; align-items: center; gap: 10px; font-size: 13px; }
+.passed-check { color: var(--green); font-weight: 800; flex-shrink: 0; }
+
+/* ── AI Audit Tab ── */
+.ai-source-note { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 18px; margin-bottom: 24px; font-size: 13px; line-height: 1.6; color: var(--ink); }
+.ai-source-note strong { color: var(--terracotta); }
+.ai-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 700px) { .ai-grid { grid-template-columns: 1fr; } }
+.ai-block { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+.ai-block h4 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-dim); margin-bottom: 12px; }
+.current-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-dim); margin-bottom: 3px; }
+.rec-tag     { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--terracotta); margin-top: 10px; margin-bottom: 3px; }
+.rec-text    { font-weight: 700; color: var(--terracotta); font-size: 13px; line-height: 1.5; }
+.rationale   { font-size: 12px; color: var(--text-dim); font-style: italic; line-height: 1.5; margin-top: 4px; }
+.tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.tag-primary   { background: var(--terracotta); color: white; font-size: 12px; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+.tag-secondary { background: var(--border-light); color: var(--ink); font-size: 12px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+.bullet-list { list-style: none; display: flex; flex-direction: column; gap: 5px; margin-top: 6px; }
+.bullet-list li { font-size: 13px; padding-left: 16px; position: relative; line-height: 1.5; }
+.bullet-list li::before { content: '•'; position: absolute; left: 4px; color: var(--terracotta); font-weight: 700; }
+.empty-state { text-align: center; padding: 48px 24px; color: var(--text-dim); }
+.empty-state p { font-size: 14px; line-height: 1.6; }
+
+/* ── What We'd Fix ── */
+.preview-block { background: var(--charcoal); border-radius: var(--radius); padding: 32px; text-align: center; margin-bottom: 32px; }
+.preview-block h3 { font-family: var(--font); font-size: 26px; font-weight: 400; color: var(--on-dark); margin-bottom: 10px; letter-spacing: -0.3px; }
+.preview-block p { color: var(--on-dark-muted); font-size: 14px; margin-bottom: 20px; line-height: 1.5; }
+/* Matches .btn-primary spec — see /docs/design/DESIGN.md buttons section. */
+.preview-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--sage-dark); color: white; text-decoration: none; font-family: var(--font-ui); font-size: 14px; font-weight: 500; padding: 12px 24px; border-radius: var(--radius); letter-spacing: 0.025em; min-height: 44px; line-height: 20px; transition: background-color 200ms; }
+.preview-btn:hover { background: var(--sage-darker); }
+.preview-btn:focus-visible { outline: 2px solid var(--sage); outline-offset: 2px; }
+.preview-iframe { width: 100%; height: 500px; border: none; border-radius: var(--radius); margin-bottom: 32px; box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
+
+.improvements-list { display: flex; flex-direction: column; gap: 12px; }
+.improvement-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; }
+.impr-finding-ref { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-dim); margin-bottom: 5px; }
+.impr-finding-ref.critical { color: var(--red); }
+.impr-finding-ref.warning  { color: var(--amber); }
+.impr-text { font-size: 13px; line-height: 1.55; }
+
+.before-after-block { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 12px; }
+.before-after-block .ba-header { padding: 12px 18px; background: var(--surface-2); border-bottom: 1px solid var(--border); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-dim); }
+.ba-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.ba-col { padding: 14px 18px; }
+.ba-col:first-child { border-right: 1px solid var(--border); }
+.ba-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.ba-label.before { color: var(--red); }
+.ba-label.after  { color: var(--green); }
+.ba-content { font-size: 13px; line-height: 1.5; }
+
+.design-info { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-top: 24px; }
+.design-info h4 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-dim); margin-bottom: 12px; }
+.design-row { display: flex; gap: 10px; padding: 6px 0; border-bottom: 1px solid var(--border-light); font-size: 13px; }
+.design-row:last-child { border-bottom: none; }
+.design-key { color: var(--text-dim); min-width: 100px; flex-shrink: 0; font-weight: 600; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <h1>Mansfield Digital Dentistry — Site Audit</h1>
+    <div class="sub">https://mansfielddds.com &nbsp;·&nbsp; August 21, 2026</div>
+  </div>
+  <div class="header-badge">
+    <div class="gw-mark">
+      <span class="word">Groundwork</span>
+      <span class="divider"></span>
+      <span class="suffix">dental</span>
+    </div>
+    <div style="color:var(--on-dark-muted);font-size:11px;margin-top:6px;font-family:var(--font-ui)">groundworkdental.com</div>
+  </div>
+</header>
+
+
+<section class="growth-hero" style="background:var(--danger-bg);border-left:6px solid #C0392B">
+  <div class="growth-hero-left">
+    <div class="growth-hero-eyebrow">Site audit</div>
+    <div class="growth-hero-headline" style="color:var(--ink)">22 of 36 checks need attention.</div>
+    <div class="growth-hero-sub">GBP: <strong>Mansfield Digital Dentistry</strong> · 0 reviews · —</div>
+  </div>
+  <div class="growth-hero-right">
+    <div class="growth-stat"><span class="growth-stat-num" style="color:var(--green)">14</span><span class="growth-stat-label">Passed</span></div>
+    <div class="growth-stat"><span class="growth-stat-num" style="color:var(--amber)">15</span><span class="growth-stat-label">Warnings</span></div>
+    <div class="growth-stat"><span class="growth-stat-num" style="color:var(--red)">7</span><span class="growth-stat-label">Critical</span></div>
+  </div>
+</section>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" data-tab="scorecard">Scorecard</button>
+  <button class="tab-btn" data-tab="agentic">AI Agent Readiness <span class="badge">!</span></button>
+  <button class="tab-btn" data-tab="findings">What We Found <span class="badge">7</span></button>
+  <button class="tab-btn" data-tab="content">Your Messaging</button>
+  <button class="tab-btn" data-tab="build">What We'd Fix</button>
+</nav>
+
+<main class="main">
+
+  <!-- ═══ TAB: Scorecard ═══════════════════════════════════════════════════ -->
+  <div class="tab-panel active" id="tab-scorecard">
+    
+  <div class="section-header">
+    <h2>Your Site Scores</h2>
+    <span class="section-note">Mobile scores shown · measured by Google</span>
+  </div>
+
+  
+
+  <div class="lighthouse-callout">
+    <strong>Where these scores come from:</strong> These scores are measured by Google Lighthouse — the same tool Google uses to evaluate sites for search ranking. They are objective measurements, not our opinion. You can verify any score yourself at <a href="https://pagespeed.web.dev" target="_blank">pagespeed.web.dev</a>.
+  </div>
+
+  <div class="score-strip"><div class="score-cell">
+      <div class="score-circle" style="background:var(--warning-bg);color:#C07A1A;border-color:#C07A1A">
+        <span class="score-num">54</span>
+        <span class="score-lbl">Needs work</span>
+      </div>
+      <div class="score-name">Mobile Speed</div>
+      <div class="score-subtitle">How fast your site loads on a phone</div>
+    </div><div class="score-cell">
+      <div class="score-circle" style="background:var(--success-bg);color:#2E7D4F;border-color:#2E7D4F">
+        <span class="score-num">100</span>
+        <span class="score-lbl">Good</span>
+      </div>
+      <div class="score-name">Google Visibility</div>
+      <div class="score-subtitle">How easily patients can find you</div>
+    </div><div class="score-cell">
+      <div class="score-circle" style="background:var(--success-bg);color:#2E7D4F;border-color:#2E7D4F">
+        <span class="score-num">91</span>
+        <span class="score-lbl">Good</span>
+      </div>
+      <div class="score-name">Ease of Use</div>
+      <div class="score-subtitle">Works for all patients, all devices</div>
+    </div><div class="score-cell">
+      <div class="score-circle" style="background:var(--success-bg);color:#2E7D4F;border-color:#2E7D4F">
+        <span class="score-num">96</span>
+        <span class="score-lbl">Good</span>
+      </div>
+      <div class="score-name">Technical Health</div>
+      <div class="score-subtitle">Security &amp; modern standards</div>
+    </div></div>
+
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>Score</th>
+        <th>Mobile (primary)</th>
+        <th>Desktop</th>
+      </tr>
+    </thead>
+    <tbody><tr>
+      <td>
+        <strong>Mobile Speed</strong><br>
+        <span class="score-desc">How fast your site loads on a phone</span>
+      </td>
+      <td><span class="score-pill" style="background:var(--warning-bg);color:#C07A1A">54</span></td>
+      <td><span class="score-pill" style="background:var(--success-bg);color:#2E7D4F">99</span></td>
+    </tr><tr>
+      <td>
+        <strong>Google Visibility</strong><br>
+        <span class="score-desc">How easily patients can find you</span>
+      </td>
+      <td><span class="score-pill" style="background:var(--success-bg);color:#2E7D4F">100</span></td>
+      <td><span class="score-pill" style="background:var(--success-bg);color:#2E7D4F">100</span></td>
+    </tr><tr>
+      <td>
+        <strong>Ease of Use</strong><br>
+        <span class="score-desc">Works for all patients, all devices</span>
+      </td>
+      <td><span class="score-pill" style="background:var(--success-bg);color:#2E7D4F">91</span></td>
+      <td><span class="score-pill" style="background:var(--success-bg);color:#2E7D4F">91</span></td>
+    </tr><tr>
+      <td>
+        <strong>Technical Health</strong><br>
+        <span class="score-desc">Security &amp; modern standards</span>
+      </td>
+      <td><span class="score-pill" style="background:var(--success-bg);color:#2E7D4F">96</span></td>
+      <td><span class="score-pill" style="background:var(--success-bg);color:#2E7D4F">96</span></td>
+    </tr></tbody>
+  </table>
+
+  
+  <div style="font-size:13px;font-weight:700;margin-bottom:14px;color:var(--ink)">Mobile speed breakdown <span style="font-size:11px;font-weight:400;color:var(--text-dim)">— measured by Google Lighthouse on a simulated phone</span></div>
+  <div class="metrics-grid"><div class="metric-card">
+      <div class="metric-label">Time to See Your Page</div>
+      <div class="metric-sublabel">Largest Contentful Paint (LCP)</div>
+      <div class="metric-value metric-status-fail" style="color:var(--red)">12.65s</div>
+      <div class="metric-threshold">Goal: under 2.5s</div>
+      <div class="metric-desc">How long until the main visible content loads — usually the hero image, headline, or largest text block.</div>
+    </div><div class="metric-card">
+      <div class="metric-label">Time to First Content</div>
+      <div class="metric-sublabel">First Contentful Paint (FCP)</div>
+      <div class="metric-value metric-status-fail" style="color:var(--red)">9.57s</div>
+      <div class="metric-threshold">Goal: under 1.8s</div>
+      <div class="metric-desc">How long until anything first appears on screen (text, image, or background).</div>
+    </div><div class="metric-card">
+      <div class="metric-label">Page Responsiveness</div>
+      <div class="metric-sublabel">Total Blocking Time (TBT)</div>
+      <div class="metric-value metric-status-pass" style="color:var(--green)">144ms</div>
+      <div class="metric-threshold">Goal: under 200ms</div>
+      <div class="metric-desc">How long the page is unresponsive to taps and scrolls while JavaScript runs.</div>
+    </div><div class="metric-card">
+      <div class="metric-label">Visual Stability</div>
+      <div class="metric-sublabel">Cumulative Layout Shift (CLS)</div>
+      <div class="metric-value metric-status-pass" style="color:var(--green)">0.061</div>
+      <div class="metric-threshold">Goal: under 0.1</div>
+      <div class="metric-desc">How much the page jumps around while loading — buttons or text shifting under the user's finger.</div>
+    </div><div class="metric-card">
+      <div class="metric-label">How Fast It Looks Loaded</div>
+      <div class="metric-sublabel">Speed Index (SI)</div>
+      <div class="metric-value metric-status-fail" style="color:var(--red)">9.57s</div>
+      <div class="metric-threshold">Goal: under 3.4s</div>
+      <div class="metric-desc">How quickly the page visually fills in — a perceived-load score.</div>
+    </div><div class="metric-card">
+      <div class="metric-label">Time Until Fully Interactive</div>
+      <div class="metric-sublabel">Time to Interactive (TTI)</div>
+      <div class="metric-value metric-status-fail" style="color:var(--red)">13.22s</div>
+      <div class="metric-threshold">Goal: under 3.8s</div>
+      <div class="metric-desc">How long until the page is fully ready to respond to clicks and form input.</div>
+    </div></div>
+
+  <p class="source-note">All metrics sourced from Google PageSpeed Insights API v5. Mobile scores are the primary signal Google uses for search ranking.</p>
+  
+
+  
+  <div style="margin-top:40px">
+    <div class="section-header">
+      <h2>AI &amp; Agent Readiness</h2>
+      <span class="section-note">Current site — before rebuild</span>
+    </div>
+    <div style="background:var(--warning-bg);border-left:5px solid var(--amber);border-radius:var(--radius);padding:18px 22px;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px">
+      <div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-dim);margin-bottom:5px">Agentic browsing score</div>
+        <div style="font-family:var(--font);font-size:26px;font-weight:400;letter-spacing:-0.3px;color:var(--ink)">Your existing site scores <strong style="color:var(--amber)">2/4</strong> on AI-agent readiness checks.</div>
+        <div style="font-size:12px;color:var(--text-dim);margin-top:6px">AI assistants like ChatGPT, Perplexity, and Google AI Overview use these signals to decide whether to surface your practice.</div>
+      </div>
+      <div style="font-size:42px;font-weight:800;font-family:var(--mono);color:var(--amber);line-height:1">2/4</div>
+    </div>
+    <table class="compare-table" style="margin-bottom:0">
+      <thead>
+        <tr>
+          <th style="width:30%">Check</th>
+          <th style="width:60px;text-align:center">Result</th>
+          <th>Detail</th>
+        </tr>
+      </thead>
+      <tbody><tr>
+      <td style="padding:10px 14px;border:1px solid var(--border);font-weight:600;font-size:13px">llms.txt</td>
+      <td style="padding:10px 14px;border:1px solid var(--border);color:var(--green);font-weight:800;font-size:15px;text-align:center">✓</td>
+      <td style="padding:10px 14px;border:1px solid var(--border);font-size:12px;color:var(--text-dim)">Found — 7 lines</td>
+    </tr><tr>
+      <td style="padding:10px 14px;border:1px solid var(--border);font-weight:600;font-size:13px">Registered WebMCP tools</td>
+      <td style="padding:10px 14px;border:1px solid var(--border);color:var(--red);font-weight:800;font-size:15px;text-align:center">✗</td>
+      <td style="padding:10px 14px;border:1px solid var(--border);font-size:12px;color:var(--text-dim)">Missing: /.well-known/webmcp.json not found on existing site</td>
+    </tr><tr>
+      <td style="padding:10px 14px;border:1px solid var(--border);font-weight:600;font-size:13px">Accessibility for agents</td>
+      <td style="padding:10px 14px;border:1px solid var(--border);color:var(--red);font-weight:800;font-size:15px;text-align:center">✗</td>
+      <td style="padding:10px 14px;border:1px solid var(--border);font-size:12px;color:var(--text-dim)">✗ &lt;nav&gt; missing aria-label · ✓ dropdown role/haspopup</td>
+    </tr><tr>
+      <td style="padding:10px 14px;border:1px solid var(--border);font-weight:600;font-size:13px">Layout stability (CLS)</td>
+      <td style="padding:10px 14px;border:1px solid var(--border);color:var(--green);font-weight:800;font-size:15px;text-align:center">✓</td>
+      <td style="padding:10px 14px;border:1px solid var(--border);font-size:12px;color:var(--text-dim)">No &lt;img&gt; tags in homepage</td>
+    </tr></tbody>
+    </table>
+    <p class="source-note" style="margin-top:10px">Checked by fetching your live site. These checks mirror the Agentic Browsing criteria in Lighthouse 13.3+. After the Groundwork rebuild, your site is designed to score 4/4.</p>
+  </div>
+  </div>
+
+  <!-- ═══ TAB: AI Agent Readiness ════════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-agentic">
+    
+  <div class="section-header">
+    <h2>AI Agent Readiness</h2>
+    <span class="section-note">Lighthouse CLI + HTTP fetch</span>
+  </div>
+
+  <div class="lighthouse-callout">
+    <strong>What this measures:</strong> Google Lighthouse now includes an <em>Agentic Browsing</em> category — how well AI assistants (ChatGPT, Gemini, etc.) can read and navigate your site. The <code>llms.txt</code> file is the primary signal: a machine-readable summary of your practice that agents fetch before crawling.
+  </div>
+
+  <div class="agentic-status-grid">
+    <div class="agentic-stat-card">
+      <div class="agentic-stat-label">llms.txt status</div>
+      <div class="agentic-stat-value" style="color:var(--amber)">Present but subpar</div>
+    </div>
+    <div class="agentic-stat-card">
+      <div class="agentic-stat-label">Lighthouse checks passing</div>
+      <div class="agentic-stat-value">1/6 checks passing</div>
+      <div class="agentic-stat-sublabel">How many of the 6 Agentic Browsing audits scored a full pass</div>
+    </div>
+    <div class="agentic-stat-card">
+      <div class="agentic-stat-label">Google Lighthouse agentic score</div>
+      <div class="agentic-stat-value">66<span class="agentic-stat-outof">/100</span></div>
+      <div class="agentic-stat-sublabel">Weighted average of applicable Agentic Browsing audits. Experimental Lighthouse category — same 0–100 scale as Performance and SEO.</div>
+    </div>
+  </div>
+
+  <p class="agentic-headline agentic-warn">llms.txt exists but does not follow best practices — AI assistants may get the wrong summary of your practice.</p>
+
+  <div class="agentic-checks">
+    <div class="agentic-checks-head">All Lighthouse agentic checks (6)</div>
+    <div class="agentic-check-row">
+      <div class="agentic-check-badge pass">PASS</div>
+      <div class="agentic-check-body">
+        <div class="agentic-check-title">llms.txt follows recommendations</div>
+        <div class="agentic-check-summary">A Markdown file at /llms.txt that tells AI crawlers what your practice offers and which pages matter.</div>
+        
+      </div>
+    </div><div class="agentic-check-row">
+      <div class="agentic-check-badge fail">FAIL</div>
+      <div class="agentic-check-body">
+        <div class="agentic-check-title">Accessibility tree is not well-formed</div>
+        <div class="agentic-check-summary">Buttons, links, forms, and landmarks are labeled so agents can navigate the page.</div>
+        <div class="agentic-check-note ">AI agents read your site through the accessibility tree. Missing labels or broken ARIA means they cannot reliably find your booking form or contact info.</div>
+      </div>
+    </div><div class="agentic-check-row">
+      <div class="agentic-check-badge fail">FAIL</div>
+      <div class="agentic-check-body">
+        <div class="agentic-check-title">WebMCP tools registered</div>
+        <div class="agentic-check-summary">Machine-callable actions declared via WebMCP (e.g. book appointment, get directions).</div>
+        <div class="agentic-check-note ">No WebMCP tools are registered. That is normal for most practices today; only matters when you deliberately add agent-callable actions.</div>
+      </div>
+    </div><div class="agentic-check-row">
+      <div class="agentic-check-badge fail">FAIL</div>
+      <div class="agentic-check-body">
+        <div class="agentic-check-title">WebMCP form coverage</div>
+        <div class="agentic-check-summary">Whether forms (contact, booking) carry WebMCP annotations so agents know how to fill them.</div>
+        
+      </div>
+    </div><div class="agentic-check-row">
+      <div class="agentic-check-badge fail">FAIL</div>
+      <div class="agentic-check-body">
+        <div class="agentic-check-title">WebMCP schemas are valid</div>
+        <div class="agentic-check-summary">Whether WebMCP tool and form schemas are correctly structured.</div>
+        <div class="agentic-check-note ">WebMCP schema errors would block agents from using your tools correctly — only relevant once you add WebMCP integrations.</div>
+      </div>
+    </div><div class="agentic-check-row">
+      <div class="agentic-check-badge fail">FAIL</div>
+      <div class="agentic-check-body">
+        <div class="agentic-check-title">Cumulative Layout Shift</div>
+        <div class="agentic-check-summary">How much the page jumps around while loading — affects both patients and agents trying to click elements.</div>
+        <div class="agentic-check-note ">0.061 — Layout shifts can cause agents (and users) to click the wrong element. Often fixed by sizing images and reserving space for fonts.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="agentic-evidence">
+    <div class="agentic-evidence-head">llms.txt issues</div>
+    <ul class="agentic-issues"><li>Only 1 markdown link(s) — agents need linked key pages and services.</li><li>No Services or Key pages section — agents cannot see what you offer.</li><li>File is too short to be a useful machine-readable summary.</li></ul>
+    
+  </div>
+
+  <details class="agentic-details" open>
+        <summary>What your llms.txt looks like today</summary>
+        <pre class="agentic-pre"># Mansfield Digital Dentistry
+
+&gt; Mansfield Digital Dentistry - Smiles Made with Precision
+
+## Pages
+
+- [Home](https://mansfielddds.com/)</pre>
+      </details>
+  <details class="agentic-details">
+        <summary>What good looks like (Groundwork rebuild)</summary>
+        <pre class="agentic-pre agentic-pre-good"># Mansfield Digital Dentistry
+
+&gt; Smiles Made with Precision
+
+## Key pages
+
+- [Homepage](https://mansfielddds.com/)
+- [About](https://mansfielddds.com/about/)
+- [Services](https://mansfielddds.com/services/)
+- [Schedule an appointment](https://mansfielddds.com/schedule/)
+- [FAQ](https://mansfielddds.com/faq/)
+- [Gallery](https://mansfielddds.com/gallery/)
+- [Blog](https://mansfielddds.com/blog/)
+
+## Services
+
+- [Digital Dentistry](https://mansfielddds.com/services/digital-dentistry/)
+
+## Contact
+
+</pre>
+      </details>
+  <p class="source-note">Verify yourself: <a href="https://mansfielddds.com/llms.txt" target="_blank">https://mansfielddds.com/llms.txt</a> · Lighthouse: llms.txt follows recommendations</p>
+  <div class="lighthouse-callout" style="margin-top:20px"><strong>Why this matters:</strong> A curated llms.txt helps ChatGPT, Gemini, and Perplexity surface your services accurately instead of CMS noise.</div>
+
+  <p class="source-note">Agentic browsing requires Lighthouse CLI (not PageSpeed Insights API). llms.txt is also fetched directly over HTTP to distinguish missing files from subpar content.</p>
+  </div>
+
+  <!-- ═══ TAB: What We Found / Before → After ════════════════════════════ -->
+  <div class="tab-panel" id="tab-findings">
+    
+  <div class="section-header">
+    <h2>What We Found</h2>
+    <span class="section-note">Based on crawling your site + Google Lighthouse</span>
+  </div>
+
+  <div class="findings-summary">
+    <div class="fs-stat"><span class="fs-num critical">7</span><span class="fs-label">Critical issues</span></div>
+    <div class="fs-stat"><span class="fs-num warning">15</span><span class="fs-label">Warnings</span></div>
+  </div>
+
+  
+  <div class="findings-group">
+    <div class="findings-group-title critical">Critical Issues (7)</div>
+    <div class="findings-list">
+  <div class="finding-card critical">
+    <div class="finding-header">
+      <div class="finding-icon critical">✕</div>
+      <div>
+        <div class="finding-title">Pages with too little information for Google</div>
+        <div class="finding-meta">seo</div>
+      </div>
+    </div>
+    <div class="finding-evidence">1 of 1 pages have fewer than 200 words of content.</div>
+    <div class="finding-impact">Why this matters to patients: Pages with substantial content rank significantly better. Thin pages signal low quality to Google and rarely appear in top results.</div>
+    <div class="finding-source">(Detected by crawling your site)</div>
+    <details class="finding-page-evidence" open>
+      <summary>Show what's wrong on each of 1 pages</summary>
+      <div class="page-evidence-list">
+      <div class="page-evidence-card">
+        <a class="page-evidence-path" href="https://mansfielddds.com/" target="_blank" rel="noopener">/</a>
+        <div class="page-evidence-compare">
+          <div class="pe-side pe-now">
+            <div class="pe-label">Content length</div>
+            <div class="pe-value">113 words</div>
+            
+          </div>
+          <div class="pe-side pe-good">
+            <div class="pe-label">Target</div>
+            <div class="pe-value">Aim for 200+ words of unique, helpful content patients would actually read.</div>
+          </div>
+        </div>
+      </div></div>
+      <div class="page-evidence-foot">1 page</div>
+    </details>
+  </div>
+  <div class="finding-card critical">
+    <div class="finding-header">
+      <div class="finding-icon critical">✕</div>
+      <div>
+        <div class="finding-title">Not claiming your business identity in search</div>
+        <div class="finding-meta">seo</div>
+      </div>
+    </div>
+    <div class="finding-evidence">1 of 1 pages have no JSON-LD structured data.</div>
+    <div class="finding-impact">Why this matters to patients: Schema markup enables rich results in Google (star ratings, hours, address) and helps the Knowledge Panel populate correctly.</div>
+    <div class="finding-source">(Detected by crawling your site)</div>
+    <details class="finding-page-evidence" open>
+    <summary>Show what's wrong on each of 1 pages</summary>
+    <div class="evidence-table">
+      <div class="evidence-scroll">
+        <div class="evidence-row head"><span>Page</span><span>What we found</span></div>
+        <div class="evidence-row"><span class="url"><a href="https://mansfielddds.com/" target="_blank" rel="noopener">/</a></span><span class="val"></span></div>
+      </div>
+      <div class="page-evidence-foot">All 1 pages</div>
+    </div>
+  </details>
+  </div>
+  <div class="finding-card critical">
+    <div class="finding-header">
+      <div class="finding-icon critical">✕</div>
+      <div>
+        <div class="finding-title">First impression loads too slowly</div>
+        <div class="finding-meta">performance</div>
+      </div>
+    </div>
+    <div class="finding-evidence">Largest Contentful Paint (LCP) is 12.65s — How long until the main visible content loads — usually the hero image, headline, or largest text block. Google threshold: under 2.5s good, under 4.0s poor.</div>
+    <div class="finding-impact">Why this matters to patients: Largest Contentful Paint (LCP) measures how quickly the main visible content loads. Slow LCP is a top reason users bounce and a direct Google ranking factor.</div>
+    <div class="finding-source">(Measured by Google Lighthouse)</div>
+    
+  </div>
+  <div class="finding-card critical">
+    <div class="finding-header">
+      <div class="finding-icon critical">✕</div>
+      <div>
+        <div class="finding-title">Phone number on site</div>
+        <div class="finding-meta">trust</div>
+      </div>
+    </div>
+    <div class="finding-evidence">Phone number on site not detected on any crawled page.</div>
+    <div class="finding-impact">Why this matters to patients: A click-to-call phone number is the highest-converting element on a local service site. Without it, mobile visitors bounce.</div>
+    <div class="finding-source">(Detected by crawling your site)</div>
+    
+  </div>
+  <div class="finding-card critical">
+    <div class="finding-header">
+      <div class="finding-icon critical">✕</div>
+      <div>
+        <div class="finding-title">GBP phone number</div>
+        <div class="finding-meta">gbp</div>
+      </div>
+    </div>
+    <div class="finding-evidence">No phone number on the Google Business Profile.</div>
+    <div class="finding-impact">Why this matters to patients: A phone number on GBP enables click-to-call directly from Maps — the highest-converting action for local search.</div>
+    <div class="finding-source">(Detected by crawling your site)</div>
+    
+  </div>
+  <div class="finding-card critical">
+    <div class="finding-header">
+      <div class="finding-icon critical">✕</div>
+      <div>
+        <div class="finding-title">GA4 measurement script</div>
+        <div class="finding-meta">conversion</div>
+      </div>
+    </div>
+    <div class="finding-evidence">No GA4 measurement script or GTM container detected on the homepage.</div>
+    <div class="finding-impact">Why this matters to patients: GA4 is the conversion data source Google Ads imports from. Without it, Smart Bidding has no signals to optimize against — every ad dollar is spent blind.</div>
+    <div class="finding-source">(Detected by crawling your site)</div>
+    
+  </div>
+  <div class="finding-card critical">
+    <div class="finding-header">
+      <div class="finding-icon critical">✕</div>
+      <div>
+        <div class="finding-title">Phone click conversion event</div>
+        <div class="finding-meta">conversion</div>
+      </div>
+    </div>
+    <div class="finding-evidence">No phone-click event tracker detected. Calls happen, but Google Ads sees no signal.</div>
+    <div class="finding-impact">Why this matters to patients: Calls are the #1 conversion action for dental practices. Without a phone_click event in GA4, Smart Bidding can't prioritize keywords that drive calls — they look identical to keywords that drive nothing.</div>
+    <div class="finding-source">(Detected by crawling your site)</div>
+    
+  </div></div>
+  </div>
+
+  
+  <div class="findings-group">
+    <div class="findings-group-title warning">Warnings (15)</div>
+    <div class="findings-list">
+  <div class="finding-card warning">
+    <div class="finding-header">
+      <div class="finding-icon warning">!</div>
+      <div>
+        <div class="finding-title">Confusing headline structure on multiple pages</div>
+        <div class="finding-meta">seo</div>
+      </div>
+    </div>
+    <div class="finding-evidence">1 page have more than one H1 heading.</div>
+    <div class="finding-impact">Why this matters to patients: Each page should have exactly one H1. Multiple H1s dilute the primary topic signal and can confuse search engine crawlers.</div>
+    <div class="finding-source">(Detected by crawling your site)</div>
+    <details class="finding-page-evidence">
+      <summary>Show what's wrong on each of 1 pages</summary>
+      <div class="page-evidence-list">
+      <div class="page-evidence-card">
+        <a class="page-evidence-path" href="https://mansfielddds.com/" target="_blank" rel="noopener">/</a>
+        <div class="page-evidence-compare">
+          <div class="pe-side pe-now">
+            <div class="pe-label">H1 headings found</div>
+            <div class="pe-value">&quot;Smiles Made with Precision&quot;, &quot;Smiles Made with Precision&quot;</div>
+            
+          </div>
+          <div class="pe-side pe-good">
+            <div class="pe-label">Fix</div>
+            <div class="pe-value">Keep one H1 per page; demote extras to H2.</div>
+          </div>
+        </div>
+      </div></div>
+      <div class="page-evidence-foot">1 page</div>
+    </details>
+  </div>
+  <div class="finding-card warning">
+    <div class="finding-header">
+      <div class="finding-icon warning">!</div>
+      <div>
+        <div class="finding-title">Site is too slow on mobile phones</div>
+        <div class="finding-meta">performance</div>
+      </div>
+    </div>
+    <div class="finding-evidence">Mobile performance score is 54/100.</div>
+    <div class="finding-impact">Why this matters to patients: Google uses Core Web Vitals as a ranking signal. A fast site reduces bounce rate and improves conversions.</div>
+    <div class="finding-source">(Measured by Google Lighthouse)</div>
+    
+  </div>
+  <div class="finding-card warning">
+    <div class="finding-header">
+      <div class="finding-icon warning">!</div>
+      <div>
+        <div class="finding-title">No patient reviews or social proof on site</div>
+        <div class="finding-meta">content</div>
+      </div>
+    </div>
+    <div class="finding-evidence">No testimonials or reviews found on the site.</div>
+    <div class="finding-impact">Why this matters to patients: Patient testimonials build trust and are one of the top conversion factors for healthcare practices. They also improve local SEO.</div>
+    <div class="finding-source">(Detected by crawling your site)</div>
+    
+  </div>
+  <div class="finding-card warning">
+    <div class="finding-header">
+      <div class="finding-icon warning">!</div>
+      <div>
+        <div class="finding-title">No FAQ section to capture Google question searches</div>
+        <div class="finding-meta">content</div>
+      </div>
+    </div>
+    <div class="finding-evidence">No FAQ content found anywhere on the site.</div>
+    <div class="finding-impact">Why this matters to patients: FAQ pages capture long-tail search queries, can generate FAQ rich results in Google, and reduce front-desk call volume.</div>
+    <div class="finding-source">(Detected by crawling your site)</div>
+    
+  </div>
+  <div class="finding-card warning">
+    <div class="finding-header">
+      <div class="finding-icon warning">!</div>
+      <div>
+        <div class="finding-title">Doctor schema missing external profile links</div>
+        <div class="finding-meta">aeo</div>
+      </div>
+    </div>
+    <div class="finding-evidence">No Person or Physician schema found for the doctors — AI systems cannot connect the practice to credentialed, verifiable people.</div>
+    <div class="finding-impact">Why this matters to patients: sameAs links in Person schema let AI systems confirm a doctor as a known entity across Healthgrades, LinkedIn, and other profiles. Entity confirmation is one of the strongest signals for AI citation.</div>
+    <div class="finding-source">(Detected by crawling your site)</div>
+    
+  </div>
+  <div class="finding-card warning">
+    <div class="finding-header">
+      <div class="finding-icon warning">!</div>
+      <div>
+        <div class="finding-title">Address on site</div>
+        <div class="finding-meta">trust</div>
+      </div>
+    </div>
+    <div class="finding-evidence">Address on site not detected on any crawled page.</div>
+    <div class="finding-impact">Why this matters to patients: A visible street address establishes that the practice is real and local — a top trust signal and a local-SEO ranking factor.</div>
+    <div class="finding-source">(Detected by crawling your site)</div>
+    
+  </div>
+  <div class="finding-card warning">
+    <div class="finding-header">
+      <div class="finding-icon warning">!</div>
+      <div>
+        <div class="finding-title">Operating hours on site</div>
+        <div class="finding-meta">trust</div>
+      </div>
+    </div>
+    <div class="finding-evidence">Operating hours on site not detected on any crawled page.</div>
+    <div class="finding-impact">Why this matters to patients: Hours answer the most common patient question before they call. Missing hours are a top cause of abandoned visits.</div>
+    <div class="finding-source">(Detected by crawling your site)</div>
+    
+  </div>
+  <div class="finding-card warning">
+    <div class="finding-header">
+      <div class="finding-icon warning">!</div>
+      <div>
+        <div class="finding-title">GBP description</div>
+        <div class="finding-meta">gbp</div>
+      </div>
+    </div>
+    <div class="finding-evidence">Google Business Profile has no description.</div>
+    <div class="finding-impact">Why this matters to patients: The GBP description lets you control your narrative on Maps — what services, who you serve, what differentiates you.</div>
+    <div class="finding-source">(Detected by crawling your site)</div>
+    
+  </div>
+  <div class="finding-card warning">
+    <div class="finding-header">
+      <div class="finding-icon warning">!</div>
+      <div>
+        <div class="finding-title">GBP business hours</div>
+        <div class="finding-meta">gbp</div>
+      </div>
+    </div>
+    <div class="finding-evidence">Google Business Profile is missing complete business hours.</div>
+    <div class="finding-impact">Why this matters to patients: Hours on GBP are required for the &quot;Open now&quot; filter and prevent visitors from showing up to a closed office.</div>
+    <div class="finding-source">(Detected by crawling your site)</div>
+    
+  </div>
+  <div class="finding-card warning">
+    <div class="finding-header">
+      <div class="finding-icon warning">!</div>
+      <div>
+        <div class="finding-title">GBP website link</div>
+        <div class="finding-meta">gbp</div>
+      </div>
+    </div>
+    <div class="finding-evidence">No website linked from the Google Business Profile.</div>
+    <div class="finding-impact">Why this matters to patients: Linking your site from GBP drives qualified Maps traffic to your booking flow and consolidates SEO equity.</div>
+    <div class="finding-source">(Detected by crawling your site)</div>
+    
+  </div>
+  <div class="finding-card warning">
+    <div class="finding-header">
+      <div class="finding-icon warning">!</div>
+      <div>
+        <div class="finding-title">GBP review volume</div>
+        <div class="finding-meta">gbp</div>
+      </div>
+    </div>
+    <div class="finding-evidence">Only 0 reviews (below 20 threshold).</div>
+    <div class="finding-impact">Why this matters to patients: Review count is the single biggest local-pack ranking factor after relevance. More reviews = higher placement on Maps.</div>
+    <div class="finding-source">(Detected by crawling your site)</div>
+    
+  </div>
+  <div class="finding-card warning">
+    <div class="finding-header">
+      <div class="finding-icon warning">!</div>
+      <div>
+        <div class="finding-title">GBP primary category aligned</div>
+        <div class="finding-meta">gbp</div>
+      </div>
+    </div>
+    <div class="finding-evidence">Primary category &quot;dental_clinic&quot; does not match dental keywords.</div>
+    <div class="finding-impact">Why this matters to patients: The GBP primary category drives which &quot;near me&quot; queries you appear for. A misaligned category caps your reach.</div>
+    <div class="finding-source">(Detected by crawling your site)</div>
+    
+  </div>
+  <div class="finding-card warning">
+    <div class="finding-header">
+      <div class="finding-icon warning">!</div>
+      <div>
+        <div class="finding-title">GBP profile completeness</div>
+        <div class="finding-meta">gbp</div>
+      </div>
+    </div>
+    <div class="finding-evidence">Only 17% of essential GBP fields are filled in.</div>
+    <div class="finding-impact">Why this matters to patients: Google ranks more complete profiles higher in the local pack and shows them more prominently in the Knowledge Panel.</div>
+    <div class="finding-source">(Detected by crawling your site)</div>
+    
+  </div>
+  <div class="finding-card warning">
+    <div class="finding-header">
+      <div class="finding-icon warning">!</div>
+      <div>
+        <div class="finding-title">llms.txt quality for AI agents</div>
+        <div class="finding-meta">agentic</div>
+      </div>
+    </div>
+    <div class="finding-evidence">llms.txt exists but does not follow best practices.</div>
+    <div class="finding-impact">Why this matters to patients: A curated llms.txt helps ChatGPT, Gemini, and Perplexity surface your services accurately instead of CMS noise.</div>
+    <div class="finding-source">(Detected by crawling your site)</div>
+    
+  </div>
+  <div class="finding-card warning">
+    <div class="finding-header">
+      <div class="finding-icon warning">!</div>
+      <div>
+        <div class="finding-title">Accessibility tree for AI agents</div>
+        <div class="finding-meta">agentic</div>
+      </div>
+    </div>
+    <div class="finding-evidence">Accessibility tree is not well-formed</div>
+    <div class="finding-impact">Why this matters to patients: AI assistants read your site through the accessibility tree. Broken structure means they cannot reliably find buttons, forms, or key content.</div>
+    <div class="finding-source">(Detected by crawling your site)</div>
+    
+  </div></div>
+  </div>
+
+  
+  <div class="findings-group">
+    <div class="findings-group-title passed">What's Working (14)</div>
+    <div class="passed-checklist">
+      <div class="passed-item"><span class="passed-check">✓</span><span>Missing search result descriptions</span></div><div class="passed-item"><span class="passed-check">✓</span><span>Pages with no title in Google</span></div><div class="passed-item"><span class="passed-check">✓</span><span>Pages competing against each other in Google</span></div><div class="passed-item"><span class="passed-check">✓</span><span>Pages with no clear headline structure</span></div><div class="passed-item"><span class="passed-check">✓</span><span>Search engines don't know which page to rank</span></div><div class="passed-item"><span class="passed-check">✓</span><span>Page content shifts around while loading</span></div><div class="passed-item"><span class="passed-check">✓</span><span>Images invisible to Google and visually impaired patients</span></div><div class="passed-item"><span class="passed-check">✓</span><span>About page doesn't build enough trust</span></div><div class="passed-item"><span class="passed-check">✓</span><span>Viewport meta tag</span></div><div class="passed-item"><span class="passed-check">✓</span><span>Social media links</span></div><div class="passed-item"><span class="passed-check">✓</span><span>First-party domain</span></div><div class="passed-item"><span class="passed-check">✓</span><span>Single primary domain</span></div><div class="passed-item"><span class="passed-check">✓</span><span>AI crawler access</span></div><div class="passed-item"><span class="passed-check">✓</span><span>GBP business title</span></div>
+    </div>
+  </div>
+  </div>
+
+  <!-- ═══ TAB: Your Messaging ════════════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-content">
+    
+  <div class="section-header">
+    <h2>Your Messaging</h2>
+    <span class="section-note">Analysis by Claude AI</span>
+  </div>
+
+  <div class="ai-source-note">
+    <strong>How this analysis works:</strong> We read every page of your site and analyzed how you're positioned compared to what patients in your area are searching for. This section is <strong>analysis by Claude AI</strong> — not a mechanical score, but a read of your actual content and how it lands on a new visitor.
+  </div>
+
+  <div class="ai-grid">
+
+    <div class="ai-block">
+      <h4>Positioning</h4>
+      <div class="current-tag">Current</div>
+      <p style="font-size:13px;line-height:1.55">A technology-forward dental practice that leads with its digital dentistry capabilities, but the site is nearly bare — only 2 pages crawled with no doctor bio, no testimonials, no phone number, and a single service detected. The practice name is its only differentiator signal.</p>
+      <div class="rec-tag">Recommended</div>
+      <p class="rec-text">Position Mansfield Digital Dentistry as the technology-first dental practice in the Mansfield area — a practice where advanced digital workflows (same-day CAD/CAM, digital impressions, 3D imaging) translate into faster, more predictable outcomes for patients across the full scope of general and restorative care.</p>
+      <p class="rationale">The practice name itself bakes in 'Digital Dentistry' as a brand promise. Leaning fully into that signal — and connecting it to concrete patient benefits like fewer appointments, no gooey impressions, and precision-fit restorations — creates a defensible local niche that commodity general practices cannot easily replicate. The redesign should build the content infrastructure that the current site completely lacks.</p>
+    </div>
+
+    <div class="ai-block">
+      <h4>Brand Tone</h4>
+      <div class="current-tag">Current</div>
+      <p style="font-size:13px;line-height:1.55">Indeterminate — the site is too sparse to assess an intentional tone; it reads as an unfinished placeholder.</p>
+      <div class="rec-tag">Recommended</div>
+      <p class="rec-text">bold</p>
+      <p class="rationale">A practice that names itself 'Digital Dentistry' and competes on technology leadership needs a tone that signals confidence and modernity, not warmth or understatement. Bold — high contrast, declarative headlines, strong typographic hierarchy — matches the technology-forward promise and will stand out against the typically warm, family-friendly aesthetic of most local dental competitors. It also suits the likely patient demographic drawn to cutting-edge care.</p>
+    </div>
+
+    <div class="ai-block">
+      <h4>Service Emphasis</h4>
+      <div class="tag-row">
+        <span class="tag-primary">dental-technology</span>
+        <span class="tag-secondary">dental-implants</span><span class="tag-secondary">dental-crowns</span><span class="tag-secondary">restorative-dentistry</span>
+      </div>
+      <p class="rationale" style="margin-top:10px">Digital Dentistry is the one service the scraped data explicitly surfaces and the practice name reinforces. 'Dental Technology' as a primary hub lets the site explain the practice's CAD/CAM, digital scanning, and 3D imaging capabilities and then funnel visitors into the high-value restorative procedures — implants and crowns — that benefit most visibly from digital workflows. These restorative services also carry strong local search demand and above-average case value, making them the right secondary emphasis to pair with the technology story.</p>
+    </div>
+
+    <div class="ai-block">
+      <h4>Differentiators Found on Your Site</h4>
+      <ul class="bullet-list">
+        <li>Practice identity is explicitly built around digital dentistry workflows — the name 'Mansfield Digital Dentistry' is itself a brand-level commitment to technology-first care, a signal no scraped competitor name in this dataset shares.</li><li>Singular service focus on digital dentistry at launch suggests a deliberate specialty positioning rather than a catch-all general practice — a narrower, more credible market signal if supported by CAD/CAM, intraoral scanning, or 3D imaging content in the redesign.</li><li>Opportunity to own 'digital dentistry Mansfield' as a primary keyphrase — no competing practice in the area appears to have staked this specific identity claim based on available data.</li>
+      </ul>
+    </div>
+
+    <div class="ai-block">
+      <h4>Content Gaps — What's Missing</h4>
+      <ul class="bullet-list">
+        <li>Doctor bio is entirely absent — the redesign must introduce the dentist(s) by name, credentials, training in digital techniques, and personal story; this is the single highest-trust gap on the site.</li><li>No phone number is publicly accessible — a critical conversion failure; the redesign must surface NAP (name, address, phone) prominently in the header, footer, and contact page with on-domain markup.</li><li>Zero patient testimonials or reviews — social proof is completely missing; the redesign should integrate a structured testimonials section and schema-marked review data.</li><li>No FAQs exist — digital dentistry is unfamiliar to many patients; content explaining 'What is a digital impression?', 'How does same-day crown technology work?', and 'Is digital dentistry covered by insurance?' would reduce friction and capture long-tail search traffic.</li><li>No service pages beyond a single digital-dentistry entry — the full taxonomy (implants, crowns, veneers, Invisalign, emergency care, etc.) needs individual crawlable pages with unique copy, structured data, and internal links back to the technology hub.</li><li>No images detected — the redesign needs original photography of the office technology, doctor, and team to make the digital-dentistry promise tangible and credible.</li><li>No social profiles found — the practice has zero off-site presence signals; establishing and linking to Google Business Profile, Instagram, and Facebook are baseline requirements for local SEO and trust.</li><li>Location details are unknown in the scraped data — the site must clearly display city, state, zip, and a map embed so Google can confidently associate the practice with local search results.</li><li>No emergency dentistry content — a clear gap given that emergency queries ('emergency dentist Mansfield') drive high-intent traffic and same-day digital workflows are a genuine competitive advantage for urgent restorative cases.</li>
+      </ul>
+    </div>
+
+    <div class="ai-block">
+      <h4>Search Opportunities</h4>
+      <ul class="bullet-list">
+        <li>Claim and optimize 'digital dentistry Mansfield' and 'digital dentist [city, state]' as primary keyphrases — the brand name gives this practice a head start that should be backed by on-page title tags, H1s, and a dedicated Digital Dentistry hub page.</li><li>Build individual service pages for dental implants, crowns, and veneers that each reference the digital workflow advantage (e.g., 'same-day crowns Mansfield' + 'digital implant planning Mansfield') — these long-tail combinations have commercial intent and low competition in most mid-size markets.</li><li>Implement LocalBusiness + Dentist schema on the homepage and contact page with fully populated NAP, geo-coordinates, and openingHours — the current absence of structured data is a crawlability and Knowledge Panel risk.</li><li>Add BreadcrumbList and MedicalBusiness structured data to all service pages to support rich results and establish clear crawl hierarchy — the site's two-page structure gives Google no internal link signals to work with.</li><li>Create a Google Business Profile (or audit an existing unclaimed one) and ensure the website URL, NAP, and service categories match the redesigned site exactly — this is the fastest local ranking lever given how thin the current on-domain presence is.</li><li>Publish technology-explainer blog or FAQ content targeting informational queries ('how does CAD/CAM dentistry work', 'are digital impressions accurate', 'same-day crowns vs traditional crowns') — these drive top-of-funnel traffic that the practice is currently invisible for.</li><li>Groundwork Builder IA note: the current site has no stable primary nav paths, no footer URL map, and no on-domain contact or scheduling flow — the redesign must establish a canonical sitemap (Home &gt; Services hub &gt; Individual service pages &gt; Contact/Book) and ensure the scheduling CTA lives on-domain even if a third-party booking widget is used, to avoid orphaned conversion flows and preserve crawlable internal linking.</li>
+      </ul>
+    </div>
+
+  </div>
+  </div>
+
+  <!-- ═══ TAB: What We'd Fix ══════════════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-build">
+    
+  <div class="section-header">
+    <h2>What We'd Fix</h2>
+    <span class="section-note">Every item below is tied to a specific finding above</span>
+  </div>
+
+  
+  <div class="preview-block">
+    <h3>Your Redesign Preview</h3>
+    <p>Here's what your new site could look like — built by Groundwork Dental.</p>
+    <a class="preview-btn" href="https://34e3cf14.mansfielddds.pages.dev" target="_blank" rel="noopener">
+      View Preview →
+    </a>
+  </div>
+
+  
+  <div style="margin-bottom:28px">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-dim);margin-bottom:14px">Top 3 changes — before and after</div>
+    
+    <div class="before-after-block">
+      <div class="ba-header">Pages with too little information for Google</div>
+      <div class="ba-row">
+        <div class="ba-col">
+          <div class="ba-label before">Before</div>
+          <div class="ba-content">Service pages with 100 words — not enough for Google to understand (or rank) what you offer.</div>
+        </div>
+        <div class="ba-col">
+          <div class="ba-label after">After</div>
+          <div class="ba-content">Expanded service pages that answer the questions patients are actually asking.</div>
+        </div>
+      </div>
+    </div>
+    <div class="before-after-block">
+      <div class="ba-header">First impression loads too slowly</div>
+      <div class="ba-row">
+        <div class="ba-col">
+          <div class="ba-label before">Before</div>
+          <div class="ba-content">The main content takes 4+ seconds to appear — a blank screen on the most important moment.</div>
+        </div>
+        <div class="ba-col">
+          <div class="ba-label after">After</div>
+          <div class="ba-content">The hero image and headline load instantly, making a strong first impression.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div style="margin-bottom:24px">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-dim);margin-bottom:14px">Additional improvements</div>
+    <div class="improvements-list">
+  <div class="improvement-item">
+    <div class="impr-finding-ref critical">Critical fix — Phone number on site</div>
+    <div class="impr-text">Click-to-call phone number lives in the header on every page, so mobile patients can dial without a search.</div>
+  </div>
+  <div class="improvement-item">
+    <div class="impr-finding-ref critical">Critical fix — GBP phone number</div>
+    <div class="impr-text">A click-to-call phone number on GBP enables direct calls from Google Maps — the highest-converting local action.</div>
+  </div>
+  <div class="improvement-item">
+    <div class="impr-finding-ref critical">Critical fix — GA4 measurement script</div>
+    <div class="impr-text">GA4 is wired up so Google Ads can import conversion signals — without it, Smart Bidding has nothing to optimize against.</div>
+  </div>
+  <div class="improvement-item">
+    <div class="impr-finding-ref critical">Critical fix — Phone click conversion event</div>
+    <div class="impr-text">A phone_click event fires on every tel: link, giving Google Ads the signal it needs to prioritize keywords that drive calls.</div>
+  </div>
+  <div class="improvement-item">
+    <div class="impr-finding-ref warning">Improvement — Confusing headline structure on multiple pages</div>
+    <div class="impr-text">Each page has exactly one H1, so search engines understand the primary topic without competing signals.</div>
+  </div></div>
+  </div>
+
+  
+  </div>
+
+</main>
+
+<script>
+  const btns   = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.tab-panel');
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.tab;
+      btns.forEach(b => b.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + target)?.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
