@@ -3,7 +3,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import CTABlock from '../../components/CTABlock.astro';
 import { site } from '../../config/site';
 
-const inviteEmail = site.email;
+const contactEmail = site.email;
+const inviteEmail = site.cloudflareInviteEmail;
 ---
 
 <BaseLayout
@@ -43,7 +44,7 @@ const inviteEmail = site.email;
           <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span><strong>Don’t change nameservers or DNS yet</strong> (especially mail / MX) — that can break email</span></li>
         </ul>
         <p class="font-serif text-mid-gray leading-relaxed mb-10">
-          Can’t find or log in? <a href={`mailto:${inviteEmail}`} class="text-sage-dark hover:underline">Email us</a> — we’ll help.
+          Can’t find or log in? <a href={`mailto:${contactEmail}`} class="text-sage-dark hover:underline">Email us</a> — we’ll help.
         </p>
 
         <h3 class="font-serif text-xl text-charcoal mb-3">2. Cloudflare</h3>
@@ -114,7 +115,7 @@ const inviteEmail = site.email;
       <div>
         <h2 class="font-serif text-2xl text-charcoal mb-3">Questions</h2>
         <p class="font-serif text-lg text-mid-gray leading-relaxed">
-          <a href={`mailto:${inviteEmail}`} class="text-sage-dark hover:underline">{inviteEmail}</a>
+          <a href={`mailto:${contactEmail}`} class="text-sage-dark hover:underline">{contactEmail}</a>
         </p>
       </div>
 

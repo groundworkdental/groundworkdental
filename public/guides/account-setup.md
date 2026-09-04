@@ -23,7 +23,7 @@ Can’t find or log in? Email us — we’ll help.
 ### 2. Cloudflare (required for go-live)
 
 - [ ] Sign up at [dash.cloudflare.com/sign-up](https://dash.cloudflare.com/sign-up) with a practice email (Free plan)
-- [ ] **Manage Account** → **Members** → invite `hello@groundworkdental.com` as **Administrator**
+- [ ] **Manage Account** → **Members** → invite `garrett@groundworkdental.com` as **Administrator**
 - [ ] Reply when the invite is sent
 
 Prefer we drive this on Zoom? Reply and ask for a setup call — bring practice email + registrar login.
