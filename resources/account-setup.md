@@ -50,7 +50,7 @@ We handle invites, site connection, and domain cutover at go-live.
 
 ### GitHub
 - [ ] Sign up at [github.com/signup](https://github.com/signup) (same email if possible)
-- [ ] When we send the repo link: invite Groundwork’s GitHub username (we’ll send it) as **Write** or **Admin**
+- [ ] When we send the repo link: invite `@gwgunther` (Groundwork) as **Write** or **Admin**
 
 ### Wrap up
 - [ ] Reply when invites are sent
