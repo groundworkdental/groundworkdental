@@ -1,0 +1,164 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CTABlock from '../../components/CTABlock.astro';
+import { site } from '../../config/site';
+
+const inviteEmail = site.email;
+---
+
+<BaseLayout
+  title="Account Setup — Cloudflare & GitHub | Groundwork Dental"
+  description="You own Cloudflare and GitHub. We build in your accounts. Step-by-step setup for Groundwork Dental clients — or do it live with us in 15 minutes."
+  noindex={false}
+>
+  <section class="bg-surface-2">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+      <div class="max-w-3xl">
+        <p class="eyebrow text-sage-dark mb-4">Client guide</p>
+        <h1 class="section-heading mb-6">Account setup: Cloudflare &amp; GitHub</h1>
+        <p class="font-serif text-xl text-mid-gray leading-relaxed">
+          You own the accounts. We build in them. You can remove our access anytime.
+          This takes about 15 minutes — or reply to your kickoff email and we’ll walk through it on a shared screen.
+        </p>
+        <p class="font-sans text-sm text-mid-gray mt-6">
+          Prefer markdown?
+          <a href="/guides/account-setup.md" class="text-sage-dark hover:underline">Download / copy the .md</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-10">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="prose-article text-lg">
+
+        <h2>Why this matters</h2>
+        <p>
+          Your website runs on <strong>Cloudflare Pages</strong> (hosting, DNS, SSL) and lives in a <strong>GitHub</strong> repository (the code). Both should be in <strong>your practice’s name</strong>, not ours.
+        </p>
+        <p>
+          After launch, your only required ongoing cost is domain renewal (~$12–15/year). Hosting stays free.
+        </p>
+
+        <h2>What you’ll need</h2>
+        <ul>
+          <li>A practice email you control (e.g. <code>front@yourpractice.com</code>)</li>
+          <li>About 15 minutes</li>
+          <li>Your domain registrar login nearby — <strong>don’t change DNS yet</strong></li>
+        </ul>
+        <p>
+          We’ll add Groundwork as an admin/collaborator so we can deploy and manage the site. You remain the owner.
+        </p>
+
+        <h2>Preferred path: we drive, you own</h2>
+        <ol>
+          <li>Schedule a short Zoom (or follow the DIY steps below).</li>
+          <li>We create Cloudflare and GitHub using <strong>your</strong> email.</li>
+          <li>You click the verification emails and set passwords.</li>
+          <li>We invite ourselves as <strong>Administrator</strong> (Cloudflare) and <strong>Collaborator</strong> (GitHub).</li>
+          <li>We connect the site, prepare DNS, and cut over at launch — carefully so email keeps working.</li>
+        </ol>
+        <p>
+          You never need to figure out nameservers or API tokens yourself unless you want to.
+        </p>
+
+        <h2>DIY: Cloudflare</h2>
+
+        <h3>1. Create the account</h3>
+        <ol>
+          <li>Go to <a href="https://dash.cloudflare.com/sign-up" target="_blank" rel="noopener">dash.cloudflare.com/sign-up</a></li>
+          <li>Sign up with your <strong>practice email</strong></li>
+          <li>Verify the email Cloudflare sends you</li>
+          <li>Set a strong password (save it in a password manager)</li>
+        </ol>
+        <p>Use the <strong>Free</strong> plan. That’s enough.</p>
+
+        <h3>2. Invite Groundwork as Administrator</h3>
+        <ol>
+          <li>In the Cloudflare dashboard, open <strong>Manage Account</strong> → <strong>Members</strong></li>
+          <li>Click <strong>Invite</strong></li>
+          <li>Email: <code>{inviteEmail}</code></li>
+          <li>Role: <strong>Administrator</strong></li>
+          <li>Send the invite</li>
+        </ol>
+        <p>You can remove this access anytime under Members.</p>
+
+        <h3>3. Do not change nameservers yet</h3>
+        <p>
+          Don’t update nameservers or delete DNS records until we say so. Office email depends on MX and related records. We’ll copy those safely before cutover.
+        </p>
+
+        <h3>4. Tell us where the domain lives</h3>
+        <p>Reply with:</p>
+        <ul>
+          <li>Where your domain is registered (GoDaddy, Google, Namecheap, Wix, Squarespace, etc.)</li>
+          <li>Whether you can log in to that account</li>
+        </ul>
+        <p>
+          Optional later: transfer the domain into Cloudflare so domain, DNS, and hosting share one dashboard. Not required for launch.
+        </p>
+
+        <h2>DIY: GitHub</h2>
+
+        <h3>1. Create the account</h3>
+        <ol>
+          <li>Go to <a href="https://github.com/signup" target="_blank" rel="noopener">github.com/signup</a></li>
+          <li>Use the <strong>same practice email</strong> when possible</li>
+          <li>Verify email and set a password</li>
+          <li>Free plan is fine</li>
+        </ol>
+
+        <h3>2. Invite Groundwork as Collaborator</h3>
+        <ol>
+          <li>Open the repository (we’ll send the link when it’s ready)</li>
+          <li><strong>Settings</strong> → <strong>Collaborators</strong></li>
+          <li><strong>Add people</strong> → invite <code>{inviteEmail}</code> (or the GitHub username we send you)</li>
+          <li>Permission: <strong>Write</strong> or <strong>Admin</strong></li>
+        </ol>
+
+        <h2>What happens at launch</h2>
+        <ol>
+          <li>Preview stays on a temporary URL until you’re ready</li>
+          <li>Production hosting moves into <strong>your</strong> Cloudflare account</li>
+          <li>We copy DNS (especially email / MX), then connect your real domain</li>
+          <li>You get a handoff doc with every login</li>
+        </ol>
+
+        <h2>Can developers still use APIs and AI tools?</h2>
+        <p>
+          <strong>Yes.</strong> If Groundwork is a Cloudflare Administrator and a GitHub collaborator, we can create API tokens <em>inside your account</em> and use them in our deploy tools (Wrangler, GitHub Actions, Cursor, Claude Code). Tokens stay under your account’s security settings — you can revoke them. If you remove our access, the site keeps running.
+        </p>
+        <p>
+          You don’t need to create API tokens yourself unless you want another developer to use them.
+        </p>
+
+        <h2>Checklist — copy into your reply</h2>
+        <pre class="font-mono text-sm bg-surface-2 border border-neutral-200 rounded-lg p-4 overflow-x-auto whitespace-pre-wrap text-charcoal">Cloudflare account created: Yes / Not yet
+Practice email used: ________
+Groundwork invited as Cloudflare Administrator: Yes / Not yet
+GitHub account created: Yes / Not yet
+Groundwork invited on GitHub: Yes / Not yet
+Domain registrar (where the domain is): ________
+I can log into the registrar: Yes / No / Not sure</pre>
+
+        <h2>Questions</h2>
+        <p>
+          Email <a href={`mailto:${inviteEmail}`}>{inviteEmail}</a> — or reply on your project thread.
+        </p>
+        <p>
+          <strong>Don’t change DNS or nameservers until we confirm email records are copied.</strong> That’s the one step that can break mail if done early.
+        </p>
+
+      </div>
+    </div>
+  </section>
+
+  <CTABlock
+    heading="Ready when you are"
+    subheading="Prefer we drive? Say the word on your kickoff thread and we’ll set this up live in about 15 minutes."
+    primaryCTA="Get Started"
+    primaryHref="/get-started"
+    secondaryCTA="How It Works"
+    secondaryHref="/how-it-works"
+  />
+</BaseLayout>
