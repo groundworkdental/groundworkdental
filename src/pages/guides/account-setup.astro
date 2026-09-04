@@ -5,11 +5,81 @@ import { site } from '../../config/site';
 
 const contactEmail = site.email;
 const inviteEmail = site.cloudflareInviteEmail;
+
+const registrars = [
+  {
+    name: 'GoDaddy',
+    steps: [
+      'Log in → My Products → Domains → select the domain → DNS or Manage DNS',
+      'Scroll to Nameservers → Change / Change Nameservers',
+      'Choose Enter my own nameservers (or Custom)',
+      'Paste the two nameservers we sent → Save',
+    ],
+  },
+  {
+    name: 'Namecheap',
+    steps: [
+      'Log in → Domain List → Manage next to the domain',
+      'Nameservers → Custom DNS',
+      'Paste the two nameservers → the checkmark / Save',
+    ],
+  },
+  {
+    name: 'Google Domains / Squarespace Domains',
+    note: 'Google Domains moved to Squarespace.',
+    steps: [
+      'Log in at domains.squarespace.com (or Squarespace → Domains)',
+      'Select the domain → DNS / DNS Settings',
+      'Nameservers → Use custom nameservers',
+      'Paste the two nameservers → Save',
+    ],
+  },
+  {
+    name: 'Cloudflare Registrar',
+    note: 'If the domain is already registered at Cloudflare, DNS already lives there. Tell us — we’ll connect Pages in the same account. No nameserver change needed.',
+    steps: [],
+  },
+  {
+    name: 'Network Solutions',
+    steps: [
+      'Log in → account / domain manager → select the domain',
+      'Nameservers / Change Nameservers / Advanced Tools',
+      'Choose custom / “I’m using my own nameservers”',
+      'Paste the two nameservers → Save',
+    ],
+  },
+  {
+    name: 'Hover',
+    steps: [
+      'Log in → Domains → select the domain',
+      'Nameservers tab',
+      'Edit → paste the two nameservers → Save',
+    ],
+  },
+  {
+    name: 'Porkbun',
+    steps: [
+      'Log in → Domain Management → details for the domain',
+      'Authoritative Nameservers → Edit',
+      'Paste the two nameservers → Submit',
+    ],
+  },
+  {
+    name: 'Bluehost / HostGator / other web hosts',
+    note: 'Often the registrar is bundled with hosting.',
+    steps: [
+      'Log in to the host control panel (cPanel / “Domains”)',
+      'Find Nameservers / DNS Zone / Domain settings for this domain',
+      'Switch from default / host nameservers to custom and paste ours',
+      'If you only see DNS records (A, CNAME) and not nameservers, reply — we may need a different path',
+    ],
+  },
+];
 ---
 
 <BaseLayout
   title="Account Setup Checklist — Domain & Cloudflare | Groundwork Dental"
-  description="Two steps before go-live: create Cloudflare and tell us your registrar. Then a nameserver change — on a call or on your own."
+  description="Two steps before go-live: create Cloudflare and tell us your registrar. Then a nameserver change — with click-paths for common registrars."
   noindex={false}
 >
   <section class="bg-surface-2">
@@ -46,12 +116,15 @@ const inviteEmail = site.cloudflareInviteEmail;
 
         <h3 class="font-serif text-xl text-charcoal mb-3">2. Tell us where the domain is registered</h3>
         <p class="font-serif text-lg text-mid-gray leading-relaxed mb-4">
-          Where you renew <code class="text-base">yourpractice.com</code> (GoDaddy, Google/Squarespace Domains, Namecheap, etc.). We’ll send exact cutover steps for that registrar.
+          Where you renew <code class="text-base">yourpractice.com</code> (GoDaddy, Google/Squarespace Domains, Namecheap, etc.).
         </p>
         <ul class="space-y-3 font-serif text-lg text-charcoal mb-4">
           <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Reply with: <strong>registrar name</strong> + can you log in? (Yes / No / Not sure)</span></li>
           <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span><strong>Don’t change nameservers or DNS yet</strong> (especially mail / MX) — that can break email</span></li>
         </ul>
+        <p class="font-serif text-mid-gray leading-relaxed mb-4">
+          Comfortable finding nameserver settings yourself? See <a href="#common-registrars" class="text-sage-dark hover:underline">Common registrars</a> — still wait until we send your two Cloudflare nameservers before changing anything.
+        </p>
         <p class="font-serif text-mid-gray leading-relaxed">
           Can’t find or log in? <a href={`mailto:${contactEmail}`} class="text-sage-dark hover:underline">Email us</a> — we’ll help.
         </p>
@@ -71,7 +144,7 @@ const inviteEmail = site.cloudflareInviteEmail;
           <a href="#option-2" class="block border border-neutral-200 bg-surface-2 rounded-lg p-5 hover:border-sage-dark transition-colors">
             <p class="font-sans text-xs uppercase tracking-wider text-sage-dark mb-2">Option 2</p>
             <h3 class="font-serif text-xl text-charcoal mb-2">You change NS yourself</h3>
-            <p class="font-serif text-mid-gray leading-relaxed">We email the exact two nameservers. You paste them at the registrar and reply when done.</p>
+            <p class="font-serif text-mid-gray leading-relaxed">We email the exact two nameservers. Use the registrar steps below, paste them, and reply when done.</p>
           </a>
         </div>
         <p class="font-serif text-mid-gray leading-relaxed">
@@ -92,12 +165,42 @@ const inviteEmail = site.cloudflareInviteEmail;
       <div id="option-2" class="scroll-mt-24">
         <h2 class="font-serif text-2xl text-charcoal mb-4">Option 2 — You change nameservers yourself</h2>
         <ul class="space-y-3 font-serif text-lg text-charcoal">
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Wait until we say it’s ready and send the two nameservers</span></li>
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>At your registrar: find <strong>Nameservers</strong> / <strong>Custom DNS</strong> / <strong>Change nameservers</strong></span></li>
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Replace the current nameservers with the two we sent</span></li>
+          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Wait until we say it’s ready and send the <strong>two Cloudflare nameservers</strong> (yours will be specific — like <code class="text-base">ada.ns.cloudflare.com</code>)</span></li>
+          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Follow the matching steps under <a href="#common-registrars" class="text-sage-dark hover:underline">Common registrars</a></span></li>
+          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Replace the current nameservers with the two we sent (remove old ones; don’t leave a mix)</span></li>
           <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Save and reply when done</span></li>
           <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>We’ll confirm site + email</span></li>
         </ul>
+      </div>
+
+      <div id="common-registrars" class="scroll-mt-24">
+        <h2 class="font-serif text-2xl text-charcoal mb-3">Common registrars — where to change nameservers</h2>
+        <p class="font-serif text-lg text-mid-gray leading-relaxed mb-8">
+          <strong class="text-charcoal font-normal">Do this only after we email your two Cloudflare nameservers.</strong> Menus move around; if something doesn’t match, reply and we’ll walk you through it (or use Option 1).
+        </p>
+        <div class="space-y-8">
+          {registrars.map((r) => (
+            <div>
+              <h3 class="font-serif text-xl text-charcoal mb-2">{r.name}</h3>
+              {r.note && (
+                <p class="font-serif text-mid-gray leading-relaxed mb-3">{r.note}</p>
+              )}
+              {r.steps.length > 0 && (
+                <ol class="list-decimal list-outside ml-5 space-y-2 font-serif text-lg text-charcoal">
+                  {r.steps.map((step) => (
+                    <li>{step}</li>
+                  ))}
+                </ol>
+              )}
+            </div>
+          ))}
+          <div>
+            <h3 class="font-serif text-xl text-charcoal mb-2">Not listed?</h3>
+            <p class="font-serif text-lg text-mid-gray leading-relaxed">
+              Reply with the registrar name (or a screenshot of the domain dashboard). We’ll send click-by-click steps. Tip: search “whois yourpractice.com” — <strong class="text-charcoal font-normal">Registrar</strong> is the company you renew with.
+            </p>
+          </div>
+        </div>
       </div>
 
       <div>
