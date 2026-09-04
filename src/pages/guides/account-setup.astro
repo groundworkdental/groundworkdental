@@ -8,228 +8,364 @@ const inviteEmail = site.cloudflareInviteEmail;
 
 const registrars = [
   {
+    id: 'godaddy',
     name: 'GoDaddy',
     steps: [
-      'Log in → My Products → Domains → select the domain → DNS or Manage DNS',
-      'Scroll to Nameservers → Change / Change Nameservers',
-      'Choose Enter my own nameservers (or Custom)',
+      'My Products → Domains → select domain → DNS / Manage DNS',
+      'Nameservers → Change → Enter my own nameservers (Custom)',
       'Paste the two nameservers we sent → Save',
     ],
   },
   {
+    id: 'namecheap',
     name: 'Namecheap',
     steps: [
-      'Log in → Domain List → Manage next to the domain',
+      'Domain List → Manage',
       'Nameservers → Custom DNS',
-      'Paste the two nameservers → the checkmark / Save',
+      'Paste the two nameservers → Save',
     ],
   },
   {
-    name: 'Google Domains / Squarespace Domains',
-    note: 'Google Domains moved to Squarespace.',
+    id: 'squarespace',
+    name: 'Squarespace Domains',
+    note: 'Includes domains that used to be on Google Domains.',
     steps: [
-      'Log in at domains.squarespace.com (or Squarespace → Domains)',
-      'Select the domain → DNS / DNS Settings',
+      'domains.squarespace.com → select domain → DNS',
       'Nameservers → Use custom nameservers',
       'Paste the two nameservers → Save',
     ],
   },
   {
-    name: 'Cloudflare Registrar',
-    note: 'If the domain is already registered at Cloudflare, DNS already lives there. Tell us — we’ll connect Pages in the same account. No nameserver change needed.',
+    id: 'cloudflare',
+    name: 'Cloudflare',
+    note: 'Domain already at Cloudflare — no nameserver change. Tell us and we’ll connect the site in the same account.',
     steps: [],
   },
   {
+    id: 'networksolutions',
     name: 'Network Solutions',
     steps: [
-      'Log in → account / domain manager → select the domain',
-      'Nameservers / Change Nameservers / Advanced Tools',
-      'Choose custom / “I’m using my own nameservers”',
+      'Domain manager → select domain',
+      'Nameservers / Change Nameservers → custom',
       'Paste the two nameservers → Save',
     ],
   },
   {
+    id: 'hover',
     name: 'Hover',
     steps: [
-      'Log in → Domains → select the domain',
-      'Nameservers tab',
+      'Domains → select domain → Nameservers',
       'Edit → paste the two nameservers → Save',
     ],
   },
   {
+    id: 'porkbun',
     name: 'Porkbun',
     steps: [
-      'Log in → Domain Management → details for the domain',
+      'Domain Management → domain details',
       'Authoritative Nameservers → Edit',
       'Paste the two nameservers → Submit',
     ],
   },
   {
-    name: 'Bluehost / HostGator / other web hosts',
-    note: 'Often the registrar is bundled with hosting.',
+    id: 'webhost',
+    name: 'Bluehost / HostGator / other host',
+    note: 'Registrar is often bundled with hosting.',
     steps: [
-      'Log in to the host control panel (cPanel / “Domains”)',
-      'Find Nameservers / DNS Zone / Domain settings for this domain',
-      'Switch from default / host nameservers to custom and paste ours',
-      'If you only see DNS records (A, CNAME) and not nameservers, reply — we may need a different path',
+      'Control panel → Domains / Nameservers for this domain',
+      'Switch from default host nameservers to custom',
+      'Paste ours. If you only see A/CNAME records (no nameservers), reply — different path.',
     ],
+  },
+  {
+    id: 'other',
+    name: 'Not listed',
+    note: 'Reply with the registrar name or a screenshot. Tip: search “whois yourpractice.com” — Registrar is who you renew with.',
+    steps: [],
   },
 ];
 ---
 
 <BaseLayout
-  title="Account Setup Checklist — Domain & Cloudflare | Groundwork Dental"
-  description="Two steps before go-live: create Cloudflare and tell us your registrar. Then a nameserver change — with click-paths for common registrars."
+  title="Account Setup — Domain & Cloudflare | Groundwork Dental"
+  description="Two steps before go-live: create Cloudflare so we can host in your account, then point nameservers at go-live. Registrar-specific steps included."
   noindex={false}
 >
-  <section class="bg-surface-2">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
-      <div class="max-w-3xl">
-        <p class="eyebrow text-sage-dark mb-4">Client checklist</p>
-        <h1 class="section-heading mb-6">Account setup checklist</h1>
-        <p class="font-serif text-xl text-mid-gray leading-relaxed">
-          You own the hosting. We build in your Cloudflare account. You can remove our access anytime.
-          Go-live usually means a <strong class="text-charcoal font-normal">nameserver change</strong> at your current registrar — not moving the domain registration to Cloudflare. GitHub can wait.
-        </p>
-        <p class="font-sans text-sm text-mid-gray mt-6">
-          <a href="/guides/account-setup.md" class="text-sage-dark hover:underline">Markdown version</a>
-        </p>
-      </div>
+  <section class="bg-surface-2 border-b border-border-light">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12">
+      <p class="eyebrow text-sage-dark mb-3">Client guide</p>
+      <h1 class="font-serif text-3xl md:text-4xl text-charcoal tracking-tight mb-3">Account setup</h1>
+      <p class="font-serif text-base md:text-lg text-mid-gray max-w-3xl leading-relaxed">
+        You own the hosting. We build in your Cloudflare account. You can remove our access anytime.
+      </p>
+      <p class="font-sans text-sm text-mid-gray mt-4">
+        <a href="/guides/account-setup.md" class="text-sage-dark hover:underline">Markdown version</a>
+      </p>
     </div>
   </section>
 
-  <section class="py-10">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+  <section class="py-10 md:py-12">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-      <div id="before" class="scroll-mt-24">
-        <h2 class="font-serif text-2xl text-charcoal mb-6">Before go-live — two things</h2>
-
-        <h3 class="font-serif text-xl text-charcoal mb-3">1. Create a Cloudflare account</h3>
-        <ul class="space-y-3 font-serif text-lg text-charcoal">
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Sign up at <a href="https://dash.cloudflare.com/sign-up" target="_blank" rel="noopener" class="text-sage-dark hover:underline">dash.cloudflare.com/sign-up</a> with a practice email (Free plan)</span></li>
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span><strong>Manage Account</strong> → <strong>Members</strong> → invite <code class="text-base">{inviteEmail}</code> as <strong>Administrator</strong></span></li>
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Reply when the invite is sent</span></li>
-        </ul>
-        <p class="font-serif text-mid-gray mt-4 leading-relaxed mb-10">
-          Prefer we drive this on Zoom? Reply and ask for a setup call — bring practice email + registrar login.
-        </p>
-
-        <h3 class="font-serif text-xl text-charcoal mb-3">2. Tell us where the domain is registered</h3>
-        <p class="font-serif text-lg text-mid-gray leading-relaxed mb-4">
-          Where you renew <code class="text-base">yourpractice.com</code> (GoDaddy, Google/Squarespace Domains, Namecheap, etc.).
-        </p>
-        <ul class="space-y-3 font-serif text-lg text-charcoal mb-4">
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Reply with: <strong>registrar name</strong> + can you log in? (Yes / No / Not sure)</span></li>
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span><strong>Don’t change nameservers or DNS yet</strong> (especially mail / MX) — that can break email</span></li>
-        </ul>
-        <p class="font-serif text-mid-gray leading-relaxed mb-4">
-          Comfortable finding nameserver settings yourself? See <a href="#common-registrars" class="text-sage-dark hover:underline">Common registrars</a> — still wait until we send your two Cloudflare nameservers before changing anything.
-        </p>
-        <p class="font-serif text-mid-gray leading-relaxed">
-          Can’t find or log in? <a href={`mailto:${contactEmail}`} class="text-sage-dark hover:underline">Email us</a> — we’ll help.
-        </p>
-      </div>
-
-      <div>
-        <h2 class="font-serif text-2xl text-charcoal mb-3">At go-live — nameservers only</h2>
-        <p class="font-serif text-lg text-mid-gray leading-relaxed mb-6">
-          We prepare everything in <strong class="text-charcoal">your</strong> Cloudflare account (copy email DNS, connect the site). Then the registrar needs one change: point nameservers at Cloudflare. You keep renewing the domain where it is today.
-        </p>
-        <div class="grid gap-4 sm:grid-cols-2 mb-4">
-          <a href="#option-1" class="block border border-neutral-200 bg-surface-2 rounded-lg p-5 hover:border-sage-dark transition-colors">
-            <p class="font-sans text-xs uppercase tracking-wider text-sage-dark mb-2">Option 1 · recommended</p>
-            <h3 class="font-serif text-xl text-charcoal mb-2">On a call together</h3>
-            <p class="font-serif text-mid-gray leading-relaxed">Screenshare. You open the registrar; we walk you through pasting two nameserver values (~5 minutes).</p>
-          </a>
-          <a href="#option-2" class="block border border-neutral-200 bg-surface-2 rounded-lg p-5 hover:border-sage-dark transition-colors">
-            <p class="font-sans text-xs uppercase tracking-wider text-sage-dark mb-2">Option 2</p>
-            <h3 class="font-serif text-xl text-charcoal mb-2">You change NS yourself</h3>
-            <p class="font-serif text-mid-gray leading-relaxed">We email the exact two nameservers. Use the registrar steps below, paste them, and reply when done.</p>
-          </a>
+      <!-- How it works -->
+      <div class="mb-12 md:mb-14">
+        <h2 class="font-sans text-xs uppercase tracking-wider text-mid-gray mb-4">How go-live works</h2>
+        <div class="grid md:grid-cols-2 gap-4 md:gap-6">
+          <div class="rounded-lg border border-border-light bg-surface-2 p-5 md:p-6">
+            <p class="font-sans text-sm text-sage-dark mb-2">1 · Cloudflare</p>
+            <p class="font-serif text-base text-charcoal leading-relaxed">
+              You create a free Cloudflare account and invite us. We move the site into <strong class="font-normal">your</strong> account so you own hosting.
+            </p>
+          </div>
+          <div class="rounded-lg border border-border-light bg-surface-2 p-5 md:p-6">
+            <p class="font-sans text-sm text-sage-dark mb-2">2 · Nameservers</p>
+            <p class="font-serif text-base text-charcoal leading-relaxed">
+              At go-live, your registrar points nameservers at Cloudflare so the real domain shows the new site. You keep renewing where you do today.
+            </p>
+          </div>
         </div>
-        <p class="font-serif text-mid-gray leading-relaxed">
-          You do <strong class="text-charcoal">not</strong> need to transfer the domain registration to Cloudflare for launch.
+        <p class="font-serif text-sm text-mid-gray mt-4 leading-relaxed">
+          No domain registration transfer required for launch. Don’t change nameservers or DNS until we say it’s ready — that can break email.
         </p>
       </div>
 
-      <div id="option-1" class="scroll-mt-24">
-        <h2 class="font-serif text-2xl text-charcoal mb-4">Option 1 — On a call together</h2>
-        <ul class="space-y-3 font-serif text-lg text-charcoal">
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Reply to schedule a short Zoom for cutover</span></li>
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Join with registrar login ready</span></li>
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>We’ll give you two nameserver values to paste</span></li>
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>We confirm the website and email both work</span></li>
-        </ul>
-      </div>
-
-      <div id="option-2" class="scroll-mt-24">
-        <h2 class="font-serif text-2xl text-charcoal mb-4">Option 2 — You change nameservers yourself</h2>
-        <ul class="space-y-3 font-serif text-lg text-charcoal">
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Wait until we say it’s ready and send the <strong>two Cloudflare nameservers</strong> (yours will be specific — like <code class="text-base">ada.ns.cloudflare.com</code>)</span></li>
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Follow the matching steps under <a href="#common-registrars" class="text-sage-dark hover:underline">Common registrars</a></span></li>
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Replace the current nameservers with the two we sent (remove old ones; don’t leave a mix)</span></li>
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Save and reply when done</span></li>
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>We’ll confirm site + email</span></li>
-        </ul>
-      </div>
-
-      <div id="common-registrars" class="scroll-mt-24">
-        <h2 class="font-serif text-2xl text-charcoal mb-3">Common registrars — where to change nameservers</h2>
-        <p class="font-serif text-lg text-mid-gray leading-relaxed mb-8">
-          <strong class="text-charcoal font-normal">Do this only after we email your two Cloudflare nameservers.</strong> Menus move around; if something doesn’t match, reply and we’ll walk you through it (or use Option 1).
-        </p>
-        <div class="space-y-8">
-          {registrars.map((r) => (
-            <div>
-              <h3 class="font-serif text-xl text-charcoal mb-2">{r.name}</h3>
-              {r.note && (
-                <p class="font-serif text-mid-gray leading-relaxed mb-3">{r.note}</p>
-              )}
-              {r.steps.length > 0 && (
-                <ol class="list-decimal list-outside ml-5 space-y-2 font-serif text-lg text-charcoal">
-                  {r.steps.map((step) => (
-                    <li>{step}</li>
-                  ))}
-                </ol>
-              )}
-            </div>
-          ))}
-          <div>
-            <h3 class="font-serif text-xl text-charcoal mb-2">Not listed?</h3>
-            <p class="font-serif text-lg text-mid-gray leading-relaxed">
-              Reply with the registrar name (or a screenshot of the domain dashboard). We’ll send click-by-click steps. Tip: search “whois yourpractice.com” — <strong class="text-charcoal font-normal">Registrar</strong> is the company you renew with.
+      <!-- Before: two things -->
+      <div id="before" class="mb-12 md:mb-14 scroll-mt-24">
+        <h2 class="font-sans text-xs uppercase tracking-wider text-mid-gray mb-4">Before go-live — do these two things</h2>
+        <div class="grid md:grid-cols-2 gap-4 md:gap-6">
+          <div class="rounded-lg border border-border-light p-5 md:p-6">
+            <h3 class="font-serif text-xl text-charcoal mb-3">1. Create Cloudflare + invite us</h3>
+            <ol class="list-decimal list-outside ml-5 space-y-2 font-serif text-base text-charcoal leading-relaxed">
+              <li>
+                Sign up free at
+                <a href="https://dash.cloudflare.com/sign-up" target="_blank" rel="noopener" class="text-sage-dark hover:underline">dash.cloudflare.com/sign-up</a>
+                (use an email you check for the practice)
+              </li>
+              <li>
+                <strong class="font-normal">Manage Account → Members</strong> → invite
+                <code class="text-sm bg-surface-2 px-1.5 py-0.5 rounded">{inviteEmail}</code>
+                as <strong class="font-normal">Administrator</strong>
+              </li>
+              <li>Reply when the invite is sent</li>
+            </ol>
+            <p class="font-serif text-sm text-mid-gray mt-4 leading-relaxed">
+              Prefer a video call? Reply and ask — bring that email + registrar login.
+            </p>
+          </div>
+          <div class="rounded-lg border border-border-light p-5 md:p-6">
+            <h3 class="font-serif text-xl text-charcoal mb-3">2. Tell us your registrar</h3>
+            <p class="font-serif text-base text-charcoal leading-relaxed mb-3">
+              Where you renew the domain (GoDaddy, Namecheap, Squarespace Domains, etc.).
+            </p>
+            <p class="font-serif text-base text-charcoal leading-relaxed">
+              Reply with: <strong class="font-normal">registrar name</strong> + can you log in? (Yes / No / Not sure)
+            </p>
+            <p class="font-serif text-sm text-mid-gray mt-4 leading-relaxed">
+              Can’t find it?
+              <a href={`mailto:${contactEmail}`} class="text-sage-dark hover:underline">Email us</a>
+              — or search “whois yourdomain.com” and look for <em>Registrar</em>.
             </p>
           </div>
         </div>
       </div>
 
-      <div>
-        <h2 class="font-serif text-2xl text-charcoal mb-4">Later — not required for go-live</h2>
-        <ul class="space-y-3 font-serif text-lg text-mid-gray">
-          <li class="flex gap-3"><span class="text-sage-dark shrink-0" aria-hidden="true">→</span><span><strong class="text-charcoal">GitHub</strong> — code ownership / handoff when useful</span></li>
-          <li class="flex gap-3"><span class="text-sage-dark shrink-0" aria-hidden="true">→</span><span><strong class="text-charcoal">Transfer domain to Cloudflare Registrar</strong> — optional, so renewals live next to hosting. Extra steps; skip until the site is stable.</span></li>
-        </ul>
-        <p class="font-serif text-mid-gray mt-4 leading-relaxed">
-          After launch, ongoing cost is usually just domain renewal (~$12–15/year). Hosting stays free.
+      <!-- At go-live -->
+      <div id="go-live" class="mb-12 md:mb-14 scroll-mt-24" data-go-live>
+        <h2 class="font-sans text-xs uppercase tracking-wider text-mid-gray mb-2">At go-live</h2>
+        <p class="font-serif text-base text-mid-gray leading-relaxed mb-5 max-w-3xl">
+          We finish setup in your Cloudflare account first. Then one nameserver change at the registrar.
+        </p>
+
+        <div class="flex flex-wrap gap-2 mb-5" role="tablist" aria-label="How you want to change nameservers">
+          <button
+            type="button"
+            role="tab"
+            id="tab-call"
+            aria-selected="true"
+            aria-controls="panel-call"
+            data-go-live-tab="call"
+            class="go-live-tab font-sans text-sm px-4 py-2 rounded-md border border-sage-dark bg-sage-dark text-white transition-colors"
+          >
+            On a call together
+          </button>
+          <button
+            type="button"
+            role="tab"
+            id="tab-diy"
+            aria-selected="false"
+            aria-controls="panel-diy"
+            data-go-live-tab="diy"
+            class="go-live-tab font-sans text-sm px-4 py-2 rounded-md border border-border-light bg-surface-1 text-charcoal hover:border-sage-dark transition-colors"
+          >
+            I’ll do it myself
+          </button>
+        </div>
+
+        <div
+          id="panel-call"
+          role="tabpanel"
+          aria-labelledby="tab-call"
+          data-go-live-panel="call"
+          class="rounded-lg border border-border-light p-5 md:p-6"
+        >
+          <p class="font-serif text-base text-charcoal leading-relaxed mb-3">
+            Reply to schedule a short Zoom (~5 minutes). Join with registrar login ready. We’ll give you two nameserver values to paste, then confirm the site and email both work.
+          </p>
+          <p class="font-serif text-sm text-mid-gray leading-relaxed">
+            Recommended if you’re not sure where nameserver settings live.
+          </p>
+        </div>
+
+        <div
+          id="panel-diy"
+          role="tabpanel"
+          aria-labelledby="tab-diy"
+          data-go-live-panel="diy"
+          class="rounded-lg border border-border-light p-5 md:p-6 hidden"
+          hidden
+        >
+          <ol class="list-decimal list-outside ml-5 space-y-2 font-serif text-base text-charcoal leading-relaxed mb-6">
+            <li>Wait until we email your <strong class="font-normal">two Cloudflare nameservers</strong> (specific to you — like <code class="text-sm">ada.ns.cloudflare.com</code>)</li>
+            <li>At your registrar, pick it below and follow those steps</li>
+            <li>Replace old nameservers with ours (don’t leave a mix) → Save → reply when done</li>
+          </ol>
+
+          <div id="common-registrars" class="scroll-mt-24" data-registrar-picker>
+            <p class="font-sans text-xs uppercase tracking-wider text-mid-gray mb-3">Your registrar</p>
+            <div class="flex flex-wrap gap-2 mb-5" role="tablist" aria-label="Registrar">
+              {registrars.map((r, i) => (
+                <button
+                  type="button"
+                  role="tab"
+                  id={`reg-tab-${r.id}`}
+                  aria-selected={i === 0 ? 'true' : 'false'}
+                  aria-controls={`reg-panel-${r.id}`}
+                  data-registrar-tab={r.id}
+                  class:list={[
+                    'registrar-tab font-sans text-sm px-3 py-1.5 rounded-md border transition-colors',
+                    i === 0
+                      ? 'border-sage-dark bg-sage-tint text-sage-dark'
+                      : 'border-border-light bg-surface-1 text-charcoal hover:border-sage-dark',
+                  ]}
+                >
+                  {r.name}
+                </button>
+              ))}
+            </div>
+
+            {registrars.map((r, i) => (
+              <div
+                id={`reg-panel-${r.id}`}
+                role="tabpanel"
+                aria-labelledby={`reg-tab-${r.id}`}
+                data-registrar-panel={r.id}
+                class:list={['registrar-panel', i !== 0 && 'hidden']}
+                hidden={i !== 0}
+              >
+                <h3 class="font-serif text-lg text-charcoal mb-2">{r.name}</h3>
+                {r.note && (
+                  <p class="font-serif text-sm text-mid-gray leading-relaxed mb-3">{r.note}</p>
+                )}
+                {r.steps.length > 0 ? (
+                  <ol class="list-decimal list-outside ml-5 space-y-1.5 font-serif text-base text-charcoal leading-relaxed">
+                    {r.steps.map((step) => (
+                      <li>{step}</li>
+                    ))}
+                  </ol>
+                ) : !r.note ? (
+                  <p class="font-serif text-sm text-mid-gray">Reply and we’ll send click-by-click steps.</p>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Later -->
+      <div class="border-t border-border-light pt-8 mb-8">
+        <h2 class="font-sans text-xs uppercase tracking-wider text-mid-gray mb-3">Later (not needed for launch)</h2>
+        <p class="font-serif text-sm text-mid-gray leading-relaxed max-w-3xl">
+          <strong class="text-charcoal font-normal">GitHub</strong> for code ownership when useful.
+          Optional: move domain registration to Cloudflare Registrar so renewals sit next to hosting — skip until the site is stable.
+          After launch, hosting stays free; domain renewal is usually ~$12–15/year.
         </p>
       </div>
 
-      <div>
-        <h2 class="font-serif text-2xl text-charcoal mb-3">Questions</h2>
-        <p class="font-serif text-lg text-mid-gray leading-relaxed">
-          <a href={`mailto:${contactEmail}`} class="text-sage-dark hover:underline">{contactEmail}</a>
-        </p>
-      </div>
-
+      <p class="font-serif text-sm text-mid-gray">
+        Questions:
+        <a href={`mailto:${contactEmail}`} class="text-sage-dark hover:underline">{contactEmail}</a>
+      </p>
     </div>
   </section>
 
   <CTABlock
     heading="Ready when you are"
-    subheading="Cloudflare + a nameserver change. On a call or on your own — about 15 minutes once, then you’re live."
+    subheading="Cloudflare account, then a nameserver change — on a call or on your own."
     primaryCTA="Get Started"
     primaryHref="/get-started"
     secondaryCTA="How It Works"
     secondaryHref="/how-it-works"
   />
+
+  <script>
+    function setGoLive(mode: string) {
+      const root = document.querySelector('[data-go-live]');
+      if (!root) return;
+
+      root.querySelectorAll('[data-go-live-tab]').forEach((btn) => {
+        const active = btn.getAttribute('data-go-live-tab') === mode;
+        btn.setAttribute('aria-selected', active ? 'true' : 'false');
+        btn.classList.toggle('bg-sage-dark', active);
+        btn.classList.toggle('text-white', active);
+        btn.classList.toggle('border-sage-dark', active);
+        btn.classList.toggle('bg-surface-1', !active);
+        btn.classList.toggle('text-charcoal', !active);
+        btn.classList.toggle('border-border-light', !active);
+      });
+
+      root.querySelectorAll('[data-go-live-panel]').forEach((panel) => {
+        const active = panel.getAttribute('data-go-live-panel') === mode;
+        panel.classList.toggle('hidden', !active);
+        if (active) panel.removeAttribute('hidden');
+        else panel.setAttribute('hidden', '');
+      });
+    }
+
+    function setRegistrar(id: string) {
+      const root = document.querySelector('[data-registrar-picker]');
+      if (!root) return;
+
+      root.querySelectorAll('[data-registrar-tab]').forEach((btn) => {
+        const active = btn.getAttribute('data-registrar-tab') === id;
+        btn.setAttribute('aria-selected', active ? 'true' : 'false');
+        btn.classList.toggle('border-sage-dark', active);
+        btn.classList.toggle('bg-sage-tint', active);
+        btn.classList.toggle('text-sage-dark', active);
+        btn.classList.toggle('border-border-light', !active);
+        btn.classList.toggle('bg-surface-1', !active);
+        btn.classList.toggle('text-charcoal', !active);
+      });
+
+      root.querySelectorAll('[data-registrar-panel]').forEach((panel) => {
+        const active = panel.getAttribute('data-registrar-panel') === id;
+        panel.classList.toggle('hidden', !active);
+        if (active) panel.removeAttribute('hidden');
+        else panel.setAttribute('hidden', '');
+      });
+    }
+
+    document.querySelectorAll('[data-go-live-tab]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const mode = btn.getAttribute('data-go-live-tab');
+        if (mode) setGoLive(mode);
+      });
+    });
+
+    document.querySelectorAll('[data-registrar-tab]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-registrar-tab');
+        if (id) setRegistrar(id);
+      });
+    });
+  </script>
 </BaseLayout>

@@ -1,147 +1,99 @@
-# Account setup checklist
+# Account setup
 
 **You own the hosting. We build in your Cloudflare account. You can remove our access anytime.**
-
-Go-live does **not** require moving your domain registration to Cloudflare — usually we only change **nameservers** at GoDaddy (or wherever you renew). GitHub can wait until later.
 
 Live page: [https://groundworkdental.com/guides/account-setup](https://groundworkdental.com/guides/account-setup)
 
 ---
 
+## How go-live works
+
+1. **Cloudflare** — You create a free account and invite us. We move the site into your account so you own hosting.
+2. **Nameservers** — At go-live, your registrar points nameservers at Cloudflare so the real domain shows the new site. You keep renewing where you do today.
+
+No domain registration transfer required for launch. **Don’t change nameservers or DNS until we say it’s ready** — that can break email.
+
+---
+
 ## Before go-live — two things
 
-### 1. Create a Cloudflare account
+### 1. Create Cloudflare + invite us
 
-- [ ] Sign up at [dash.cloudflare.com/sign-up](https://dash.cloudflare.com/sign-up) with a practice email (Free plan)
-- [ ] **Manage Account** → **Members** → invite `hello@groundworkdental.com` as **Administrator**
-- [ ] Reply when the invite is sent
+1. Sign up free at [dash.cloudflare.com/sign-up](https://dash.cloudflare.com/sign-up) (use an email you check for the practice)
+2. **Manage Account → Members** → invite `hello@groundworkdental.com` as **Administrator**
+3. Reply when the invite is sent
 
-Prefer we drive this on Zoom? Reply and ask for a setup call — bring practice email + registrar login.
+Prefer a video call? Reply and ask — bring that email + registrar login.
 
-### 2. Tell us where the domain is registered
+### 2. Tell us your registrar
 
-Where you renew `yourpractice.com` (GoDaddy, Google/Squarespace Domains, Namecheap, etc.).
+Where you renew the domain (GoDaddy, Namecheap, Squarespace Domains, etc.).
 
-- [ ] Reply with: **registrar name** + can you log in? (Yes / No / Not sure)
-- [ ] **Don’t change nameservers or DNS yet** (especially mail / MX) — that can break email
+Reply with: **registrar name** + can you log in? (Yes / No / Not sure)
 
-If you’re comfortable finding the nameserver settings yourself, see [Common registrars](#common-registrars) below — still wait until we send your two Cloudflare nameservers before changing anything.
-
-Can’t find or log in? Email us — we’ll help.
+Can’t find it? Email us — or search “whois yourdomain.com” and look for *Registrar*.
 
 ---
 
-## At go-live — nameservers only
+## At go-live
 
-We prepare everything in **your** Cloudflare account (copy email DNS, connect the site). Then the registrar needs one change: point nameservers at Cloudflare. You keep renewing the domain where it is today.
+We finish setup in your Cloudflare account first. Then one nameserver change at the registrar.
 
-Pick one:
+### On a call together (recommended)
 
-**[Option 1 — On a call together](#option-1)** (recommended)  
-Screenshare. You open the registrar; we walk you through pasting two nameserver values (~5 minutes).
+Reply to schedule a short Zoom (~5 minutes). Join with registrar login ready. We’ll give you two nameserver values to paste, then confirm site + email.
 
-**[Option 2 — You change nameservers yourself](#option-2)**  
-We email the exact two nameservers. Use the registrar steps below, paste them, and reply when done.
+### I’ll do it myself
 
-You do **not** need to transfer the domain registration to Cloudflare for launch.
+1. Wait until we email your **two Cloudflare nameservers** (specific to you)
+2. At your registrar, follow the matching steps below
+3. Replace old nameservers with ours (don’t leave a mix) → Save → reply when done
 
----
+#### GoDaddy
+1. My Products → Domains → select domain → DNS / Manage DNS
+2. Nameservers → Change → Enter my own nameservers (Custom)
+3. Paste the two nameservers we sent → Save
 
-<a id="option-1"></a>
+#### Namecheap
+1. Domain List → Manage
+2. Nameservers → Custom DNS
+3. Paste the two nameservers → Save
 
-## Option 1 — On a call together
+#### Squarespace Domains (includes old Google Domains)
+1. domains.squarespace.com → select domain → DNS
+2. Nameservers → Use custom nameservers
+3. Paste the two nameservers → Save
 
-- [ ] Reply to schedule a short Zoom for cutover
-- [ ] Join with registrar login ready
-- [ ] We’ll give you two nameserver values to paste
-- [ ] We confirm the website and email both work
+#### Cloudflare Registrar
+Domain already at Cloudflare — no nameserver change. Tell us and we’ll connect the site in the same account.
 
----
+#### Network Solutions
+1. Domain manager → select domain
+2. Nameservers / Change Nameservers → custom
+3. Paste the two nameservers → Save
 
-<a id="option-2"></a>
+#### Hover
+1. Domains → select domain → Nameservers
+2. Edit → paste the two nameservers → Save
 
-## Option 2 — You change nameservers yourself
-
-- [ ] Wait until we say it’s ready and send the **two Cloudflare nameservers** (they look like `ada.ns.cloudflare.com` / `bob.ns.cloudflare.com` — yours will be specific)
-- [ ] At your registrar, follow the matching steps under [Common registrars](#common-registrars)
-- [ ] Replace the current nameservers with the two we sent (remove old ones; don’t leave a mix)
-- [ ] Save and reply when done
-- [ ] We’ll confirm site + email
-
----
-
-<a id="common-registrars"></a>
-
-## Common registrars — where to change nameservers
-
-**Do this only after we email your two Cloudflare nameservers.** Menus move around; if something doesn’t match, reply and we’ll walk you through it (or use Option 1).
-
-### GoDaddy
-
-1. Log in → **My Products** → Domains → select the domain → **DNS** or **Manage DNS**
-2. Scroll to **Nameservers** → **Change** / **Change Nameservers**
-3. Choose **Enter my own nameservers** (or **Custom**)
-4. Paste the two nameservers we sent → Save
-
-### Namecheap
-
-1. Log in → **Domain List** → **Manage** next to the domain
-2. **Nameservers** → **Custom DNS**
-3. Paste the two nameservers → the checkmark / Save
-
-### Google Domains / Squarespace Domains
-
-Google Domains moved to Squarespace.
-
-1. Log in at [domains.squarespace.com](https://domains.squarespace.com) (or Squarespace → Domains)
-2. Select the domain → **DNS** / **DNS Settings**
-3. **Nameservers** → **Use custom nameservers**
-4. Paste the two nameservers → Save
-
-### Cloudflare Registrar
-
-If the domain is already registered at Cloudflare, you’re mostly done — DNS already lives there. Tell us; we’ll connect Pages in the same account. No nameserver change needed.
-
-### Network Solutions
-
-1. Log in → account / domain manager → select the domain
-2. **Nameservers** / **Change Nameservers** / **Advanced Tools**
-3. Choose custom / “I’m using my own nameservers”
-4. Paste the two nameservers → Save
-
-### Hover
-
-1. Log in → Domains → select the domain
-2. **Nameservers** tab
-3. **Edit** → paste the two nameservers → Save
-
-### Porkbun
-
-1. Log in → **Domain Management** → details for the domain
-2. **Authoritative Nameservers** → **Edit**
+#### Porkbun
+1. Domain Management → domain details
+2. Authoritative Nameservers → Edit
 3. Paste the two nameservers → Submit
 
-### Bluehost / HostGator / other web hosts
+#### Bluehost / HostGator / other host
+1. Control panel → Domains / Nameservers for this domain
+2. Switch from default host nameservers to custom
+3. Paste ours. If you only see A/CNAME records (no nameservers), reply — different path.
 
-Often the “registrar” is bundled with hosting.
-
-1. Log in to the host control panel (cPanel / “Domains”)
-2. Find **Nameservers** / **DNS Zone** / **Domain** settings for this domain
-3. Switch from “default” / host nameservers to **custom** and paste ours
-4. If you only see DNS *records* (A, CNAME) and not nameservers, reply — we may need a different path
-
-### Not listed?
-
-Reply with the registrar name (or a screenshot of the domain dashboard). We’ll send click-by-click steps. WHOIS lookup tip: search “whois yourpractice.com” — **Registrar** is the company you renew with.
+#### Not listed
+Reply with the registrar name or a screenshot.
 
 ---
 
-## Later (not required for go-live)
+## Later (not needed for launch)
 
-- **GitHub** — code ownership / handoff (we’ll set this up when useful)
-- **Transfer domain to Cloudflare Registrar** — optional, so renewals live next to hosting. Extra steps; skip until the site is stable.
-
-After launch, ongoing cost is usually just domain renewal (~$12–15/year). Hosting stays free.
+GitHub for code ownership when useful. Optional: move domain registration to Cloudflare Registrar after the site is stable. Hosting stays free; domain renewal is usually ~$12–15/year.
 
 ---
 
