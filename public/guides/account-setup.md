@@ -19,15 +19,17 @@ Live page: [https://groundworkdental.com/guides/account-setup](https://groundwor
 
 ## Choose one
 
-**Option 1 — Live on Zoom**  
+**[Option 1 — Live on Zoom](#option-1)**  
 We drive on a shared screen. You verify email and set passwords.
 
-**Option 2 — You set up, invite us**  
+**[Option 2 — You set up, invite us](#option-2)**  
 You create Cloudflare + GitHub, then invite Groundwork as admin.
 
 Same result either way: accounts in your name, we can build and deploy, you can remove us anytime.
 
 ---
+
+<a id="option-1"></a>
 
 ## Option 1 checklist — Zoom
 
@@ -40,6 +42,8 @@ Same result either way: accounts in your name, we can build and deploy, you can 
 We’ll handle the rest (admin invites, site connection, DNS at go-live).
 
 ---
+
+<a id="option-2"></a>
 
 ## Option 2 checklist — Do it yourself
 

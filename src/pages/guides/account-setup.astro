@@ -46,20 +46,22 @@ const inviteEmail = site.email;
       <div>
         <h2 class="font-serif text-2xl text-charcoal mb-4">Choose one</h2>
         <div class="grid gap-4 sm:grid-cols-2 mb-4">
-          <div class="border border-neutral-200 bg-surface-2 rounded-lg p-5">
+          <a href="#option-1" class="block border border-neutral-200 bg-surface-2 rounded-lg p-5 hover:border-sage-dark transition-colors">
             <p class="font-sans text-xs uppercase tracking-wider text-sage-dark mb-2">Option 1</p>
             <h3 class="font-serif text-xl text-charcoal mb-2">Live on Zoom</h3>
             <p class="font-serif text-mid-gray leading-relaxed">
               We drive on a shared screen. You verify email and set passwords.
             </p>
-          </div>
-          <div class="border border-neutral-200 bg-surface-2 rounded-lg p-5">
+            <p class="font-sans text-sm text-sage-dark mt-3">Jump to checklist →</p>
+          </a>
+          <a href="#option-2" class="block border border-neutral-200 bg-surface-2 rounded-lg p-5 hover:border-sage-dark transition-colors">
             <p class="font-sans text-xs uppercase tracking-wider text-sage-dark mb-2">Option 2</p>
             <h3 class="font-serif text-xl text-charcoal mb-2">You set up, invite us</h3>
             <p class="font-serif text-mid-gray leading-relaxed">
               You create Cloudflare + GitHub, then invite Groundwork as admin.
             </p>
-          </div>
+            <p class="font-sans text-sm text-sage-dark mt-3">Jump to checklist →</p>
+          </a>
         </div>
         <p class="font-serif text-mid-gray leading-relaxed">
           Same result either way: accounts in your name, we can build and deploy, you can remove us anytime.
@@ -67,7 +69,7 @@ const inviteEmail = site.email;
       </div>
 
       <!-- Option 1 -->
-      <div>
+      <div id="option-1" class="scroll-mt-24">
         <h2 class="font-serif text-2xl text-charcoal mb-4">Option 1 checklist — Zoom</h2>
         <ul class="space-y-3 font-serif text-lg text-charcoal">
           <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Reply on your project thread asking for a Zoom setup</span></li>
@@ -82,7 +84,7 @@ const inviteEmail = site.email;
       </div>
 
       <!-- Option 2 -->
-      <div>
+      <div id="option-2" class="scroll-mt-24">
         <h2 class="font-serif text-2xl text-charcoal mb-6">Option 2 checklist — Do it yourself</h2>
 
         <h3 class="font-serif text-xl text-charcoal mb-3">Cloudflare</h3>
