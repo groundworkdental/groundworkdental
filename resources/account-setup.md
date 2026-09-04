@@ -1,68 +1,80 @@
 # Account setup checklist
 
-**You own the accounts. We build in them. You can remove our access anytime.**
+**You own the hosting. We build in your Cloudflare account. You can remove our access anytime.**
 
-One-time setup, ~15 minutes. Live page: [https://groundworkdental.com/guides/account-setup](https://groundworkdental.com/guides/account-setup)
+Go-live does **not** require moving your domain registrar to Cloudflare — usually we only change **nameservers** at GoDaddy (or wherever you renew). GitHub can wait until later.
+
+Live page: [https://groundworkdental.com/guides/account-setup](https://groundworkdental.com/guides/account-setup)
 
 ---
 
-## 1. Domain registrar
+## Before go-live
 
-Where you renew `yourpractice.com` (GoDaddy, Google/Squarespace Domains, Namecheap, etc.) — separate from whoever built the site.
+### 1. Domain registrar
 
-- [ ] Log in and confirm you control the domain
+Where you renew `yourpractice.com` (GoDaddy, Google/Squarespace Domains, Namecheap, etc.).
+
+- [ ] Confirm you can log in
 - [ ] Reply with: registrar name + can you log in? (Yes / No / Not sure)
-- [ ] **Don’t** change nameservers or DNS (especially mail/MX) until we say so
+- [ ] **Don’t change nameservers or DNS yet** (especially mail / MX) — that can break email
 
 Can’t find or log in? Email us — we’ll help.
 
+### 2. Cloudflare (required for go-live)
+
+- [ ] Sign up at [dash.cloudflare.com/sign-up](https://dash.cloudflare.com/sign-up) with a practice email (Free plan)
+- [ ] **Manage Account** → **Members** → invite `hello@groundworkdental.com` as **Administrator**
+- [ ] Reply when the invite is sent
+
+Prefer we drive this on Zoom? Reply and ask for a setup call — bring practice email + registrar login.
+
 ---
 
-## 2. Cloudflare & GitHub
+## At go-live — nameservers only
 
-Pick one. Same result: accounts in your name, Groundwork as admin, you can remove us anytime.
+We prepare everything in **your** Cloudflare account (copy email DNS, connect the site). Then the registrar needs one change: point nameservers at Cloudflare. You keep renewing the domain where it is today.
 
-**[Option 1 — Zoom](#option-1)** · we drive, you verify email / set passwords  
+Pick one:
 
-**[Option 2 — DIY](#option-2)** · you create accounts and invite us
+**[Option 1 — On a call together](#option-1)** (recommended)  
+Screenshare. You open the registrar; we walk you through pasting two nameserver values (~5 minutes).
+
+**[Option 2 — You change nameservers yourself](#option-2)**  
+We email the exact two nameservers and where to click. You paste them and reply when done.
+
+You do **not** need to transfer the domain registration to Cloudflare for launch.
 
 ---
 
 <a id="option-1"></a>
 
-## Option 1 — Zoom
+## Option 1 — On a call together
 
-- [ ] Reply asking for a Zoom setup
-- [ ] Join with practice email open + registrar login available
-- [ ] Verify Cloudflare/GitHub emails, set passwords, save them
-
-We handle invites, site connection, and domain cutover at go-live.
+- [ ] Reply to schedule a short Zoom for cutover
+- [ ] Join with registrar login ready
+- [ ] We’ll give you two nameserver values to paste
+- [ ] We confirm the website and email both work
 
 ---
 
 <a id="option-2"></a>
 
-## Option 2 — DIY
+## Option 2 — You change nameservers yourself
 
-### Cloudflare
-- [ ] Sign up at [dash.cloudflare.com/sign-up](https://dash.cloudflare.com/sign-up) with practice email (Free plan)
-- [ ] **Manage Account** → **Members** → invite `hello@groundworkdental.com` as **Administrator**
-
-### GitHub
-- [ ] Sign up at [github.com/signup](https://github.com/signup) (same email if possible)
-- [ ] When we send the repo link: invite `@gwgunther` (Groundwork) as **Write** or **Admin**
-
-### Wrap up
-- [ ] Reply when invites are sent
-- [ ] Leave DNS / nameservers alone
+- [ ] Wait until we say it’s ready and send the two nameservers
+- [ ] At your registrar: find **Nameservers** / **Custom DNS** / **Change nameservers**
+- [ ] Replace the current nameservers with the two we sent
+- [ ] Save and reply when done
+- [ ] We’ll confirm site + email
 
 ---
 
-## At go-live (we handle)
+## Later (not required for go-live)
 
-Copy DNS (esp. email) → point nameservers at the registrar → connect the real domain → confirm site + email → handoff doc.
+- **GitHub** — code ownership / handoff (we’ll set this up when useful)
+- **Transfer domain to Cloudflare Registrar** — optional, so renewals live next to hosting. Extra steps; skip until the site is stable.
 
-Optional later: move the domain into Cloudflare. Not required for launch. Ongoing cost after that: ~$12–15/year domain renewal. Hosting free.
+After launch, ongoing cost is usually just domain renewal (~$12–15/year). Hosting stays free.
 
 ---
 
