@@ -7,18 +7,18 @@ const inviteEmail = site.email;
 ---
 
 <BaseLayout
-  title="Account Setup — Cloudflare & GitHub | Groundwork Dental"
-  description="One-time Cloudflare and GitHub checklist: do it live on Zoom, or create the accounts yourself and invite Groundwork as admin."
+  title="Account Setup Checklist — Domain, Cloudflare & GitHub | Groundwork Dental"
+  description="Start with your domain registrar, then set up Cloudflare and GitHub. One-time checklist: Zoom with us, or invite Groundwork as admin."
   noindex={false}
 >
   <section class="bg-surface-2">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
       <div class="max-w-3xl">
         <p class="eyebrow text-sage-dark mb-4">Client checklist</p>
-        <h1 class="section-heading mb-6">Account setup: Cloudflare &amp; GitHub</h1>
+        <h1 class="section-heading mb-6">Account setup checklist</h1>
         <p class="font-serif text-xl text-mid-gray leading-relaxed">
           You own the accounts. We build in them. You can remove our access anytime.
-          One-time setup — about 15 minutes. Pick an option and work through the checklist.
+          Start with your <strong class="text-charcoal font-normal">domain</strong> — that’s the part most practices already know — then pick how to handle Cloudflare and GitHub. About 15 minutes, one time.
         </p>
         <p class="font-sans text-sm text-mid-gray mt-6">
           Prefer markdown?
@@ -31,20 +31,53 @@ const inviteEmail = site.email;
   <section class="py-10">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
 
-      <!-- Before you start -->
-      <div>
-        <h2 class="font-serif text-2xl text-charcoal mb-4">Before you start</h2>
+      <!-- Domain first -->
+      <div id="domain" class="scroll-mt-24">
+        <h2 class="font-serif text-2xl text-charcoal mb-3">1. Your domain registrar</h2>
+        <p class="font-serif text-lg text-mid-gray leading-relaxed mb-6">
+          Your <strong class="text-charcoal">domain registrar</strong> is where you bought and renew <code class="text-base">yourpractice.com</code> — often GoDaddy, Google Domains / Squarespace Domains, Namecheap, Hover, Network Solutions, Wix, or Squarespace.
+          That account is separate from your website builder. Even if the site was on Wix or PatientPop, the domain might still live at GoDaddy.
+        </p>
+
+        <h3 class="font-serif text-xl text-charcoal mb-3">Find it</h3>
+        <ul class="space-y-3 font-serif text-lg text-charcoal mb-8">
+          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Search email for “domain renewal,” “GoDaddy,” “Namecheap,” “Google Domains,” or your practice URL</span></li>
+          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Or look up the registrar at <a href="https://lookup.icann.org" target="_blank" rel="noopener" class="text-sage-dark hover:underline">lookup.icann.org</a> (search your domain → “Registrar”)</span></li>
+          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Write down which company it is</span></li>
+        </ul>
+
+        <h3 class="font-serif text-xl text-charcoal mb-3">Confirm you control it</h3>
+        <ul class="space-y-3 font-serif text-lg text-charcoal mb-4">
+          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Log in to that registrar account</span></li>
+          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Find your domain in the dashboard (Domain / DNS / My Products)</span></li>
+          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Confirm the practice owns it (your name or practice — not an old agency’s, if you can tell)</span></li>
+        </ul>
+        <p class="font-serif text-mid-gray leading-relaxed mb-8">
+          <strong class="text-charcoal">If you can’t log in:</strong> stop and tell us. We’ll help recover access or request a transfer. Don’t skip this — the domain is what patients type and what email depends on.
+        </p>
+
+        <h3 class="font-serif text-xl text-charcoal mb-3">Leave these alone for now</h3>
+        <ul class="space-y-3 font-serif text-lg text-charcoal mb-8">
+          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span><strong>Do not</strong> change nameservers</span></li>
+          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span><strong>Do not</strong> delete or edit DNS records (especially MX, mail, email, SPF, DKIM, Google Workspace, Microsoft 365)</span></li>
+          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span><strong>Do not</strong> transfer the domain yet unless we ask</span></li>
+        </ul>
+        <p class="font-serif text-mid-gray leading-relaxed mb-8">
+          Changing those early is the usual way office email breaks. At go-live we’ll update DNS carefully so the new site and email both keep working.
+        </p>
+
+        <h3 class="font-serif text-xl text-charcoal mb-3">Tell us</h3>
         <ul class="space-y-3 font-serif text-lg text-charcoal">
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Have a practice email ready (e.g. <code class="text-base">front@yourpractice.com</code>)</span></li>
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Have about 15 minutes</span></li>
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Know where your domain is registered (GoDaddy, Google, Namecheap, Wix, etc.)</span></li>
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span><strong>Do not change DNS or nameservers yet</strong> — that can break office email</span></li>
+          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Reply with: registrar name + whether you can log in (Yes / No / Not sure)</span></li>
         </ul>
       </div>
 
       <!-- Choose one -->
       <div>
-        <h2 class="font-serif text-2xl text-charcoal mb-4">Choose one</h2>
+        <h2 class="font-serif text-2xl text-charcoal mb-3">2. Cloudflare &amp; GitHub</h2>
+        <p class="font-serif text-lg text-mid-gray leading-relaxed mb-6">
+          Cloudflare = hosting + DNS. GitHub = the website code. Both should end up in your name.
+        </p>
         <div class="grid gap-4 sm:grid-cols-2 mb-4">
           <a href="#option-1" class="block border border-neutral-200 bg-surface-2 rounded-lg p-5 hover:border-sage-dark transition-colors">
             <p class="font-sans text-xs uppercase tracking-wider text-sage-dark mb-2">Option 1</p>
@@ -64,7 +97,7 @@ const inviteEmail = site.email;
           </a>
         </div>
         <p class="font-serif text-mid-gray leading-relaxed">
-          Same result either way: accounts in your name, we can build and deploy, you can remove us anytime.
+          Same result either way. Have a practice email ready and about 15 minutes.
         </p>
       </div>
 
@@ -73,13 +106,13 @@ const inviteEmail = site.email;
         <h2 class="font-serif text-2xl text-charcoal mb-4">Option 1 checklist — Zoom</h2>
         <ul class="space-y-3 font-serif text-lg text-charcoal">
           <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Reply on your project thread asking for a Zoom setup</span></li>
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Join the call with your practice email inbox open</span></li>
+          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Join with your practice email inbox open</span></li>
+          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Have your <strong>domain registrar</strong> login available (we may look together — still no DNS changes until go-live)</span></li>
           <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Verify the Cloudflare and GitHub emails when they arrive</span></li>
           <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Set passwords and save them somewhere safe</span></li>
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Tell us where the domain is registered and whether you can log in</span></li>
         </ul>
         <p class="font-serif text-mid-gray mt-4 leading-relaxed">
-          We’ll handle the rest (admin invites, site connection, DNS at go-live).
+          We’ll handle admin invites, site connection, and the domain cutover later.
         </p>
       </div>
 
@@ -103,28 +136,29 @@ const inviteEmail = site.email;
           <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Sign up with the <strong>same practice email</strong> when possible</span></li>
           <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Verify the email and set a password (Free plan)</span></li>
           <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>When we send your repo link: <strong>Settings</strong> → <strong>Collaborators</strong> → <strong>Add people</strong></span></li>
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Invite <code class="text-base">{inviteEmail}</code> (or the username we send) with <strong>Write</strong> or <strong>Admin</strong></span></li>
+          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Invite Groundwork’s GitHub account (we’ll send the username) with <strong>Write</strong> or <strong>Admin</strong></span></li>
         </ul>
 
-        <h3 class="font-serif text-xl text-charcoal mb-3">Domain</h3>
+        <h3 class="font-serif text-xl text-charcoal mb-3">Wrap up</h3>
         <ul class="space-y-3 font-serif text-lg text-charcoal">
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Note where the domain is registered</span></li>
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Confirm you can log in to that account</span></li>
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Reply on your project thread when Cloudflare + GitHub invites are sent</span></li>
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Leave DNS / nameservers alone until we say otherwise</span></li>
+          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Reply when Cloudflare + GitHub invites are sent</span></li>
+          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Confirm domain registrar name + login status if you haven’t</span></li>
+          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Still leave DNS / nameservers alone</span></li>
         </ul>
       </div>
 
-      <!-- After setup -->
+      <!-- Go-live -->
       <div>
-        <h2 class="font-serif text-2xl text-charcoal mb-4">After setup — we handle this</h2>
-        <ul class="space-y-3 font-serif text-lg text-mid-gray">
-          <li class="flex gap-3"><span class="text-sage-dark shrink-0" aria-hidden="true">→</span><span>Preview stays on a temporary URL until go-live</span></li>
-          <li class="flex gap-3"><span class="text-sage-dark shrink-0" aria-hidden="true">→</span><span>We connect the site in <strong class="text-charcoal">your</strong> Cloudflare account</span></li>
-          <li class="flex gap-3"><span class="text-sage-dark shrink-0" aria-hidden="true">→</span><span>We copy DNS (especially email / MX), then point the real domain</span></li>
-          <li class="flex gap-3"><span class="text-sage-dark shrink-0" aria-hidden="true">→</span><span>You get a handoff doc with every login</span></li>
-        </ul>
+        <h2 class="font-serif text-2xl text-charcoal mb-4">At go-live — we handle this</h2>
+        <ol class="space-y-3 font-serif text-lg text-mid-gray list-decimal list-inside">
+          <li>We copy your current DNS (especially email / MX) into Cloudflare</li>
+          <li>At the <strong class="text-charcoal">registrar</strong>, nameservers get pointed to Cloudflare (one change — with you or with exact values we send)</li>
+          <li>We connect your real domain to the new site</li>
+          <li>We check website + email both work</li>
+          <li>You get a handoff doc with every login</li>
+        </ol>
         <p class="font-serif text-mid-gray mt-4 leading-relaxed">
+          Optional later: move domain registration into Cloudflare so renewals live with hosting. Not required for launch.
           After launch, your only required cost is domain renewal (~$12–15/year). Hosting stays free.
         </p>
       </div>
@@ -141,7 +175,7 @@ const inviteEmail = site.email;
 
   <CTABlock
     heading="Ready when you are"
-    subheading="Pick Option 1 or Option 2 and work the checklist. Same result either way — about 15 minutes, one time."
+    subheading="Start with the domain checklist, then Option 1 or 2. Same result either way — about 15 minutes, one time."
     primaryCTA="Get Started"
     primaryHref="/get-started"
     secondaryCTA="How It Works"
