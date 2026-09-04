@@ -2,135 +2,84 @@
 
 **You own the accounts. We build in them. You can remove our access anytime.**
 
-This is a **one-time setup** (~15 minutes). Pick whichever option is easier.
+One-time setup, about 15 minutes. Pick an option and work through the checklist.
 
 Live page: [https://groundworkdental.com/guides/account-setup](https://groundworkdental.com/guides/account-setup)
 
 ---
 
+## Before you start
+
+- [ ] Have a practice email ready (e.g. `front@yourpractice.com`)
+- [ ] Have ~15 minutes
+- [ ] Know where your domain is registered (GoDaddy, Google, Namecheap, Wix, etc.)
+- [ ] **Do not change DNS or nameservers yet** — that can break office email
+
+---
+
 ## Choose one
 
-| | Option 1 — Live on Zoom | Option 2 — You set up, invite us |
-|---|---|---|
-| **Best if** | You want it done with zero guesswork | You’re comfortable clicking through signups |
-| **Your job** | Join Zoom, verify email, set passwords | Create accounts + invite us as admin |
-| **Our job** | Drive the whole setup on a shared screen | Accept invites and finish the site connection |
-| **Time** | ~15 minutes live | ~15 minutes on your own |
+**Option 1 — Live on Zoom**  
+We drive on a shared screen. You verify email and set passwords.
 
-**Same end result either way:** Cloudflare + GitHub in *your* name, Groundwork added as admin so we can build and deploy. You can remove our access anytime.
+**Option 2 — You set up, invite us**  
+You create Cloudflare + GitHub, then invite Groundwork as admin.
 
-Reply with **“Option 1”** or **“Option 2”** on your project thread (or just book Zoom / follow the steps below).
+Same result either way: accounts in your name, we can build and deploy, you can remove us anytime.
 
 ---
 
-## Why this matters
+## Option 1 checklist — Zoom
 
-Your website runs on **Cloudflare Pages** (hosting + DNS + SSL) and lives in a **GitHub** repository (the code). Both accounts should be in **your practice’s name**, not ours.
+- [ ] Reply on your project thread asking for a Zoom setup
+- [ ] Join the call with your practice email inbox open
+- [ ] Verify the Cloudflare and GitHub emails when they arrive
+- [ ] Set passwords and save them somewhere safe
+- [ ] Tell us where the domain is registered and whether you can log in
 
-After launch, your only required ongoing cost is domain renewal (~$12–15/year). Hosting stays free.
-
----
-
-## What you’ll need (both options)
-
-- A practice email you control (e.g. `front@yourpractice.com`)
-- ~15 minutes
-- Your domain registrar login nearby (GoDaddy, Google, Namecheap, Wix, etc.) — **don’t change DNS yet**
+We’ll handle the rest (admin invites, site connection, DNS at go-live).
 
 ---
 
-## Option 1 — We do it live on Zoom
+## Option 2 checklist — Do it yourself
 
-1. Reply on your project thread and we’ll schedule a short Zoom.
-2. We create Cloudflare and GitHub using **your** email (shared screen).
-3. You click the verification emails and set passwords.
-4. We add ourselves as **Administrator** (Cloudflare) and **Collaborator** (GitHub).
-5. We connect the site and prepare DNS. At go-live we cut over carefully so email keeps working.
+### Cloudflare
 
-You don’t need to figure out nameservers or API tokens.
+- [ ] Go to [dash.cloudflare.com/sign-up](https://dash.cloudflare.com/sign-up)
+- [ ] Sign up with your **practice email**
+- [ ] Verify the email and set a password (Free plan)
+- [ ] Open **Manage Account** → **Members** → **Invite**
+- [ ] Invite `hello@groundworkdental.com` as **Administrator**
+- [ ] Send the invite
 
----
+### GitHub
 
-## Option 2 — You create the accounts and invite us
+- [ ] Go to [github.com/signup](https://github.com/signup)
+- [ ] Sign up with the **same practice email** when possible
+- [ ] Verify the email and set a password (Free plan)
+- [ ] When we send your repo link: **Settings** → **Collaborators** → **Add people**
+- [ ] Invite `hello@groundworkdental.com` (or the username we send) with **Write** or **Admin**
 
-### A. Cloudflare
+### Domain
 
-1. Go to [https://dash.cloudflare.com/sign-up](https://dash.cloudflare.com/sign-up)
-2. Sign up with your **practice email**
-3. Verify the email → set a strong password (save it)
-4. Use the **Free** plan
-5. **Manage Account** → **Members** → **Invite**
-   - Email: `hello@groundworkdental.com`
-   - Role: **Administrator**
-6. Send the invite
-
-### B. GitHub
-
-1. Go to [https://github.com/signup](https://github.com/signup)
-2. Use the **same practice email** when possible
-3. Verify email → set a password (Free plan is fine)
-4. When we send your repo link (or after we create it):
-   - **Settings** → **Collaborators** → **Add people**
-   - Invite `hello@groundworkdental.com` (or the GitHub username we send)
-   - Permission: **Write** or **Admin**
-
-### C. Tell us where the domain lives
-
-Reply with:
-
-- Where `yourdomain.com` is registered (GoDaddy, Google, Namecheap, Wix, Squarespace, etc.)
-- Whether you can log in to that account
-
-### D. Do **not** change nameservers yet
-
-Don’t update nameservers or delete DNS records until we say so. Office email depends on MX records. We’ll copy those safely before cutover.
-
-Optional later: transfer the domain into Cloudflare so domain + DNS + hosting share one dashboard. Not required for launch.
+- [ ] Note where the domain is registered
+- [ ] Confirm you can log in to that account
+- [ ] Reply on your project thread when Cloudflare + GitHub invites are sent
+- [ ] Leave DNS / nameservers alone until we say otherwise
 
 ---
 
-## What happens next (launch)
+## After setup (we handle this)
 
-| Step | Who |
-|------|-----|
-| Preview site on a temporary URL | Groundwork |
-| Cloudflare + GitHub in your name | You + Groundwork (Option 1 or 2) |
-| Copy DNS (especially email / MX) | Groundwork |
-| Connect custom domain on Cloudflare Pages | Groundwork |
-| Point domain / nameservers at go-live | Groundwork (with your OK) |
-| Confirm site + email both work | Both |
-| Handoff doc with every login | Groundwork |
+- Preview stays on a temporary URL until go-live
+- We connect the site in **your** Cloudflare account
+- We copy DNS (especially email / MX), then point the real domain
+- You get a handoff doc with every login
 
----
-
-## Developer access (API / AI tools)
-
-**Yes — we can still deploy and automate after accounts are in your name.**
-
-If Groundwork is a Cloudflare **Administrator** and a GitHub **collaborator**, we create API tokens *inside your account* for our tools (Wrangler, GitHub Actions, Cursor, Claude Code). You can revoke them anytime. If you remove our access, the site keeps running.
-
-You do **not** need to create API tokens yourself.
-
----
-
-## Checklist (copy/paste reply)
-
-```
-Option chosen: 1 (Zoom) / 2 (I’ll invite you)
-
-Cloudflare account created: Yes / Not yet / N/A (doing Zoom)
-Practice email used: ________
-Groundwork invited as Cloudflare Administrator: Yes / Not yet / N/A
-GitHub account created: Yes / Not yet / N/A
-Groundwork invited on GitHub: Yes / Not yet / N/A
-Domain registrar (where the domain is): ________
-I can log into the registrar: Yes / No / Not sure
-```
+After launch, your only required cost is domain renewal (~$12–15/year). Hosting stays free.
 
 ---
 
 ## Questions
 
 Email [hello@groundworkdental.com](mailto:hello@groundworkdental.com) — or reply on your project thread.
-
-**Don’t change DNS or nameservers until we confirm email records are copied.** That’s the one step that can break mail if done early.
