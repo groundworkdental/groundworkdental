@@ -41,7 +41,7 @@ We finish setup in your Cloudflare account first. Then one nameserver change at 
 
 ### On a call together (recommended)
 
-Reply to schedule a short Zoom (~5 minutes). Join with registrar login ready. We’ll give you two nameserver values to paste, then confirm site + email.
+Reply to schedule a short Google Meet (~5 minutes). Join with registrar login ready. We’ll give you two nameserver values to paste, then confirm site + email.
 
 ### I’ll do it myself
 
