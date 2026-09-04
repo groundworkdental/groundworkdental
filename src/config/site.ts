@@ -7,8 +7,8 @@ export const site = {
   tagline: 'Dental Websites Without Agency Lock-In.',
   description: 'Custom SEO-ready dental websites built in days. You own the code, the hosting, and every account. No lock-in. $2,000 flat.',
   email: 'hello@groundworkdental.com',
-  /** Cloudflare Members invite — must be an address that can sign into Cloudflare */
-  cloudflareInviteEmail: 'garrett@groundworkdental.com',
+  /** Cloudflare Members invite — same as contact once hello@ can sign into Cloudflare */
+  cloudflareInviteEmail: 'hello@groundworkdental.com',
 
   // Stripe Payment Links — replace with actual URLs after creating Stripe products
   stripe: {

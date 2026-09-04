@@ -9,7 +9,7 @@ const inviteEmail = site.cloudflareInviteEmail;
 
 <BaseLayout
   title="Account Setup Checklist — Domain & Cloudflare | Groundwork Dental"
-  description="Go live on your domain: Cloudflare account, then a nameserver change at your registrar — on a call or on your own. No registrar transfer required."
+  description="Two steps before go-live: create Cloudflare and tell us your registrar. Then a nameserver change — on a call or on your own."
   noindex={false}
 >
   <section class="bg-surface-2">
@@ -32,29 +32,28 @@ const inviteEmail = site.cloudflareInviteEmail;
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
 
       <div id="before" class="scroll-mt-24">
-        <h2 class="font-serif text-2xl text-charcoal mb-6">Before go-live</h2>
+        <h2 class="font-serif text-2xl text-charcoal mb-6">Before go-live — two things</h2>
 
-        <h3 class="font-serif text-xl text-charcoal mb-3">1. Domain registrar</h3>
-        <p class="font-serif text-lg text-mid-gray leading-relaxed mb-4">
-          Where you renew <code class="text-base">yourpractice.com</code> (GoDaddy, Google/Squarespace Domains, Namecheap, etc.).
-        </p>
-        <ul class="space-y-3 font-serif text-lg text-charcoal mb-8">
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Confirm you can log in</span></li>
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Reply with: registrar name + can you log in? (Yes / No / Not sure)</span></li>
-          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span><strong>Don’t change nameservers or DNS yet</strong> (especially mail / MX) — that can break email</span></li>
-        </ul>
-        <p class="font-serif text-mid-gray leading-relaxed mb-10">
-          Can’t find or log in? <a href={`mailto:${contactEmail}`} class="text-sage-dark hover:underline">Email us</a> — we’ll help.
-        </p>
-
-        <h3 class="font-serif text-xl text-charcoal mb-3">2. Cloudflare</h3>
+        <h3 class="font-serif text-xl text-charcoal mb-3">1. Create a Cloudflare account</h3>
         <ul class="space-y-3 font-serif text-lg text-charcoal">
           <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Sign up at <a href="https://dash.cloudflare.com/sign-up" target="_blank" rel="noopener" class="text-sage-dark hover:underline">dash.cloudflare.com/sign-up</a> with a practice email (Free plan)</span></li>
           <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span><strong>Manage Account</strong> → <strong>Members</strong> → invite <code class="text-base">{inviteEmail}</code> as <strong>Administrator</strong></span></li>
           <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Reply when the invite is sent</span></li>
         </ul>
-        <p class="font-serif text-mid-gray mt-4 leading-relaxed">
+        <p class="font-serif text-mid-gray mt-4 leading-relaxed mb-10">
           Prefer we drive this on Zoom? Reply and ask for a setup call — bring practice email + registrar login.
+        </p>
+
+        <h3 class="font-serif text-xl text-charcoal mb-3">2. Tell us where the domain is registered</h3>
+        <p class="font-serif text-lg text-mid-gray leading-relaxed mb-4">
+          Where you renew <code class="text-base">yourpractice.com</code> (GoDaddy, Google/Squarespace Domains, Namecheap, etc.). We’ll send exact cutover steps for that registrar.
+        </p>
+        <ul class="space-y-3 font-serif text-lg text-charcoal mb-4">
+          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span>Reply with: <strong>registrar name</strong> + can you log in? (Yes / No / Not sure)</span></li>
+          <li class="flex gap-3"><span class="mt-1 shrink-0 w-5 h-5 border border-charcoal/40 rounded-sm" aria-hidden="true"></span><span><strong>Don’t change nameservers or DNS yet</strong> (especially mail / MX) — that can break email</span></li>
+        </ul>
+        <p class="font-serif text-mid-gray leading-relaxed">
+          Can’t find or log in? <a href={`mailto:${contactEmail}`} class="text-sage-dark hover:underline">Email us</a> — we’ll help.
         </p>
       </div>
 

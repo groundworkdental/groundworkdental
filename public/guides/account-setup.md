@@ -2,31 +2,32 @@
 
 **You own the hosting. We build in your Cloudflare account. You can remove our access anytime.**
 
-Go-live does **not** require moving your domain registrar to Cloudflare — usually we only change **nameservers** at GoDaddy (or wherever you renew). GitHub can wait until later.
+Go-live does **not** require moving your domain registration to Cloudflare — usually we only change **nameservers** at GoDaddy (or wherever you renew). GitHub can wait until later.
 
 Live page: [https://groundworkdental.com/guides/account-setup](https://groundworkdental.com/guides/account-setup)
 
 ---
 
-## Before go-live
+## Before go-live — two things
 
-### 1. Domain registrar
-
-Where you renew `yourpractice.com` (GoDaddy, Google/Squarespace Domains, Namecheap, etc.).
-
-- [ ] Confirm you can log in
-- [ ] Reply with: registrar name + can you log in? (Yes / No / Not sure)
-- [ ] **Don’t change nameservers or DNS yet** (especially mail / MX) — that can break email
-
-Can’t find or log in? Email us — we’ll help.
-
-### 2. Cloudflare (required for go-live)
+### 1. Create a Cloudflare account
 
 - [ ] Sign up at [dash.cloudflare.com/sign-up](https://dash.cloudflare.com/sign-up) with a practice email (Free plan)
-- [ ] **Manage Account** → **Members** → invite `garrett@groundworkdental.com` as **Administrator**
+- [ ] **Manage Account** → **Members** → invite `hello@groundworkdental.com` as **Administrator**
 - [ ] Reply when the invite is sent
 
 Prefer we drive this on Zoom? Reply and ask for a setup call — bring practice email + registrar login.
+
+### 2. Tell us where the domain is registered
+
+Where you renew `yourpractice.com` (GoDaddy, Google/Squarespace Domains, Namecheap, etc.).
+
+- [ ] Reply with: **registrar name** + can you log in? (Yes / No / Not sure)
+- [ ] **Don’t change nameservers or DNS yet** (especially mail / MX) — that can break email
+
+We’ll send exact cutover steps for your registrar once we know which one it is.
+
+Can’t find or log in? Email us — we’ll help.
 
 ---
 
