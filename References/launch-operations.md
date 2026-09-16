@@ -256,8 +256,14 @@ Beyond the script, confirm by hand:
 - [ ] Site phone/address/hours character-identical to GBP
 - [ ] Every GBP service has corresponding site content
 - [ ] No published post or page is an unwritten stub
+- [ ] A nonexistent URL returns **404**, not the homepage with a 200
 
-That last one is not hypothetical: a post shipped live and indexed containing
-only `[Write an introduction addressing why patients search for this topic.]`
-and a literal `[PHONE]` token. Filtering drafts on the index page does not stop
-the detail route from building them.
+Neither of those last two is hypothetical. A post shipped live and indexed
+containing only `[Write an introduction addressing why patients search for this
+topic.]` and a literal `[PHONE]` token — filtering drafts on the index page does
+not stop the detail route from building them.
+
+And with no `404.html` in the build, Cloudflare Pages serves `index.html` with a
+**200** for every unmatched route, so each typo becomes an indexable duplicate
+of the homepage. Nothing looks broken in a browser; check it with a deliberately
+bogus URL.
