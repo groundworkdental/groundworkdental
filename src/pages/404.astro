@@ -1,0 +1,50 @@
+---
+/**
+ * Without a built 404.html, Cloudflare Pages serves index.html with a 200 for
+ * every unmatched route, so each typo becomes an indexable duplicate of the
+ * homepage. Google classifies those as soft 404s. Nothing looks broken in a
+ * browser, which is why it goes unnoticed.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+export const prerender = true;
+
+const destinations = [
+  ['Pricing', '/pricing'],
+  ['How it works', '/how-it-works'],
+  ['See an example', '/example'],
+  ['Online presence checklist', '/checklist'],
+  ['About', '/about'],
+  ['Get started', '/get-started'],
+];
+---
+
+<BaseLayout
+  title="Page not found — Groundwork Dental"
+  description="That page doesn't exist. Here's where most people are headed."
+  noindex={true}
+>
+  <section class="bg-surface-2">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+      <div class="max-w-3xl mx-auto text-center">
+        <p class="font-serif text-sm uppercase tracking-widest text-mid-gray mb-4">404</p>
+        <h1 class="section-heading mb-6">We couldn't find that page</h1>
+        <p class="font-serif text-xl text-mid-gray leading-relaxed">
+          The link may be out of date, or the address slightly off.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-10">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav class="grid gap-x-10 gap-y-3 sm:grid-cols-2" aria-label="Popular pages">
+        {destinations.map(([label, href]) => (
+          <a href={href} class="py-3 border-b border-border-light hover:text-brand-primary transition-colors">
+            {label}
+          </a>
+        ))}
+      </nav>
+    </div>
+  </section>
+</BaseLayout>
