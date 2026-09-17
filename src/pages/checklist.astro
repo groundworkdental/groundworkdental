@@ -17,7 +17,6 @@
  * public/ is invisible to @astrojs/sitemap.
  */
 import html from '../../resources/dental-online-presence-checklist.html?raw';
-import { site } from '../config/site';
 
 export const prerender = true;
 
@@ -28,7 +27,7 @@ export const prerender = true;
  * is injected here rather than pasted into the source file, which would put
  * a second copy of the measurement ID outside src/config/site.ts.
  */
-const ga4Id = String(import.meta.env.PUBLIC_GA4_MEASUREMENT_ID ?? site.ga4MeasurementId ?? '');
+const ga4Id = String(import.meta.env.PUBLIC_GA4_MEASUREMENT_ID ?? '');
 const trackable = /^G-[A-Z0-9]+$/.test(ga4Id) && !/^G-X+$/i.test(ga4Id);
 
 const tag = trackable
