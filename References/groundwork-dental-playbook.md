@@ -1105,9 +1105,11 @@ If the dentist removes agency access, nothing breaks.
 
 ### 18.2 — Ownership Stages
 
-**Before purchase (preview/sales phase):** Owned by agency — GitHub repo, Cloudflare preview deployment, preview subdomain.
+**Before purchase (preview/sales phase):** Owned by agency — GitHub repo, Cloudflare preview deployment, preview subdomain. Do not attach their custom domain or move Pages into their Cloudflare unpaid.
 
-**After purchase (production):** Owned by dentist — domain, Cloudflare account, GitHub repo, analytics, search console. Use Option B: keep original codebase, redeploy fresh into dentist-owned infrastructure.
+**After $2,000 (production — default path):** Owned by dentist — domain, Cloudflare account, GitHub repo, analytics, search console. Use Option B: keep original codebase, redeploy fresh into dentist-owned infrastructure. 30-day revision window starts on first feedback after payment.
+
+**$500 side offer (exception only):** If they want the real domain live before full payment, take $500 first (credited to $2,000), then move Pages + domain into their Cloudflare as-is. No revision rounds until the balance. Hold GBP / GSC / GitHub invite until full payment. Not advertised on the website — offer it in conversation to keep momentum. Full policy: `References/GO_LIVE_AND_PAYMENT.md`.
 
 ### 18.3 — How to Add Admin Access (Include in Client Docs)
 

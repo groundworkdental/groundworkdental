@@ -38,5 +38,6 @@ Calm, competent, honest. An engineer explaining to a smart friend how something 
 
 ## Key Reference
 - Full playbook: `References/groundwork-dental-playbook.md`
+- Go-live & payment (ops): `References/GO_LIVE_AND_PAYMENT.md` — $2,000 is the public offer; $500 is a side path, not a website SKU
 - Client build standards (IA, SEO, schema, crawl): `References/client-site-build-best-practices.md`
 - Reference client site: `/Users/garrettgunther/Projects/hbimplants/`
