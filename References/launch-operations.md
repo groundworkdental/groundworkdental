@@ -378,3 +378,132 @@ photography carry their original background with them, and no amount of CSS
 fully hides it. Recrop from the original rather than from an already-processed
 output, match the crop convention of the set, and generate size variants at the
 same aspect ratio as their parent.
+
+---
+
+## 12. Client infrastructure access
+
+The single change that turns client configuration from dashboard clicking into
+scripted work.
+
+### Use a USER token, not an Account token
+
+Creating an **Account-owned** token generally requires **Super Administrator**
+on that account. On a client's account — or their MSP's — you are a member, so
+the create fails at the review step with `Unauthorized to access requested
+resource`. That message reads like the permissions you selected are wrong.
+They are not; the token *type* is.
+
+A **User** token only requires that you personally hold what you are granting.
+Same account, same member role, creates fine.
+
+**My Profile → API Tokens** (not Manage Account → Account API Tokens) →
+Create Custom Token:
+
+| Type | Resource | Level |
+|---|---|---|
+| Zone | Zone | Read |
+| Zone | DNS | Edit |
+| Zone | Zone Settings | Edit |
+| Account | Cloudflare Pages | Read (Edit if you want to change Pages settings) |
+
+- **Zone Resources:** `Include → Specific zone`, listed explicitly.
+- **Account Resources:** include each client account (the Pages row needs it).
+- **TTL:** set one. 90 days.
+
+Never `All zones`. It silently absorbs every future client, so one leaked
+string grows with the book of business instead of with a decision. Listing
+zones explicitly costs thirty seconds per client and makes "get granular
+later" automatic.
+
+**Not covered by the above:** Rulesets. Reading redirect rules needs its own
+permission and fails with a bare `Authentication error [code: 10000]`. Verify
+redirects behaviourally instead — curl the `www` host and confirm the
+`location` header preserves both path and query string.
+
+### Where the token lives
+
+Not in any repo. A credential used by more than one repo should not live
+inside one of them, and the client repo is one you contractually hand over.
+
+```
+~/.config/groundwork/cloudflare.env   chmod 600
+```
+
+Shell environment beats `node --env-file`, so tooling that expects a repo
+`.env` still works:
+
+```
+set -a; . ~/.config/groundwork/cloudflare.env; set +a
+```
+
+Skip IP filtering unless the IP is static and it is the only machine using the
+token. Do not allowlist a mobile carrier range — that is a range shared with
+thousands of strangers, added while believing you added a small one.
+
+### One token while small is a defensible call
+
+At one or two clients the blast radius is small enough to hold in your head,
+and juggling four tokens creates friction that makes people skip steps. Split
+when: anyone but you uses it (CI, a contractor, a second machine), a client
+contractually requires scoped access, or you take on a client you cannot
+afford to break. Not at a particular client count.
+
+---
+
+## 13. Audit the client's DNS, not just their site
+
+A zone we inherit carries whatever the previous provider left. This is
+invisible from the repo and from the rendered site, and it is where the
+expensive failures live.
+
+Run `node scripts/pipeline/audit-client-zone.js <domain>` from
+groundwork-builder at onboarding and before go-live.
+
+### Proxying is for HTTP, and only HTTP
+
+One client zone had every record orange-clouded, including the Microsoft 365
+DKIM selectors. Cloudflare's proxy terminates HTTP, so a proxied DKIM lookup
+answers with Cloudflare's IPs instead of the TXT record a verifier needs —
+**mail could not be signed**. With SPF `-all` and DMARC `p=quarantine`
+alongside, the practice's outbound mail was liable to be quarantined. Nothing
+looks wrong from the sender's side, which is why it can run for months.
+
+Must stay DNS-only: `*._domainkey`, `autodiscover`, `enterpriseenrollment`,
+`enterpriseregistration`, `_dmarc`, mail hosts, SIP/Teams discovery. The rule
+generalises: if the hostname does not serve HTTP, the proxy has nothing useful
+to do with it.
+
+### Ask who else sends mail as the domain
+
+A strict SPF (`-all`) authorises only what it lists. Every tool that sends as
+the practice — booking reminders, review requests, practice management
+software, a Gmail account configured to "send as" — needs its own `include:`.
+Adding one without updating SPF means patient-facing mail lands in spam, and
+nobody notices because sending still appears to work.
+
+**Ask before a new sender goes live, not after.** This is the question to put
+to the practice during onboarding: *"does anything other than your mail
+provider send email from your domain?"*
+
+### Zone security baseline
+
+| Setting | Target |
+|---|---|
+| SSL mode | Full or Full (strict). **Never Flexible** — it sends unencrypted traffic to the origin |
+| Minimum TLS | 1.2. 1.0/1.1 are deprecated and a compliance flag for a healthcare site |
+| Always Use HTTPS | On |
+| HSTS | Deliberate, and usually **without** `includeSubDomains` |
+
+HSTS is the one that deserves a pause: browsers cache the policy for its full
+max-age, so a mistake is not something a later fix undoes. Check whether any
+subdomain (`autodiscover`, enrollment hosts) needs plain HTTP before including
+them.
+
+### Verify the way the internet sees it
+
+- A **local resolver answers from cache** for the full TTL, so a changed record
+  can look unchanged. Use `dig @8.8.8.8`.
+- **OpenSSL 3 refuses obsolete TLS client-side.** `-tls1_1` returning `no
+  protocols available` is your own client declining, not the server refusing.
+  Add `-cipher 'DEFAULT@SECLEVEL=0'` for a real answer.
