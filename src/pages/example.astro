@@ -82,6 +82,13 @@ const faqs = [
         <p class="font-serif text-mid-gray max-w-xl mx-auto">Same practice. Same doctor. Different first impression.</p>
       </div>
 
+      <p class="text-center font-sans text-eyebrow uppercase tracking-wide text-mid-gray mb-6 hidden md:flex items-center justify-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v14m0 0l-4-4m4 4l4-4" />
+        </svg>
+        Scroll either window — both move together
+      </p>
+
       <div class="relative grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 max-w-5xl mx-auto">
         <!-- center divider + arrow -->
         <div class="hidden md:block absolute inset-y-0 left-1/2 -translate-x-1/2 w-px bg-border-light" aria-hidden="true"></div>
@@ -107,14 +114,16 @@ const faqs = [
               <span class="w-2.5 h-2.5 rounded-full bg-border-light"></span>
               <span class="ml-2 font-sans text-[11px] text-mid-gray truncate">hbprosthodontics.com (old)</span>
             </div>
-            <div class="relative h-[300px] md:h-[400px] overflow-hidden">
-              <img
-                src="/images/screenshots/hb-before.png"
-                alt="Old HB Prosthodontics website — dark, dated design"
-                class="w-full block grayscale-[35%] opacity-90"
-                loading="lazy"
-              />
-              <div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent"></div>
+            <div class="relative">
+              <div data-ba-pane class="h-[380px] md:h-[560px] overflow-hidden md:overflow-y-auto">
+                <img
+                  src="/images/screenshots/hb-before.png"
+                  alt="Old HB Prosthodontics website — dark, dated design"
+                  class="w-full block grayscale-[35%] opacity-90"
+                  loading="lazy"
+                />
+              </div>
+              <div class="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white/90 to-transparent"></div>
             </div>
           </div>
           <ul class="mt-4 space-y-2 font-serif text-sm text-mid-gray">
@@ -137,14 +146,16 @@ const faqs = [
               <span class="w-2.5 h-2.5 rounded-full bg-sage/40"></span>
               <span class="ml-2 font-sans text-[11px] text-sage-dark truncate">hbimplants.com</span>
             </div>
-            <div class="relative h-[300px] md:h-[400px] overflow-hidden">
-              <img
-                src="/images/screenshots/hb-after.png"
-                alt="New hbimplants.com — modern, fast, custom design"
-                class="w-full block"
-                loading="lazy"
-              />
-              <div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent"></div>
+            <div class="relative">
+              <div data-ba-pane class="h-[380px] md:h-[560px] overflow-hidden md:overflow-y-auto">
+                <img
+                  src="/images/screenshots/hb-after.png"
+                  alt="New hbimplants.com — modern, fast, custom design"
+                  class="w-full block"
+                  loading="lazy"
+                />
+              </div>
+              <div class="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white/90 to-transparent"></div>
             </div>
           </div>
           <ul class="mt-4 space-y-2 font-serif text-sm text-charcoal">
@@ -281,4 +292,23 @@ AggregateRating  → Overall review score from Google`}</code></pre>
       <CTABlock variant="warm" />
     </div>
   </section>
+
+  <script is:inline>
+    (() => {
+      const panes = document.querySelectorAll('[data-ba-pane]');
+      if (panes.length !== 2) return;
+      let lock = false;
+      panes.forEach((pane, i) => {
+        const other = panes[1 - i];
+        pane.addEventListener('scroll', () => {
+          if (lock) return;
+          lock = true;
+          const max = pane.scrollHeight - pane.clientHeight;
+          const otherMax = other.scrollHeight - other.clientHeight;
+          other.scrollTop = max > 0 ? (pane.scrollTop / max) * otherMax : 0;
+          requestAnimationFrame(() => { lock = false; });
+        }, { passive: true });
+      });
+    })();
+  </script>
 </BaseLayout>
