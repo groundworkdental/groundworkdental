@@ -156,6 +156,20 @@ import { site } from '../config/site';
   const errorDiv = document.getElementById('form-error');
   const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
 
+  // Fired once, on the first keystroke in any field.
+  //
+  // This is the half of the funnel that distinguishes the two failure modes:
+  // if nobody starts, the offer or the copy is wrong; if they start and never
+  // submit, the form is. Without it, "no submissions" is unreadable.
+  let started = false;
+  form?.addEventListener('input', () => {
+    if (started) return;
+    started = true;
+    if (typeof gtag === 'function') {
+      gtag('event', 'lead_form_start', { page_path: window.location.pathname });
+    }
+  });
+
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -181,10 +195,29 @@ import { site } from '../config/site';
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
+      // Record the conversion only after the request actually succeeded.
+      // Firing on click would count failures as conversions and quietly
+      // inflate the one number the funnel is judged on.
+      if (typeof gtag === 'function') {
+        gtag('event', 'lead_submit', {
+          page_path: window.location.pathname,
+          has_website: Boolean(data.website),
+          has_comment: Boolean(data.comment),
+        });
+      }
+
       // Show success, hide form
       form.classList.add('hidden');
       successDiv?.classList.remove('hidden');
     } catch (err) {
+      // A failed submission is a lost lead, and it is invisible unless it is
+      // recorded. If submits and failures both climb, the problem is the
+      // endpoint, not the copy.
+      if (typeof gtag === 'function') {
+        gtag('event', 'lead_submit_failed', {
+          page_path: window.location.pathname,
+        });
+      }
       console.error('Form submission failed:', err);
       errorDiv?.classList.remove('hidden');
       submitBtn.disabled = false;

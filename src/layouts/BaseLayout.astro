@@ -119,6 +119,57 @@ const breadcrumbSchema = pathSegments.length > 0 ? {
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           gtag('config', ga4Id);
+
+          // Site-wide conversion signals.
+          //
+          // Pageviews alone cannot answer the only question that matters here
+          // — whether a visitor did something. These are delegated listeners
+          // on document, so they cover links rendered after load and need no
+          // per-page wiring.
+          //
+          // The lead form is NOT tracked here: it submits by fetch, so the
+          // only honest place to record it is after the request succeeds.
+          // See get-started.astro.
+
+          // The checklist is the soft conversion — the visitor who is not
+          // ready to request a preview but is willing to be known.
+          document.addEventListener('click', (event) => {
+            const link = event.target.closest('a[href*="/checklist"]');
+            if (!link) return;
+            gtag('event', 'checklist_view', {
+              page_path: window.location.pathname,
+              href: link.getAttribute('href'),
+            });
+          });
+
+          // Downloading the PDF is a stronger signal than viewing the page.
+          document.addEventListener('click', (event) => {
+            const link = event.target.closest('a[href$=".pdf"]');
+            if (!link) return;
+            gtag('event', 'checklist_download', {
+              page_path: window.location.pathname,
+            });
+          });
+
+          // Someone emailing us directly instead of using the form is still a
+          // lead; it just never touches the database.
+          document.addEventListener('click', (event) => {
+            const link = event.target.closest('a[href^="mailto:"]');
+            if (!link) return;
+            gtag('event', 'email_click', {
+              page_path: window.location.pathname,
+            });
+          });
+
+          // Viewing the example site is the strongest intent signal short of
+          // submitting — it is what a prospect checks before deciding.
+          document.addEventListener('click', (event) => {
+            const link = event.target.closest('a[href*="/example"]');
+            if (!link) return;
+            gtag('event', 'example_view', {
+              page_path: window.location.pathname,
+            });
+          });
         </script>
       </>
     )}
