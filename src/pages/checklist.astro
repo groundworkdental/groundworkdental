@@ -17,7 +17,30 @@
  * public/ is invisible to @astrojs/sitemap.
  */
 import html from '../../resources/dental-online-presence-checklist.html?raw';
+import { site } from '../config/site';
 
 export const prerender = true;
+
+/**
+ * This page renders a complete HTML document, so it never passes through
+ * BaseLayout and therefore never picks up the analytics tag. It is the lead
+ * magnet — the one page where knowing traffic actually matters — so the tag
+ * is injected here rather than pasted into the source file, which would put
+ * a second copy of the measurement ID outside src/config/site.ts.
+ */
+const ga4Id = String(import.meta.env.PUBLIC_GA4_MEASUREMENT_ID ?? site.ga4MeasurementId ?? '');
+const trackable = /^G-[A-Z0-9]+$/.test(ga4Id) && !/^G-X+$/i.test(ga4Id);
+
+const tag = trackable
+  ? `<script async src="https://www.googletagmanager.com/gtag/js?id=${ga4Id}"></script>` +
+    `<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}` +
+    `gtag('js',new Date());gtag('config','${ga4Id}');</script>`
+  : '';
+
+// Inject before </head> when there is one; otherwise leave the document alone
+// rather than producing invalid markup.
+const documentHtml = tag && html.includes('</head>')
+  ? html.replace('</head>', `${tag}</head>`)
+  : html;
 ---
-<Fragment set:html={html} />
+<Fragment set:html={documentHtml} />
