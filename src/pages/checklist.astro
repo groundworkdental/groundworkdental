@@ -1,0 +1,23 @@
+---
+/**
+ * The standalone checklist, served at /checklist.
+ *
+ * Source of truth: resources/dental-online-presence-checklist.html (a complete
+ * HTML document, which is why this page renders it raw with no layout).
+ *
+ * The `?raw` import inlines it AT BUILD TIME. An earlier version read it with
+ * readFileSync at request time, which cannot work on Cloudflare: the Workers
+ * runtime has no filesystem and resources/ is not in the bundle. It appeared
+ * to work only because a prebuild step copied the same HTML into
+ * public/checklist/index.html, and Pages serves static assets ahead of the
+ * worker — so the broken route never ran. Dev has a filesystem, so nothing
+ * surfaced there either. Remove that copy and the route 500s in production.
+ *
+ * Prerendering it also keeps /checklist in the sitemap; a file dropped into
+ * public/ is invisible to @astrojs/sitemap.
+ */
+import html from '../../resources/dental-online-presence-checklist.html?raw';
+
+export const prerender = true;
+---
+<Fragment set:html={html} />
