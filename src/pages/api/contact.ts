@@ -9,8 +9,7 @@ export const prerender = false;
  * `leads` table. D1 is reached through a binding rather than the REST API, so
  * no API token is involved and nothing has to be configured at build time.
  *
- * A notification is emailed via Cloudflare Email Service, which replaces
- * Resend. Both the storage and the notification are best-effort and
+ * A notification is emailed through Gmail, which replaces Resend. Both the storage and the notification are best-effort and
  * independent: whichever works, works. The lead is more likely to survive in
  * two places than in one, and neither failure is worth showing the visitor.
  *
@@ -77,19 +76,21 @@ export const POST: APIRoute = async ({ request, locals }) => {
 };
 
 /**
- * Email the practice that a lead arrived.
+ * Email the practice that a lead arrived, through Gmail.
  *
- * Two transports, because Pages support for the send_email binding is not
- * guaranteed and the REST API works everywhere. The binding is preferred when
- * present (no credential to manage); otherwise a scoped token is used. If
- * neither is configured, this logs and returns — a missing notification must
- * never turn a captured lead into an error page.
+ * Sends as the practice's own Workspace user with the gmail.send scope — the
+ * narrowest one Google offers. It can send mail as us; it cannot read the
+ * inbox. No third-party email service is involved and nothing is billed.
  *
- * Sending is from a subdomain onboarded to Email Sending, NOT from
- * groundworkdental.com itself. The apex already publishes Google Workspace's
- * SPF, and a domain may carry only one SPF record — a second one is a
- * permerror that breaks authentication for all mail, including the real
- * mailbox. A dedicated sending subdomain keeps the two apart.
+ * The Worker never performs an OAuth redirect. It exchanges a long-lived
+ * refresh token for a short-lived access token, server to server, on each
+ * send. The refresh token is stable because the OAuth app is Internal to the
+ * Workspace org — an External app in Testing expires refresh tokens after
+ * seven days, which would stop notifications silently every week.
+ *
+ * Failure is logged and swallowed. A lead is already committed to D1 by the
+ * time this runs, and a notification problem must never turn a captured lead
+ * into an error page for the visitor.
  */
 async function notify(
   lead: { name: string; email: string; website: string; comment: string },
@@ -97,69 +98,75 @@ async function notify(
 ): Promise<void> {
   const env = (locals as { runtime?: { env?: Record<string, unknown> } })?.runtime?.env ?? {};
 
+  const clientId = String(env.GMAIL_CLIENT_ID || '');
+  const clientSecret = String(env.GMAIL_CLIENT_SECRET || '');
+  const refreshToken = String(env.GMAIL_REFRESH_TOKEN || '');
   const to = String(env.LEAD_NOTIFY_TO || 'hello@groundworkdental.com');
-  const from = String(env.LEAD_NOTIFY_FROM || '');
-  const subject = `New lead: ${lead.name}`;
+  const from = String(env.LEAD_NOTIFY_FROM || 'garrett@groundworkdental.com');
 
-  const text = [
-    `Name:    ${lead.name}`,
-    `Email:   ${lead.email}`,
-    `Website: ${lead.website || '(none given)'}`,
-    '',
-    lead.comment || '(no message)',
-  ].join('\n');
-
-  // Replying to the notification should reach the prospect, not us.
-  const replyTo = lead.email;
-
-  if (!from) {
-    console.error('[contact] LEAD_NOTIFY_FROM unset — no notification sent for', lead.email);
+  if (!clientId || !clientSecret || !refreshToken) {
+    console.error('[contact] Gmail credentials missing — no notification sent for', lead.email);
     return;
   }
 
   try {
-    const binding = env.EMAIL as { send?: (msg: unknown) => Promise<unknown> } | undefined;
-    if (binding?.send) {
-      await binding.send({
-        to,
-        from: { email: from, name: 'Groundwork Dental' },
-        replyTo,
-        subject,
-        text,
-      });
+    const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        client_id: clientId,
+        client_secret: clientSecret,
+        refresh_token: refreshToken,
+        grant_type: 'refresh_token',
+      }),
+    });
+    const token = (await tokenRes.json()) as { access_token?: string };
+    if (!token.access_token) {
+      console.error('[contact] token refresh failed:', tokenRes.status);
       return;
     }
 
-    const accountId = String(env.CLOUDFLARE_ACCOUNT_ID || '');
-    const token = String(env.EMAIL_API_TOKEN || '');
-    if (!accountId || !token) {
-      console.error('[contact] no EMAIL binding and no REST credentials — no notification sent');
-      return;
-    }
+    // Header values cannot contain CR or LF: a newline in a submitted name
+    // would otherwise let a visitor inject extra headers (Bcc, Reply-To) into
+    // the message we send — classic header injection.
+    const clean = (v: string) => v.replace(/[\r\n]+/g, ' ').trim();
 
-    const res = await fetch(
-      `https://api.cloudflare.com/client/v4/accounts/${accountId}/email/sending/send`,
+    const raw = [
+      `From: Groundwork Dental <${from}>`,
+      `To: ${to}`,
+      // Replying to the notification reaches the prospect, not ourselves.
+      `Reply-To: ${clean(lead.email)}`,
+      `Subject: New lead: ${clean(lead.name)}`,
+      'Content-Type: text/plain; charset=UTF-8',
+      '',
+      `Name:    ${lead.name}`,
+      `Email:   ${lead.email}`,
+      `Website: ${lead.website || '(none given)'}`,
+      '',
+      lead.comment || '(no message)',
+    ].join('\r\n');
+
+    // Gmail wants base64url of the RFC 822 message, unpadded.
+    const encoded = btoa(unescape(encodeURIComponent(raw)))
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=+$/, '');
+
+    const sendRes = await fetch(
+      'https://gmail.googleapis.com/gmail/v1/users/me/messages/send',
       {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token.access_token}`,
           'Content-Type': 'application/json',
         },
-        // REST uses `address` and snake_case where the binding uses `email`
-        // and camelCase. Mixing them is a silent 400.
-        body: JSON.stringify({
-          to: [{ address: to }],
-          from: { address: from, name: 'Groundwork Dental' },
-          reply_to: { address: replyTo },
-          subject,
-          text,
-        }),
+        body: JSON.stringify({ raw: encoded }),
       },
     );
-    if (!res.ok) {
-      console.error('[contact] email send failed:', res.status, (await res.text()).slice(0, 300));
+    if (!sendRes.ok) {
+      console.error('[contact] gmail send failed:', sendRes.status, (await sendRes.text()).slice(0, 300));
     }
   } catch (err) {
-    console.error('[contact] email send threw:', err);
+    console.error('[contact] notification threw:', err);
   }
 }
