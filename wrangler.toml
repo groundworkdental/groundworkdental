@@ -2,3 +2,17 @@ name = "groundworkdental"
 pages_build_output_dir = "dist"
 compatibility_date = "2026-03-10"
 compatibility_flags = ["nodejs_compat"]
+
+# Build-time values. This is the single source of truth for them.
+#
+# Cloudflare's build system reads [vars] from this file and IGNORES anything
+# set in the dashboard, so dashboard variables are not an option here. Local
+# builds do not read wrangler.toml at all, which is why `npm run build` goes
+# through scripts/build.mjs — it loads these into the environment first, so
+# both paths produce an identical site.
+#
+# The GA4 measurement id is not a secret: it ships in the page source of
+# every rendered page. Real secrets stay in the dashboard as encrypted
+# secrets and are read at runtime, never from here.
+[vars]
+PUBLIC_GA4_MEASUREMENT_ID = "G-K4JCTTW3YE"
