@@ -267,3 +267,114 @@ And with no `404.html` in the build, Cloudflare Pages serves `index.html` with a
 **200** for every unmatched route, so each typo becomes an indexable duplicate
 of the homepage. Nothing looks broken in a browser; check it with a deliberately
 bogus URL.
+
+---
+
+## 9. Content sourcing and compliance
+
+A practice hands over documents written for internal use — payor rosters, fee
+schedules, operations manuals — and asks for the content on the site. Two
+judgements have to happen before any of it is published.
+
+### Check the document's own restrictions
+
+Source documents often carry their own terms: "internal use only",
+"confidential", network-participation agreements with redistribution clauses.
+
+**Surface these to the client rather than silently complying or silently
+refusing.** Neither default is right. Quietly publishing exposes them to a
+contract or licensing problem they never agreed to take; quietly refusing
+removes a decision that is legitimately theirs. Quote the restriction, say
+plainly what the exposure is, and let them decide with the facts in hand.
+
+If they decide to proceed, note it in the project record. That is the point of
+asking.
+
+### Separate patient-facing content from internal operations
+
+Source documents mix the two freely, because internally there is no reason not
+to. A payor roster carries carrier and plan names a patient needs **and**
+fee-schedule logic, provider portal URLs, network-alias trivia and
+state-eligibility rules they do not.
+
+Publish only what the patient uses. Internal notes belong in office
+documentation. This is the same instinct as the HIPAA guardrails in §7 — the
+boundary just moves from patient data to the practice's own business data.
+Neither belongs on a public page by accident.
+
+### Re-read it as a patient once it is on the page
+
+Phrasing that is fine in an internal document is often bloated or confusing on
+a public one: parenthetical caveats, state lists, jargon, hedging. A "is this
+too much detail" pass after the content is placed is normal and worth doing
+before calling it final. Expect to cut.
+
+### Confirm the structure before building it
+
+When several content items arrive at once, do not assume one nav entry each.
+Map them to a grouping first — how many top-level entries, what becomes a
+sub-page — and confirm it. It is a cheap question that prevents both a bloated
+nav and a mis-scoped rebuild.
+
+Standalone topics with real search intent (insurance, a distinct service,
+pricing) generally earn their own top-level URL rather than a section inside a
+general page: better for ranking, and shareable as a link.
+
+---
+
+## 10. Working tree is not deployable
+
+**"Push" and "deploy" are different risk levels, and the difference has
+bitten us.**
+
+- `git push` ships **committed history**. Reviewed, attributable, revertible.
+- A deploy builds **whatever is physically on disk** — including uncommitted
+  edits nobody has reviewed, and including other people's if a checkout is
+  shared between collaborators or agent sessions.
+
+One client repo had 33 uncommitted files diverging from production, with the
+live site running an older design for weeks. The builder repo had 99. In that
+state every "small fix" is a choice between shipping someone's unfinished work
+and hand-picking files, and hand-picking is how a change goes out missing the
+file it depended on.
+
+**Rules**
+
+1. `git status` before any deploy. Every time.
+2. Unfamiliar uncommitted work is not yours to ship. Find out whose it is and
+   whether it is finished before bundling it.
+3. If you must ship narrowly, commit **only** the files your change needs, and
+   check that none of them depend on an uncommitted sibling. A page that
+   references CSS variables from an uncommitted stylesheet builds fine and
+   renders unstyled.
+4. Do not let a working tree diverge for weeks. Either ship it or branch it.
+
+`verify-launch.js` reports a dirty tree as an advisory — it cannot know whose
+work it is, which is exactly why a human has to look.
+
+---
+
+## 11. Process habits
+
+**Inactive code paths still ship.** The template carries several layout
+variants per section with one selected by config. The unselected ones do not
+render today, but they are one config change from rendering. When a ground or
+token changes, convert all of them in the same pass — otherwise it is a
+landmine for whoever flips a variant in six months.
+
+**Prefer one systemic fix to many local ones.** Recurring defects usually have
+a single generator. One config change fixed ~470 usages; one CTA refactor
+fixed every dead button on a site at once. When you find yourself fixing the
+third instance of something, stop and find the source.
+
+**Verify against computed values, not screenshots.** Screenshots catch layout.
+They do not catch a 4.47:1 contrast ratio, a token resolving to the wrong
+value, or a theme variable that looks right in the CSS and is baked at the
+wrong scope. Read `getComputedStyle` and assert on numbers; use screenshots for
+what numbers cannot see, like a white headshot on a black page.
+
+**Budget for asset rework when a ground changes.** Logos and cut-out
+photography carry their original background with them, and no amount of CSS
+fully hides it. Recrop from the original rather than from an already-processed
+output, match the crop convention of the set, and generate size variants at the
+same aspect ratio as their parent.
