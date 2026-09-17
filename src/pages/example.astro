@@ -75,39 +75,87 @@ const faqs = [
   </section>
 
   <!-- Before / After -->
-  <section class="py-10 bg-surface-2">
+  <section class="py-14 md:py-20 bg-white border-y border-border-light">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-10">
-        <h2 class="section-subheading mb-3">Before & After</h2>
+        <h2 class="section-subheading mb-3">Before &amp; After</h2>
         <p class="font-serif text-mid-gray max-w-xl mx-auto">Same practice. Same doctor. Different first impression.</p>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-        <div>
-          <p class="font-sans text-eyebrow uppercase text-mid-gray mb-3">Before</p>
-          <div class="rounded border border-border-light overflow-hidden">
-            <img
-              src="/images/screenshots/hb-before.png"
-              alt="Old HB Prosthodontics website — dark, dated design"
-              class="w-full block"
-              loading="lazy"
-            />
-          </div>
-          <p class="font-serif text-sm text-mid-gray mt-3">DIY WordPress template. 52 PageSpeed. No schema markup.</p>
+
+      <div class="relative grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 max-w-5xl mx-auto">
+        <!-- center divider + arrow -->
+        <div class="hidden md:block absolute inset-y-0 left-1/2 -translate-x-1/2 w-px bg-border-light" aria-hidden="true"></div>
+        <div
+          class="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-sage-dark text-white items-center justify-center shadow-md"
+          aria-hidden="true"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M4 12h15" />
+          </svg>
         </div>
+
+        <!-- BEFORE -->
         <div>
-          <p class="font-sans text-eyebrow uppercase text-sage-dark mb-3">After</p>
-          <div class="rounded border border-border-light overflow-hidden">
-            <img
-              src="/images/screenshots/hb-after.png"
-              alt="New hbimplants.com — modern, fast, custom design"
-              class="w-full block"
-              loading="lazy"
-            />
+          <div class="flex items-center gap-3 mb-4">
+            <span class="font-sans text-eyebrow uppercase tracking-wide text-mid-gray bg-surface-2 border border-border-light rounded-full px-3 py-1">Before</span>
+            <span class="font-serif text-sm text-mid-gray">Their old site</span>
           </div>
-          <p class="font-serif text-sm text-mid-gray mt-3">Custom design. 95+ PageSpeed. Built in 7 days. You own everything.</p>
+          <div class="rounded-lg border border-border-light overflow-hidden bg-white">
+            <div class="flex items-center gap-2 px-3 py-2 bg-surface-2 border-b border-border-light">
+              <span class="w-2.5 h-2.5 rounded-full bg-border-light"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-border-light"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-border-light"></span>
+              <span class="ml-2 font-sans text-[11px] text-mid-gray truncate">hbprosthodontics.com (old)</span>
+            </div>
+            <div class="relative h-[300px] md:h-[400px] overflow-hidden">
+              <img
+                src="/images/screenshots/hb-before.png"
+                alt="Old HB Prosthodontics website — dark, dated design"
+                class="w-full block grayscale-[35%] opacity-90"
+                loading="lazy"
+              />
+              <div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent"></div>
+            </div>
+          </div>
+          <ul class="mt-4 space-y-2 font-serif text-sm text-mid-gray">
+            <li class="flex items-start gap-2"><span class="mt-1.5 w-3 h-px bg-mid-gray/50 shrink-0"></span>DIY WordPress template</li>
+            <li class="flex items-start gap-2"><span class="mt-1.5 w-3 h-px bg-mid-gray/50 shrink-0"></span>52 PageSpeed</li>
+            <li class="flex items-start gap-2"><span class="mt-1.5 w-3 h-px bg-mid-gray/50 shrink-0"></span>No schema markup</li>
+          </ul>
+        </div>
+
+        <!-- AFTER -->
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="font-sans text-eyebrow uppercase tracking-wide text-white bg-sage-dark rounded-full px-3 py-1">After</span>
+            <span class="font-serif text-sm text-charcoal">What we built</span>
+          </div>
+          <div class="rounded-lg overflow-hidden bg-white ring-2 ring-sage-dark shadow-lg">
+            <div class="flex items-center gap-2 px-3 py-2 bg-sage-tint border-b border-sage/30">
+              <span class="w-2.5 h-2.5 rounded-full bg-sage/40"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-sage/40"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-sage/40"></span>
+              <span class="ml-2 font-sans text-[11px] text-sage-dark truncate">hbimplants.com</span>
+            </div>
+            <div class="relative h-[300px] md:h-[400px] overflow-hidden">
+              <img
+                src="/images/screenshots/hb-after.png"
+                alt="New hbimplants.com — modern, fast, custom design"
+                class="w-full block"
+                loading="lazy"
+              />
+              <div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent"></div>
+            </div>
+          </div>
+          <ul class="mt-4 space-y-2 font-serif text-sm text-charcoal">
+            <li class="flex items-start gap-2"><svg class="w-4 h-4 text-sage-dark shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg> Custom design</li>
+            <li class="flex items-start gap-2"><svg class="w-4 h-4 text-sage-dark shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg> 95+ PageSpeed</li>
+            <li class="flex items-start gap-2"><svg class="w-4 h-4 text-sage-dark shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg> Built in 7 days — you own everything</li>
+          </ul>
         </div>
       </div>
-      <div class="text-center mt-8">
+
+      <div class="text-center mt-10">
         <a
           href="https://hbimplants.com"
           target="_blank"
