@@ -116,7 +116,13 @@ const breadcrumbSchema = pathSegments.length > 0 ? {
         <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
         <script define:vars={{ ga4Id }}>
           window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
+          // Assigned to window deliberately. Astro wraps a define:vars script
+          // in an IIFE, so a bare `function gtag(){}` is trapped in that
+          // closure and window.gtag stays undefined. Page scripts are
+          // separate modules, so their `typeof gtag === 'function'` guard
+          // silently fails and their events never fire — which is exactly
+          // what happened to the two lead events on this site.
+          window.gtag = function gtag(){ window.dataLayer.push(arguments); };
           gtag('js', new Date());
           gtag('config', ga4Id);
 
