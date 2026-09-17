@@ -16,3 +16,15 @@ compatibility_flags = ["nodejs_compat"]
 # secrets and are read at runtime, never from here.
 [vars]
 PUBLIC_GA4_MEASUREMENT_ID = "G-K4JCTTW3YE"
+
+# D1 binding. This MUST live here, not only in the dashboard.
+#
+# Pages reads configuration from this file when it exists and ignores what the
+# dashboard has — the same rule that silently dropped a GA4 build variable.
+# The binding was added through the API, the project config showed it, and
+# every deployment still reported `d1: NONE`, so the contact endpoint fell
+# through its no-binding branch and dropped leads while returning success.
+[[d1_databases]]
+binding = "DB"
+database_name = "groundworkdental"
+database_id = "900117e6-aad0-4c36-a87f-b37381dea1f9"
