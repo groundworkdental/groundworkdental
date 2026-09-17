@@ -5,15 +5,21 @@ import { site } from '../config/site';
 
 <BaseLayout
   title="Get Started — Groundwork Dental"
-  description="Tell us about your practice and current website. We'll reach out to walk through what we'd build for you. No commitment required."
+  description="We build a real preview of your new dental website before you pay. See it first — if you want it, it's $2,000 flat. If not, you owe nothing."
 >
   <!-- Hero -->
   <section class="bg-surface-2">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
       <div class="max-w-2xl mx-auto text-center">
-        <h1 class="section-heading mb-6">Let's Talk About Your Practice.</h1>
+        <h1 class="section-heading mb-6">See Your New Website Before You Pay.</h1>
         <p class="font-serif text-xl text-mid-gray leading-relaxed">
-          Send us your practice info and current website. We'll reach out to walk through what we'd build for you.
+          Send your practice name and current site. We'll build a real preview — not a mockup —
+          and send you the link. If you want it, it's $2,000. If not, you owe nothing.
+        </p>
+        <p class="mt-5 font-serif text-base text-mid-gray">
+          <a href="/example" class="text-sage-dark underline underline-offset-4 hover:text-charcoal">
+            See an example of what we build
+          </a>
         </p>
       </div>
     </div>
@@ -66,7 +72,7 @@ import { site } from '../config/site';
 
         <div>
           <label for="comment" class="block font-sans text-xs uppercase tracking-widest text-mid-gray mb-2">
-            Anything else we should know? <span class="text-neutral-400">(optional)</span>
+            Anything else we should know? <span class="text-neutral-400">(optional — one line is fine)</span>
           </label>
           <textarea
             id="comment"
@@ -82,11 +88,19 @@ import { site } from '../config/site';
           id="submit-btn"
           class="w-full btn-primary py-3.5 text-center"
         >
-          Send My Info
+          Build My Free Preview
         </button>
 
         <p class="text-center font-serif text-sm text-mid-gray">
-          No commitment required. We'll reach out to discuss next steps.
+          No payment, no commitment. We build the preview first — you decide after you've seen it.
+        </p>
+
+        <p class="text-center font-serif text-sm text-mid-gray">
+          Not ready?
+          <a href="/checklist" class="text-sage-dark underline underline-offset-4 hover:text-charcoal">
+            Grab the free online presence checklist
+          </a>
+          instead.
         </p>
       </form>
 
@@ -97,9 +111,9 @@ import { site } from '../config/site';
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h2 class="font-serif text-2xl text-charcoal mb-4">Got it — we'll be in touch.</h2>
+        <h2 class="font-serif text-2xl text-charcoal mb-4">Got it — we'll start on your preview.</h2>
         <p class="font-serif text-mid-gray leading-relaxed mb-2">
-          We'll reach out shortly to talk through what we'd build for you.
+          We'll build your preview and send you the link. No payment until you've seen it.
         </p>
         <p class="font-serif text-sm text-mid-gray">
           In the meantime, take a look at our <a href="/example" class="text-sage-dark hover:text-sage-dark underline">example site</a>.
@@ -174,7 +188,7 @@ import { site } from '../config/site';
       console.error('Form submission failed:', err);
       errorDiv?.classList.remove('hidden');
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Send My Info';
+      submitBtn.textContent = 'Build My Free Preview';
     }
   });
 </script>
