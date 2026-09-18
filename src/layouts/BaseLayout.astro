@@ -220,13 +220,28 @@ const breadcrumbSchema = pathSegments.length > 0 ? {
     // We are alive, so the failsafe is not needed.
     clearTimeout((window as any).__revealFailsafe);
 
-    const els = document.querySelectorAll<HTMLElement>(
-      '.reveal:not([data-revealed]), .reveal-row:not([data-revealed])'
+    // Rows are revealed as a group by their container, not observed
+    // individually: a row that waits for its own scroll trigger AND THEN
+    // applies its stagger delay arrives long after the reader is looking at
+    // it. The group fires once and the stagger plays across the whole table.
+    const groups = document.querySelectorAll<HTMLElement>(
+      '[data-reveal-group]:not([data-revealed])'
     );
+    const singles = document.querySelectorAll<HTMLElement>(
+      '.reveal:not([data-revealed])'
+    );
+    const els = [...groups, ...singles];
     if (!els.length) return;
 
+    const revealNow = (el: HTMLElement) => {
+      el.dataset.revealed = '';
+      el.querySelectorAll<HTMLElement>('.reveal-row').forEach((row) => {
+        row.dataset.revealed = '';
+      });
+    };
+
     if (!('IntersectionObserver' in window)) {
-      els.forEach((el) => { el.dataset.revealed = ''; });
+      els.forEach(revealNow);
       return;
     }
 
@@ -234,13 +249,15 @@ const breadcrumbSchema = pathSegments.length > 0 ? {
       (entries) => {
         for (const entry of entries) {
           if (!entry.isIntersecting) continue;
-          (entry.target as HTMLElement).dataset.revealed = '';
+          revealNow(entry.target as HTMLElement);
           io.unobserve(entry.target);
         }
       },
-      // Start slightly before the band is fully in view, so it is settled by
-      // the time the reader's eye reaches it.
-      { rootMargin: '0px 0px -8% 0px', threshold: 0.01 }
+      // -28% pulls the trigger line up from the bottom of the viewport, so a
+      // band starts animating once its top is about 72% down the screen —
+      // properly in view. At -8% it fired as the band grazed the bottom edge
+      // and had finished before the reader got there.
+      { rootMargin: '0px 0px -28% 0px', threshold: 0 }
     );
 
     els.forEach((el) => io.observe(el));
