@@ -155,6 +155,17 @@
     @apply rounded p-6 md:p-8 border border-border-light bg-surface-1 text-left;
   }
 
+  /*
+   * Same job as .prose-card — left-aligned content inside a centred section —
+   * but with no outline. Reach for this when a section already has several
+   * bordered things in it and another box would just add noise. Pairs of
+   * these side by side still read as columns because their text edges line
+   * up, so they do not need a border to be legible as separate blocks.
+   */
+  .prose-plain {
+    @apply text-left;
+  }
+
   .card-hairline {
     @apply border-y border-border-light py-6;
   }

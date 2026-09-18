@@ -163,29 +163,39 @@ Stay on this ladder; reach for a new step only with a reason.
 
 ## Alignment
 
-**Centred is the default. The hero is the exception, and long prose goes in a card.**
+**Centred is the default. The hero is the exception, and prose is left-aligned inside it.**
 
-The system had no alignment rule before v2.1, which is why it drifted — two of
-ten homepage sections were centred with no pattern behind them.
+**The hero is left-aligned** — the first section on every page, the one carrying
+the `h1`. It is the only left-aligned *section*.
 
-**The hero is left-aligned.** First section of every page, the one carrying the
-`h1`. It is the only left-aligned section.
+**Every other section centres** its heading and its deck.
 
-**Every other section centres** its heading and its deck (the one-line
-paragraph under the heading).
+**Body text inside those sections stays left.** Centring several Georgia
+paragraphs is hard to read: ragged on both edges, and the eye loses the line
+start on every return. Ticked lists are worse — centring breaks the alignment
+between each marker and its line.
 
-**Long-form prose goes in a `.prose-card`,** which stays left-aligned inside a
-centred section. Centring several Georgia paragraphs is hard to read — ragged
-on both edges, and the eye loses the line start on every return. Reach for the
-card when a section runs past roughly two paragraphs, or a paragraph past ~200
-characters. Every `.prose-article` block is already carded this way.
+**Balance left-aligned content with a grid, not a single centred block.** One
+left-aligned block under a centred heading looks off-centre. Two or three of
+them side by side read as deliberate columns, and their outer edges square up
+under the heading. Prefer this to one wide block:
 
-Also left inside a card: ticked or bulleted lists, where centring breaks the
-alignment between each marker and its line.
+| Content | Treatment |
+|---|---|
+| A list of 4+ short items | Two columns (`sm:grid-cols-2`) |
+| 2–3 sibling paragraphs, each a separate point | One column each (`md:grid-cols-3`) |
+| One long article (a page's main body) | Single column, narrow measure, no grid |
 
-**Still centred without needing a card:** the CTA panel, comparison table
-cells, stat-tile numerals, icon/step tiles, button labels, and the form
-success confirmation.
+**Outlines are optional.** `.prose-card` (bordered, white) and `.prose-plain`
+(no border) do the same alignment job. Use the border only where the block
+needs separating from something adjacent. Default to `.prose-plain` when the
+section already contains bordered things, when the block is a full article, or
+when the page is starting to read as a stack of rectangles. A card inside a
+card is always wrong — the outer one already bounds the text.
+
+**Centred without needing any of this:** the CTA panel, comparison table cells,
+stat-tile numerals, icon/step tiles, button labels, and the form success
+confirmation.
 
 ---
 
