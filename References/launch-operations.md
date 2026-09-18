@@ -507,3 +507,72 @@ them.
 - **OpenSSL 3 refuses obsolete TLS client-side.** `-tls1_1` returning `no
   protocols available` is your own client declining, not the server refusing.
   Add `-cipher 'DEFAULT@SECLEVEL=0'` for a real answer.
+
+---
+
+## 14. Decommissioning a preview
+
+When a client goes live on their own infrastructure, the preview we built on
+has to be retired. **Order matters**, and getting it wrong leaves artefacts
+that are awkward to clear afterwards.
+
+### The sequence
+
+1. **Verify the client's site is actually serving.** Apex returns 200, `www`
+   301s to it, the deployed commit is the one you expect, and their DNS points
+   at *their* project. Everything below is irreversible; do not start until
+   this is true.
+
+2. **Confirm what is not in the repo made it across.** `wrangler.toml` carries
+   vars and bindings. Encrypted secrets do not, and neither does anything set
+   only in a dashboard. Check the new project has them — and that a *fresh
+   deployment* carries them, because on Pages configuration only reaches the
+   runtime through a build.
+
+3. **Remove the custom domain from the Pages project.** Cloudflare may enforce
+   this before it lets you delete anything, which is good: deleting a project
+   while it still holds a custom hostname orphans that hostname. The name then
+   keeps resolving to Cloudflare and returns 1016 with no project to detach it
+   from, and clearing it means recreating a throwaway project just to release
+   the name.
+
+4. **Delete the DNS record** for the preview subdomain.
+
+5. **Disconnect git from the old project.** Do this on its own and before
+   deleting. It stops duplicate builds immediately and is reversible;
+   deletion is not.
+
+6. **Wait for one successful deployment on the client's side**, then delete
+   the old project.
+
+### Why the preview cannot just be left running
+
+- The `*.pages.dev` and preview subdomain keep serving a copy of the client's
+  site, which Google can index — a duplicate competing with the domain we are
+  being paid to rank.
+- If git is still connected, both projects build on every push and the
+  dashboard stops telling you which one is live. Two projects sharing a name
+  across two accounts is how an afternoon gets lost.
+- Preview deployments are public by default, so client content stays reachable
+  from our account after handoff.
+
+### Two cautions
+
+**Deleting a Pages project is irreversible** — every deployment and its
+history goes with it. That is acceptable because the repository is the real
+artefact, but make sure the repo is transferred, or the client has their own
+copy, before deleting the deploy target.
+
+**Never delete while DNS still points at our project.** Check the CNAME first.
+If it still targets our `pages.dev`, deleting takes the client's live site
+down.
+
+### After it is gone
+
+Resolution takes a few minutes to settle. A preview hostname that briefly
+returns 530 or 1016 immediately after removal is the edge catching up, not a
+failure — confirm with an authoritative query rather than a browser:
+
+```bash
+dig +short @<zone-ns> preview.ourdomain.com     # empty once fully released
+```
