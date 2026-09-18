@@ -148,22 +148,21 @@
   /*
    * Scroll reveal.
    *
-   * Sections start 12px low and transparent, then settle as they enter. Kept
-   * deliberately small and quick — this should read as the page settling, not
-   * as an effect you notice.
+   * Hiding is keyed on [data-reveal-hidden], which a script sets ONLY on
+   * elements that start below the fold. That is the important part: the LCP
+   * element on the homepage is the big paragraph in the second section, and
+   * an earlier version hid it at first paint, pushing LCP from 95ms to
+   * ~600-870ms. Nothing in the initial viewport is ever hidden now.
    *
-   * The hiding rules are gated behind .js-reveal, which an inline script in
-   * <head> sets before first paint. Without JS, or under reduced motion, the
-   * class is never added and everything is simply visible. Nothing readable
-   * depends on a script running — which matters on a site that sells search
-   * visibility.
+   * It also means the marking script can run after first paint without
+   * causing a flash — you cannot see something flash if it is off-screen.
    */
-  .js-reveal .reveal {
+  [data-reveal-hidden] {
     opacity: 0;
     transform: translateY(12px);
   }
 
-  .js-reveal .reveal[data-revealed] {
+  [data-reveal-hidden][data-revealed] {
     opacity: 1;
     transform: none;
     transition:
@@ -171,13 +170,13 @@
       transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  /* Table rows, staggered by index. --reveal-delay is set per row. */
-  .js-reveal .reveal-row {
+  /* Rows are hidden by their group and revealed individually, staggered. */
+  [data-reveal-hidden] .reveal-row {
     opacity: 0;
     transform: translateY(8px);
   }
 
-  .js-reveal .reveal-row[data-revealed] {
+  .reveal-row[data-revealed] {
     opacity: 1;
     transform: none;
     transition:
@@ -191,8 +190,8 @@
    * would come out blank. Show everything.
    */
   @media print {
-    .js-reveal .reveal,
-    .js-reveal .reveal-row {
+    [data-reveal-hidden],
+    [data-reveal-hidden] .reveal-row {
       opacity: 1 !important;
       transform: none !important;
     }

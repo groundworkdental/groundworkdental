@@ -182,22 +182,6 @@ const breadcrumbSchema = pathSegments.length > 0 ? {
     )}
     <ClientRouter />
 
-    <script is:inline>
-      // Set before first paint, so revealed content is never painted visible
-      // and then hidden. Skipped entirely under reduced motion — those readers
-      // get the page with no hidden state at all, rather than an instant
-      // version of the animation.
-      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        document.documentElement.classList.add('js-reveal');
-        // Failsafe. This script hides content that a *separate* bundled script
-        // is responsible for revealing. If that script never runs — blocked,
-        // failed to load, threw — the page would stay blank forever. So drop
-        // the hiding class after 3s unless the observer cancels this first.
-        window.__revealFailsafe = window.setTimeout(function () {
-          document.documentElement.classList.remove('js-reveal');
-        }, 3000);
-      }
-    </script>
   </head>
   <body class="bg-white">
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-charcoal focus:text-white focus:text-sm focus:font-sans focus:rounded">Skip to content</a>
@@ -209,29 +193,33 @@ const breadcrumbSchema = pathSegments.length > 0 ? {
   
 <script>
   /**
-   * Reveals .reveal / .reveal-row once, as they enter the viewport.
+   * Scroll reveal.
    *
-   * One-shot on purpose: re-animating on the way back up turns a scroll into
-   * a flicker. Elements already in view when this runs simply animate
-   * immediately, which gives the page a settle on load.
+   * Only elements that start below the fold are hidden. The LCP element on
+   * the homepage lives in the second section, and hiding it at first paint
+   * cost ~500-780ms of LCP. Measuring first means the reveal can never touch
+   * whatever the browser is about to call LCP.
+   *
+   * Because only off-screen elements are hidden, this is safe to run after
+   * first paint and after a client-side navigation — nothing visible changes.
    */
-  function initReveal() {
-    if (!document.documentElement.classList.contains('js-reveal')) return;
-    // We are alive, so the failsafe is not needed.
-    clearTimeout((window as any).__revealFailsafe);
+  function markAndObserve() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    // Rows are revealed as a group by their container, not observed
-    // individually: a row that waits for its own scroll trigger AND THEN
-    // applies its stagger delay arrives long after the reader is looking at
-    // it. The group fires once and the stagger plays across the whole table.
-    const groups = document.querySelectorAll<HTMLElement>(
-      '[data-reveal-group]:not([data-revealed])'
+    const candidates = document.querySelectorAll<HTMLElement>(
+      '.reveal:not([data-revealed]), [data-reveal-group]:not([data-revealed])'
     );
-    const singles = document.querySelectorAll<HTMLElement>(
-      '.reveal:not([data-revealed])'
-    );
-    const els = [...groups, ...singles];
-    if (!els.length) return;
+    const hidden: HTMLElement[] = [];
+    const fold = window.innerHeight * 0.85;
+
+    candidates.forEach((el) => {
+      if (el.hasAttribute('data-reveal-hidden')) return;
+      if (el.getBoundingClientRect().top > fold) {
+        el.setAttribute('data-reveal-hidden', '');
+        hidden.push(el);
+      }
+    });
+    if (!hidden.length) return;
 
     const revealNow = (el: HTMLElement) => {
       el.dataset.revealed = '';
@@ -241,9 +229,13 @@ const breadcrumbSchema = pathSegments.length > 0 ? {
     };
 
     if (!('IntersectionObserver' in window)) {
-      els.forEach(revealNow);
+      hidden.forEach(revealNow);
       return;
     }
+
+    // Failsafe: if anything goes wrong below, un-hide rather than leave the
+    // page blank. Cleared as soon as the observer is wired up.
+    const failsafe = window.setTimeout(() => hidden.forEach(revealNow), 3000);
 
     const io = new IntersectionObserver(
       (entries) => {
@@ -253,29 +245,16 @@ const breadcrumbSchema = pathSegments.length > 0 ? {
           io.unobserve(entry.target);
         }
       },
-      // -28% pulls the trigger line up from the bottom of the viewport, so a
-      // band starts animating once its top is about 72% down the screen —
-      // properly in view. At -8% it fired as the band grazed the bottom edge
-      // and had finished before the reader got there.
+      // Fires when a band's top is ~72% down the screen — properly in view.
       { rootMargin: '0px 0px -28% 0px', threshold: 0 }
     );
 
-    els.forEach((el) => io.observe(el));
+    hidden.forEach((el) => io.observe(el));
+    clearTimeout(failsafe);
   }
 
-  initReveal();
-  document.addEventListener('astro:page-load', initReveal);
-
-  // The router swaps <html>'s attributes for the incoming document's, which
-  // never carries the runtime-added class — so without this the reveal
-  // silently stops working after the first client-side navigation. Setting it
-  // on the incoming document applies it before the new page paints, so there
-  // is no visible flash.
-  document.addEventListener('astro:before-swap', (e) => {
-    if (document.documentElement.classList.contains('js-reveal')) {
-      (e as any).newDocument.documentElement.classList.add('js-reveal');
-    }
-  });
+  markAndObserve();
+  document.addEventListener('astro:page-load', markAndObserve);
 </script>
 </body>
 </html>
