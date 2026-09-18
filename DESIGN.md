@@ -58,7 +58,7 @@ Every value appears **exactly once**. v1 had `#F8F8F3` under four names and `#33
 
 - `surface-1` (white) — default sections.
 - `surface-2` — every tinted moment: emphasis bands, specialty pages (`/dental-websites/*`), pricing, callouts. (This is what `bg-brand-cream` **and** `bg-surface-warm` meant.)
-- `charcoal` — reserved for the Ownership Guarantee section, the pricing "highlighted" tier, and the footer.
+- `charcoal` — reserved for the CTA panel, the pricing "highlighted" tier, and the footer. (It previously named the homepage's Ownership Guarantee band; that section was absorbed into "One price" and "How It Works" in v2.1.) Charcoal surfaces carry `.gradient-dark`.
 
 ### Text on dark (charcoal) surfaces
 
