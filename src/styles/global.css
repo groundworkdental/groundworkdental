@@ -145,6 +145,59 @@
     );
   }
 
+  /*
+   * Scroll reveal.
+   *
+   * Sections start 12px low and transparent, then settle as they enter. Kept
+   * deliberately small and quick — this should read as the page settling, not
+   * as an effect you notice.
+   *
+   * The hiding rules are gated behind .js-reveal, which an inline script in
+   * <head> sets before first paint. Without JS, or under reduced motion, the
+   * class is never added and everything is simply visible. Nothing readable
+   * depends on a script running — which matters on a site that sells search
+   * visibility.
+   */
+  .js-reveal .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  .js-reveal .reveal[data-revealed] {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 500ms ease-out,
+      transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Table rows, staggered by index. --reveal-delay is set per row. */
+  .js-reveal .reveal-row {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  .js-reveal .reveal-row[data-revealed] {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 400ms ease-out var(--reveal-delay, 0ms),
+      transform 400ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
+  }
+
+  /*
+   * Anything that renders the page without scrolling it — print, PDF export,
+   * a screenshot service — never fires the observer, so un-revealed sections
+   * would come out blank. Show everything.
+   */
+  @media print {
+    .js-reveal .reveal,
+    .js-reveal .reveal-row {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+
   .card {
     @apply rounded p-6 border bg-surface-2 border-border-light;
   }

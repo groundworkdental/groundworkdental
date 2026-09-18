@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -179,6 +180,24 @@ const breadcrumbSchema = pathSegments.length > 0 ? {
         </script>
       </>
     )}
+    <ClientRouter />
+
+    <script is:inline>
+      // Set before first paint, so revealed content is never painted visible
+      // and then hidden. Skipped entirely under reduced motion — those readers
+      // get the page with no hidden state at all, rather than an instant
+      // version of the animation.
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('js-reveal');
+        // Failsafe. This script hides content that a *separate* bundled script
+        // is responsible for revealing. If that script never runs — blocked,
+        // failed to load, threw — the page would stay blank forever. So drop
+        // the hiding class after 3s unless the observer cancels this first.
+        window.__revealFailsafe = window.setTimeout(function () {
+          document.documentElement.classList.remove('js-reveal');
+        }, 3000);
+      }
+    </script>
   </head>
   <body class="bg-white">
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-charcoal focus:text-white focus:text-sm focus:font-sans focus:rounded">Skip to content</a>
@@ -187,5 +206,59 @@ const breadcrumbSchema = pathSegments.length > 0 ? {
       <slot />
     </main>
     <Footer />
-  </body>
+  
+<script>
+  /**
+   * Reveals .reveal / .reveal-row once, as they enter the viewport.
+   *
+   * One-shot on purpose: re-animating on the way back up turns a scroll into
+   * a flicker. Elements already in view when this runs simply animate
+   * immediately, which gives the page a settle on load.
+   */
+  function initReveal() {
+    if (!document.documentElement.classList.contains('js-reveal')) return;
+    // We are alive, so the failsafe is not needed.
+    clearTimeout((window as any).__revealFailsafe);
+
+    const els = document.querySelectorAll<HTMLElement>(
+      '.reveal:not([data-revealed]), .reveal-row:not([data-revealed])'
+    );
+    if (!els.length) return;
+
+    if (!('IntersectionObserver' in window)) {
+      els.forEach((el) => { el.dataset.revealed = ''; });
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          (entry.target as HTMLElement).dataset.revealed = '';
+          io.unobserve(entry.target);
+        }
+      },
+      // Start slightly before the band is fully in view, so it is settled by
+      // the time the reader's eye reaches it.
+      { rootMargin: '0px 0px -8% 0px', threshold: 0.01 }
+    );
+
+    els.forEach((el) => io.observe(el));
+  }
+
+  initReveal();
+  document.addEventListener('astro:page-load', initReveal);
+
+  // The router swaps <html>'s attributes for the incoming document's, which
+  // never carries the runtime-added class — so without this the reveal
+  // silently stops working after the first client-side navigation. Setting it
+  // on the incoming document applies it before the new page paints, so there
+  // is no visible flash.
+  document.addEventListener('astro:before-swap', (e) => {
+    if (document.documentElement.classList.contains('js-reveal')) {
+      (e as any).newDocument.documentElement.classList.add('js-reveal');
+    }
+  });
+</script>
+</body>
 </html>
