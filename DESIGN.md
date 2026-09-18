@@ -58,7 +58,7 @@ Every value appears **exactly once**. v1 had `#F8F8F3` under four names and `#33
 
 - `surface-1` (white) — default sections.
 - `surface-2` — every tinted moment: emphasis bands, specialty pages (`/dental-websites/*`), pricing, callouts. (This is what `bg-brand-cream` **and** `bg-surface-warm` meant.)
-- `charcoal` — reserved for the Ownership Guarantee section, the pricing "highlighted" tier, and the footer.
+- `charcoal` — reserved for the CTA panel, the pricing "highlighted" tier, and the footer. (It previously named the homepage's Ownership Guarantee band; that section was absorbed into "One price" and "How It Works" in v2.1.) Charcoal surfaces carry `.gradient-dark`.
 
 ### Text on dark (charcoal) surfaces
 
@@ -158,6 +158,44 @@ Stay on this ladder; reach for a new step only with a reason.
 - **Section vertical padding:** `py-10` standard; `py-12`/`py-16` for emphasis.
 - **Sticky header** at `top-0 z-50`, solid white, hairline bottom rule.
 - **Grid** collapses to single column under 740px (`md:` / `lg:` breakpoints).
+
+---
+
+## Alignment
+
+**Centred is the default. The hero is the exception, and prose is left-aligned inside it.**
+
+**The hero is left-aligned** — the first section on every page, the one carrying
+the `h1`. It is the only left-aligned *section*.
+
+**Every other section centres** its heading and its deck.
+
+**Body text inside those sections stays left.** Centring several Georgia
+paragraphs is hard to read: ragged on both edges, and the eye loses the line
+start on every return. Ticked lists are worse — centring breaks the alignment
+between each marker and its line.
+
+**Balance left-aligned content with a grid, not a single centred block.** One
+left-aligned block under a centred heading looks off-centre. Two or three of
+them side by side read as deliberate columns, and their outer edges square up
+under the heading. Prefer this to one wide block:
+
+| Content | Treatment |
+|---|---|
+| A list of 4+ short items | Two columns (`sm:grid-cols-2`) |
+| 2–3 sibling paragraphs, each a separate point | One column each (`md:grid-cols-3`) |
+| One long article (a page's main body) | Single column, narrow measure, no grid |
+
+**Outlines are optional.** `.prose-card` (bordered, white) and `.prose-plain`
+(no border) do the same alignment job. Use the border only where the block
+needs separating from something adjacent. Default to `.prose-plain` when the
+section already contains bordered things, when the block is a full article, or
+when the page is starting to read as a stack of rectangles. A card inside a
+card is always wrong — the outer one already bounds the text.
+
+**Centred without needing any of this:** the CTA panel, comparison table cells,
+stat-tile numerals, icon/step tiles, button labels, and the form success
+confirmation.
 
 ---
 

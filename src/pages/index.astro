@@ -71,7 +71,7 @@ const howItWorksSteps = [
   },
   {
     title: 'You own it',
-    description: '30 days of included revisions after you pay. Domain, hosting, and code, all in your name. No lock-in.',
+    description: '30 days of included revisions after you pay. Domain, hosting, and code, all in your name. Walk away anytime — your site keeps running.',
   },
 ];
 
@@ -101,7 +101,7 @@ const includedFeatures = [
 >
   <!-- Hero -->
   <section class="relative isolate bg-surface-2 border-b border-border-light">
-    <GradientBackdrop scrim="left" />
+    <GradientBackdrop scrim="left" intensity={1.15} />
     <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
       <div class="max-w-3xl">
         <h1 class="font-serif text-5xl md:text-6xl font-normal leading-tight tracking-tight text-charcoal mb-6">
@@ -125,12 +125,17 @@ const includedFeatures = [
   <!-- Three Questions -->
   <section class="bg-white py-12 md:py-20 border-b border-border-light">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="max-w-3xl">
+      <div class="max-w-3xl mx-auto text-center">
         <p class="font-serif text-3xl md:text-4xl text-charcoal leading-snug mb-6">
           Not every dental practice needs a marketing agency. They just need the basics done right.
         </p>
-        <p class="font-serif text-mid-gray italic mb-5">If any of these sound familiar, you're in the right place.</p>
-        <ul class="space-y-3">
+        <p class="font-serif text-mid-gray italic mb-8">If any of these sound familiar, you're in the right place.</p>
+      </div>
+      <!-- Two columns rather than one centred block: the ticks need a left
+           edge to line up against, and a facing column balances it so the
+           section still reads as centred. No outline — the section already
+           sits between two bordered bands. -->
+      <ul class="max-w-4xl mx-auto grid gap-x-10 gap-y-3 sm:grid-cols-2 prose-plain">
           {[
             'Patients aren\'t finding your practice on Google or ChatGPT',
             'You\'re tired of paying monthly website fees',
@@ -144,18 +149,27 @@ const includedFeatures = [
               </svg>
               <span class="font-serif text-charcoal leading-snug">{item}</span>
             </li>
-          ))}
-        </ul>
+        ))}
+      </ul>
+
+      <div class="max-w-3xl mx-auto text-center mt-10">
+        <p class="font-serif text-mid-gray leading-relaxed mb-6">
+          None of that should cost $15,000 or a monthly subscription. And no one can promise you
+          rankings — what we promise is every technical signal Google publishes, done correctly.
+        </p>
+        <a href="/about" class="btn-secondary inline-block">
+          Why we built this
+        </a>
       </div>
     </div>
   </section>
 
   <!-- What You Get -->
   <section class="relative isolate bg-surface-2 py-12 md:py-20 border-b border-border-light">
-    <GradientBackdrop intensity={0.55} />
+    <GradientBackdrop intensity={0.68} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="max-w-3xl mx-auto text-center mb-10">
-        <h2 class="section-subheading">One price. Everything included.</h2>
+        <h2 class="section-subheading text-center">One price. Everything included.</h2>
       </div>
 
       <div class="max-w-5xl mx-auto">
@@ -165,7 +179,7 @@ const includedFeatures = [
               <p class="font-mono text-4xl md:text-5xl text-charcoal leading-none">$2,000</p>
               <p class="font-sans text-xs uppercase tracking-widest text-mid-gray mt-2 mb-2">One-time build</p>
               <p class="font-serif text-sm text-mid-gray leading-snug text-pretty">Ready in a week, not&nbsp;months.</p>
-              <p class="font-serif text-sm text-mid-gray leading-snug text-pretty mt-1">You own everything.</p>
+              <p class="font-serif text-sm text-mid-gray leading-snug text-pretty mt-1">You own the code, domain, hosting, and every Google&nbsp;account.</p>
             </div>
             <div class="text-center px-4 sm:px-8">
               <p class="font-mono text-4xl md:text-5xl text-charcoal leading-none">$0</p>
@@ -187,34 +201,13 @@ const includedFeatures = [
       </div>
 
       <div class="text-center">
+        <p class="font-serif text-sm text-mid-gray leading-relaxed max-w-xl mx-auto mb-6">
+          Managed hosting ($100/mo) is available. We don't recommend it — most practices don't
+          need it, and the self-hosted option is free.
+        </p>
         <a href="/pricing" class="btn-primary px-8 py-3.5">
           View Full Pricing
         </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Comparison Table -->
-  <section class="py-10">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <ComparisonTable rows={comparisonRows} heading="How We Compare" />
-    </div>
-  </section>
-
-  <!-- The Ownership Guarantee -->
-  <section class="py-10 bg-charcoal text-white">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="max-w-3xl">
-        <h2 class="font-serif text-3xl md:text-4xl font-normal mb-6">You own everything</h2>
-        <p class="font-serif text-lg text-on-dark leading-relaxed mb-4">
-          Domain, hosting, code, and every Google account. Yours from day one. Walk away anytime. Your site keeps running.
-        </p>
-        <p class="font-serif text-on-dark leading-relaxed mb-4">
-          That's how we charge $2,000 once, not a monthly retainer.
-        </p>
-        <p class="font-sans text-sm text-on-dark-muted leading-relaxed">
-          Managed hosting ($100/mo) is available, but we don't recommend it. Most practices don't need it. <a href="/pricing" class="text-on-dark hover:text-white transition-colors underline underline-offset-2">See pricing</a>
-        </p>
       </div>
     </div>
   </section>
@@ -254,37 +247,10 @@ const includedFeatures = [
     </div>
   </section>
 
-  <!-- Why This Exists -->
-  <section class="py-10 relative isolate bg-surface-2">
-    <GradientBackdrop intensity={0.55} />
+  <!-- Comparison Table -->
+  <section class="py-10">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="max-w-3xl">
-        <h2 class="section-subheading mb-4">Dentists Deserve Better Websites</h2>
-        <p class="font-serif text-mid-gray leading-relaxed mb-6">
-          You went to school to fix teeth, not to navigate hosting providers and SEO plugins. But somehow your online presence has become one more thing you're expected to figure out, or overpay someone else to handle. Most dentists don't need anything crazy. Just a professional site that actually shows up when someone searches for a dentist nearby. That shouldn't cost $15,000 or require a monthly subscription.
-        </p>
-        <a href="/about" class="btn-secondary inline-block">
-          Why we built this
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- What We Promise -->
-  <section class="py-10 border-t border-border-light">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="max-w-3xl">
-        <h2 class="section-subheading mb-4">We're not trying to game Google. We're building what Google is looking for.</h2>
-        <p class="font-serif text-mid-gray leading-relaxed mb-4">
-          Most dental marketing agencies promise guaranteed first-page rankings and more patients in your chair. Ask how, and the answer is usually paid ads: clicks that cost you every month, and vanish the day you stop paying. That's not SEO. That's renting visibility you'll never own.
-        </p>
-        <p class="font-serif text-mid-gray leading-relaxed mb-4">
-          Nobody can guarantee how Google ranks your site. Not us, not a $500/month agency. What we promise is simpler and more durable: every technical signal Google publishes, done correctly. Fast load. Verified GBP. Valid structured data. Clear service pages. Google and AI agents check for these things — we make sure yours pass.
-        </p>
-        <p class="font-serif text-mid-gray leading-relaxed">
-          If you ever want to run Google Ads or Meta campaigns, this is the foundation those need to work. Paid traffic sent to a slow, misconfigured site just burns faster. But many practices with a solid foundation never feel the need to run ads at all — and do just fine.
-        </p>
-      </div>
+      <ComparisonTable rows={comparisonRows} heading="How We Compare" />
     </div>
   </section>
 

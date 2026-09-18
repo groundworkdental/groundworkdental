@@ -41,3 +41,6 @@ public/checklist/
 # can't silently break the migration.
 public/audits/
 public/pitch/
+
+# Playwright MCP scratch output (screenshots, snapshots)
+.playwright-mcp/

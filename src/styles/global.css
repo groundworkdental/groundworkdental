@@ -115,8 +115,64 @@
     @apply font-semibold;
   }
 
+
+  /*
+   * Static field for charcoal surfaces — the dark counterpart to
+   * GradientBackdrop, without the WebGL cost.
+   *
+   * One hue family, varying only depth. Earlier passes mixed a second hue
+   * into the charcoal (first sage, then a warm cream tone) and both read as
+   * mud: a saturated colour against dark blue at nearly the same lightness
+   * has no contrast to resolve into, so it just looks like a stain. Corner
+   * radials made it worse by concentrating that into a visible blob.
+   *
+   * So: a single broad diagonal wash from charcoal down to #283340, with the
+   * warmth carried as a very slight hue drift in the deepest corner (#2C3238)
+   * rather than as its own colour. Everything is at or below charcoal's
+   * Nothing here is lighter than charcoal itself. on-dark-muted sits at only
+   * 4.94:1 on charcoal, so a lift at the top end would cost contrast the
+   * footer cannot spare; deepening is free. Stops hold 4.94 / 5.12 / 5.76 /
+   * 6.18:1.
+   */
+  .gradient-dark {
+    background-color: #334155;
+    background-image: linear-gradient(
+      152deg,
+      #334155 0%,
+      #303D4E 34%,
+      #2B3747 72%,
+      #2C3238 100%
+    );
+  }
+
   .card {
     @apply rounded p-6 border bg-surface-2 border-border-light;
+  }
+
+  /*
+   * Long-form prose inside an otherwise centred section.
+   *
+   * Sections centre their heading and deck, but centring several Georgia
+   * paragraphs is genuinely hard to read — ragged on both edges, and the eye
+   * loses the line start on every return. The card keeps that text left and
+   * bounded while the section around it stays centred.
+   *
+   * White rather than surface-2, so it still reads as a panel on the tinted
+   * bands the gradient runs behind.
+   */
+  .prose-card {
+    @apply rounded p-6 md:p-8 border border-border-light bg-surface-1 text-left;
+  }
+
+  /*
+   * Same job as .prose-card — left-aligned content inside a centred section —
+   * but with no outline. Reach for this when a section already has several
+   * bordered things in it and another box would just add noise. Pairs of
+   * these side by side still read as columns because their text edges line
+   * up, so they do not need a border to be legible as separate blocks.
+   */
+  .prose-plain {
+    @apply text-left;
   }
 
   .card-hairline {
