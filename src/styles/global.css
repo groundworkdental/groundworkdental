@@ -115,6 +115,27 @@
     @apply font-semibold;
   }
 
+
+  /*
+   * Static field for charcoal surfaces — the dark counterpart to
+   * GradientBackdrop, without the WebGL cost, since these sections are
+   * mostly footer and CTA furniture.
+   *
+   * It only ever moves DARKER or sideways into sage. on-dark-muted is just
+   * 4.94:1 on charcoal, so even a slightly lighter tone drops it under AA;
+   * #2F4A44 and #293546 both hold >=4.59:1.
+   *
+   * Stops fade to a zero-alpha copy of their own colour rather than
+   * `transparent`, which interpolates through transparent black and greys
+   * the midpoint out.
+   */
+  .gradient-dark {
+    background-color: #334155;
+    background-image:
+      radial-gradient(75% 110% at 12% 0%, #2F4A44 0%, rgba(47, 74, 68, 0) 58%),
+      radial-gradient(65% 100% at 88% 100%, #293546 0%, rgba(41, 53, 70, 0) 62%);
+  }
+
   .card {
     @apply rounded p-6 border bg-surface-2 border-border-light;
   }

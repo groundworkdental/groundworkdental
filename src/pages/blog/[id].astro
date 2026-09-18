@@ -51,7 +51,7 @@ const blogPostingSchema = {
   <article>
     <!-- Header -->
     <section class="relative isolate bg-surface-2">
-    <GradientBackdrop intensity={0.55} />
+    <GradientBackdrop intensity={0.68} />
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
         <p class="eyebrow text-sage-dark mb-4">
           {post.data.category.replace(/-/g, ' ')}
@@ -86,7 +86,7 @@ const blogPostingSchema = {
     <!-- FAQ (if present) -->
     {post.data.faqs && post.data.faqs.length > 0 && (
       <section class="py-16 relative isolate bg-surface-2">
-    <GradientBackdrop intensity={0.55} />
+    <GradientBackdrop intensity={0.68} />
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <FAQBlock faqs={post.data.faqs} />
         </div>

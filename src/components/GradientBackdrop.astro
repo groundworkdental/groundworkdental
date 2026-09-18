@@ -124,7 +124,7 @@ const { intensity = 1, scrim = 'none', class: className = '' } = Astro.props;
     vec2 uv = gl_FragCoord.xy / uRes;
     uv.x *= uRes.x / uRes.y;
 
-    float t = uTime * 0.06;
+    float t = uTime * 0.08;
     vec2 warp = vec2(fbm(uv * 1.4 + t), fbm(uv * 1.4 - t + 8.3));
     float n = fbm(uv * 1.1 + warp * 0.85);
     // fbm's weights sum to 0.9 and value noise rarely reaches its extremes,
@@ -187,6 +187,10 @@ const { intensity = 1, scrim = 'none', class: className = '' } = Astro.props;
       canvas.height = h;
       gl.viewport(0, 0, w, h);
       gl.uniform2f(uRes, w, h);
+      // Resizing resets the drawing buffer to transparent black, which an
+      // alpha:false canvas composites as solid black. Re-clear to the surface
+      // colour so the band never flashes black before the first frame.
+      gl.clear(gl.COLOR_BUFFER_BIT);
     };
 
     const acquire = () => {
@@ -221,12 +225,11 @@ const { intensity = 1, scrim = 'none', class: className = '' } = Astro.props;
       uTime = ctx.getUniformLocation(prog, 'uTime');
       ctx.uniform1f(ctx.getUniformLocation(prog, 'uIntensity'), intensity);
 
-      // So a sized-but-not-yet-drawing canvas reads as the surface colour
-      // rather than the default black.
+      // Every clear from here on lands on the surface colour, not black.
       ctx.clearColor(0.973, 0.973, 0.953, 1.0);
-      ctx.clear(ctx.COLOR_BUFFER_BIT);
 
-      canvas.width = 0; // force sizeTo to run
+      canvas.style.visibility = '';
+      canvas.width = 0; // force sizeTo to run, which clears
       sizeTo();
       canvas.dataset.ready = '';
       return true;
@@ -236,6 +239,9 @@ const { intensity = 1, scrim = 'none', class: className = '' } = Astro.props;
       if (!gl) return;
       cancelAnimationFrame(raf);
       running = false;
+      // Hide first. A lost context paints black too, and the opacity
+      // transition would fade through it rather than cutting away.
+      canvas.style.visibility = 'hidden';
       delete canvas.dataset.ready;
       gl.getExtension('WEBGL_lose_context')?.loseContext();
       gl = null;
