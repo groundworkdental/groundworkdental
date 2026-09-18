@@ -148,29 +148,30 @@
   /*
    * Scroll reveal.
    *
-   * Hiding is keyed on [data-reveal-hidden], which a script sets ONLY on
-   * elements that start below the fold. That is the important part: the LCP
-   * element on the homepage is the big paragraph in the second section, and
-   * an earlier version hid it at first paint, pushing LCP from 95ms to
-   * ~600-870ms. Nothing in the initial viewport is ever hidden now.
+   * Components animate, never sections. Hiding a whole <section> takes its
+   * background with it, so a tinted band fades up from white and the page
+   * shows a blank gap while you scroll toward it. Marking the heading, the
+   * deck, each card and the buttons instead means the band is always painted
+   * and its contents arrive independently.
    *
-   * It also means the marking script can run after first paint without
-   * causing a flash — you cannot see something flash if it is off-screen.
+   * [data-reveal-hidden] is only ever set on elements that start below the
+   * fold — the homepage's LCP element sits in the second section, and hiding
+   * it at first paint cost ~500-780ms of LCP.
    */
   [data-reveal-hidden] {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(10px);
   }
 
   [data-reveal-hidden][data-revealed] {
     opacity: 1;
     transform: none;
     transition:
-      opacity 500ms ease-out,
-      transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+      opacity 450ms ease-out var(--reveal-delay, 0ms),
+      transform 450ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
   }
 
-  /* Rows are hidden by their group and revealed individually, staggered. */
+  /* Table rows are hidden by their group and revealed together, staggered. */
   [data-reveal-hidden] .reveal-row {
     opacity: 0;
     transform: translateY(8px);

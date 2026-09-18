@@ -193,32 +193,58 @@ const breadcrumbSchema = pathSegments.length > 0 ? {
   
 <script>
   /**
-   * Scroll reveal.
+   * Scroll reveal — component level.
    *
-   * Only elements that start below the fold are hidden. The LCP element on
-   * the homepage lives in the second section, and hiding it at first paint
-   * cost ~500-780ms of LCP. Measuring first means the reveal can never touch
-   * whatever the browser is about to call LCP.
+   * A .reveal section is a marker meaning "animate my contents", not "animate
+   * me". Hiding the section itself would fade its background in and leave a
+   * blank band while the reader scrolls toward it.
    *
-   * Because only off-screen elements are hidden, this is safe to run after
-   * first paint and after a client-side navigation — nothing visible changes.
+   * Only elements starting below the fold are hidden, so nothing the reader
+   * can already see is ever touched — which is what keeps LCP off this code
+   * path, and what makes it safe to run after first paint.
    */
+
+  // The things worth animating on their own: a heading, a paragraph, a card,
+  // a button, a grid cell. Deliberately not wrappers or layout divs.
+  const COMPONENTS = [
+    'h1', 'h2', 'h3', 'p', 'ul', 'ol', 'table', 'form', 'img', 'blockquote',
+    '.card', '.prose-card', '.btn-primary', '.btn-secondary', '.btn-dark',
+    "[class*='grid'] > *",
+  ].join(',');
+
+  function componentsIn(section: Element): HTMLElement[] {
+    const found = [...section.querySelectorAll<HTMLElement>(COMPONENTS)];
+    const set = new Set(found);
+    // Keep only the outermost match, so a <p> inside an animating card does
+    // not animate separately from the card.
+    return found.filter((el) => {
+      for (let p = el.parentElement; p && p !== section; p = p.parentElement) {
+        if (set.has(p)) return false;
+      }
+      return true;
+    });
+  }
+
   function markAndObserve() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    const candidates = document.querySelectorAll<HTMLElement>(
-      '.reveal:not([data-revealed]), [data-reveal-group]:not([data-revealed])'
-    );
-    const hidden: HTMLElement[] = [];
     const fold = window.innerHeight * 0.85;
+    const hidden: HTMLElement[] = [];
 
-    candidates.forEach((el) => {
-      if (el.hasAttribute('data-reveal-hidden')) return;
-      if (el.getBoundingClientRect().top > fold) {
-        el.setAttribute('data-reveal-hidden', '');
-        hidden.push(el);
-      }
+    const consider = (el: HTMLElement, delayIndex: number) => {
+      if (el.hasAttribute('data-reveal-hidden') || el.hasAttribute('data-revealed')) return;
+      if (el.getBoundingClientRect().top <= fold) return; // visible already — leave alone
+      el.setAttribute('data-reveal-hidden', '');
+      // Only matters for components that enter together, e.g. a row of cards.
+      if (delayIndex) el.style.setProperty('--reveal-delay', Math.min(delayIndex, 4) * 70 + 'ms');
+      hidden.push(el);
+    };
+
+    document.querySelectorAll<HTMLElement>('.reveal').forEach((section) => {
+      componentsIn(section).forEach((el, i) => consider(el, i));
     });
+    document.querySelectorAll<HTMLElement>('[data-reveal-group]').forEach((g) => consider(g, 0));
+
     if (!hidden.length) return;
 
     const revealNow = (el: HTMLElement) => {
@@ -233,8 +259,7 @@ const breadcrumbSchema = pathSegments.length > 0 ? {
       return;
     }
 
-    // Failsafe: if anything goes wrong below, un-hide rather than leave the
-    // page blank. Cleared as soon as the observer is wired up.
+    // If anything below throws, un-hide rather than leave content invisible.
     const failsafe = window.setTimeout(() => hidden.forEach(revealNow), 3000);
 
     const io = new IntersectionObserver(
@@ -245,8 +270,10 @@ const breadcrumbSchema = pathSegments.length > 0 ? {
           io.unobserve(entry.target);
         }
       },
-      // Fires when a band's top is ~72% down the screen — properly in view.
-      { rootMargin: '0px 0px -28% 0px', threshold: 0 }
+      // Fires once the element's top is ~78% down the screen. Tighter than the
+      // section-level version was, because a single component is much shorter
+      // than a band and would otherwise animate well before it is looked at.
+      { rootMargin: '0px 0px -22% 0px', threshold: 0 }
     );
 
     hidden.forEach((el) => io.observe(el));
