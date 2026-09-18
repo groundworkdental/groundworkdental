@@ -125,12 +125,14 @@ const includedFeatures = [
   <!-- Three Questions -->
   <section class="bg-white py-12 md:py-20 border-b border-border-light">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="max-w-3xl">
+      <div class="max-w-3xl mx-auto text-center">
         <p class="font-serif text-3xl md:text-4xl text-charcoal leading-snug mb-6">
           Not every dental practice needs a marketing agency. They just need the basics done right.
         </p>
         <p class="font-serif text-mid-gray italic mb-5">If any of these sound familiar, you're in the right place.</p>
-        <ul class="space-y-3">
+        <!-- Ticked list stays left inside a card: centring icon-bulleted rows
+             breaks the alignment between each tick and its line. -->
+        <ul class="prose-card inline-block space-y-3">
           {[
             'Patients aren\'t finding your practice on Google or ChatGPT',
             'You\'re tired of paying monthly website fees',
@@ -155,7 +157,7 @@ const includedFeatures = [
     <GradientBackdrop intensity={0.68} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="max-w-3xl mx-auto text-center mb-10">
-        <h2 class="section-subheading">One price. Everything included.</h2>
+        <h2 class="section-subheading text-center">One price. Everything included.</h2>
       </div>
 
       <div class="max-w-5xl mx-auto">
@@ -204,9 +206,9 @@ const includedFeatures = [
   <!-- The Ownership Guarantee -->
   <section class="py-10 gradient-dark text-white">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="max-w-3xl">
-        <h2 class="font-serif text-3xl md:text-4xl font-normal mb-6">You own everything</h2>
-        <p class="font-serif text-lg text-on-dark leading-relaxed mb-4">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="font-serif text-3xl md:text-4xl font-normal mb-6 text-center">You own everything</h2>
+        <p class="font-serif text-lg text-on-dark leading-relaxed mb-4 text-center">
           Domain, hosting, code, and every Google account. Yours from day one. Walk away anytime. Your site keeps running.
         </p>
         <p class="font-serif text-on-dark leading-relaxed mb-4">
@@ -258,9 +260,9 @@ const includedFeatures = [
   <section class="py-10 relative isolate bg-surface-2">
     <GradientBackdrop intensity={0.68} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="max-w-3xl">
-        <h2 class="section-subheading mb-4">Dentists Deserve Better Websites</h2>
-        <p class="font-serif text-mid-gray leading-relaxed mb-6">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="section-subheading mb-6 text-center">Dentists Deserve Better Websites</h2>
+        <p class="prose-card font-serif text-mid-gray leading-relaxed mb-6">
           You went to school to fix teeth, not to navigate hosting providers and SEO plugins. But somehow your online presence has become one more thing you're expected to figure out, or overpay someone else to handle. Most dentists don't need anything crazy. Just a professional site that actually shows up when someone searches for a dentist nearby. That shouldn't cost $15,000 or require a monthly subscription.
         </p>
         <a href="/about" class="btn-secondary inline-block">
@@ -273,8 +275,9 @@ const includedFeatures = [
   <!-- What We Promise -->
   <section class="py-10 border-t border-border-light">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="max-w-3xl">
-        <h2 class="section-subheading mb-4">We're not trying to game Google. We're building what Google is looking for.</h2>
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="section-subheading mb-6 text-center">We're not trying to game Google. We're building what Google is looking for.</h2>
+        <div class="prose-card">
         <p class="font-serif text-mid-gray leading-relaxed mb-4">
           Most dental marketing agencies promise guaranteed first-page rankings and more patients in your chair. Ask how, and the answer is usually paid ads: clicks that cost you every month, and vanish the day you stop paying. That's not SEO. That's renting visibility you'll never own.
         </p>
@@ -284,6 +287,7 @@ const includedFeatures = [
         <p class="font-serif text-mid-gray leading-relaxed">
           If you ever want to run Google Ads or Meta campaigns, this is the foundation those need to work. Paid traffic sent to a slow, misconfigured site just burns faster. But many practices with a solid foundation never feel the need to run ads at all — and do just fine.
         </p>
+        </div>
       </div>
     </div>
   </section>

@@ -57,10 +57,10 @@ const specialties = [
             href={s.href}
             class="card group hover:border-sage transition-colors duration-200 no-underline"
           >
-            <h2 class="font-serif text-charcoal text-xl mb-2 group-hover:text-sage-dark transition-colors duration-200">
+            <h2 class="font-serif text-charcoal text-xl mb-2 group-hover:text-sage-dark transition-colors duration-200 text-center">
               {s.name}
             </h2>
-            <p class="font-serif text-mid-gray text-sm leading-relaxed mb-4">{s.tagline}</p>
+            <p class="font-serif text-mid-gray text-sm leading-relaxed mb-4 text-center">{s.tagline}</p>
             <p class="font-mono text-xs text-mid-gray">{s.signal}</p>
             <p class="font-sans text-sm text-sage-dark font-medium mt-4">
               See what we build &rarr;
@@ -75,8 +75,8 @@ const specialties = [
   <section class="py-10 relative isolate bg-surface-2">
     <GradientBackdrop intensity={0.68} />
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="section-subheading mb-8">Why Specialty-Specific Matters</h2>
-      <div class="prose-article text-lg">
+      <h2 class="section-subheading mb-8 text-center">Why Specialty-Specific Matters</h2>
+      <div class="prose-card prose-article text-lg">
         <p>
           Generic dental templates treat every practice the same — same page structure, same copy patterns, same service descriptions slightly reworded. It's efficient for the agency. It's not good for you.
         </p>
@@ -93,8 +93,8 @@ const specialties = [
   <!-- What's the same -->
   <section class="py-10">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="section-subheading mb-2">Same Price. Same Ownership. Every Specialty.</h2>
-      <p class="font-serif text-mid-gray mb-8">Regardless of specialty, the deal is the same:</p>
+      <h2 class="section-subheading mb-2 text-center">Same Price. Same Ownership. Every Specialty.</h2>
+      <p class="font-serif text-mid-gray mb-8 text-center">Regardless of specialty, the deal is the same:</p>
       <div class="space-y-3 text-sm">
         {[
           ['$2,000 flat', 'One-time. No setup fee, no monthly retainer.'],

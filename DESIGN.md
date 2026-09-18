@@ -161,6 +161,34 @@ Stay on this ladder; reach for a new step only with a reason.
 
 ---
 
+## Alignment
+
+**Centred is the default. The hero is the exception, and long prose goes in a card.**
+
+The system had no alignment rule before v2.1, which is why it drifted — two of
+ten homepage sections were centred with no pattern behind them.
+
+**The hero is left-aligned.** First section of every page, the one carrying the
+`h1`. It is the only left-aligned section.
+
+**Every other section centres** its heading and its deck (the one-line
+paragraph under the heading).
+
+**Long-form prose goes in a `.prose-card`,** which stays left-aligned inside a
+centred section. Centring several Georgia paragraphs is hard to read — ragged
+on both edges, and the eye loses the line start on every return. Reach for the
+card when a section runs past roughly two paragraphs, or a paragraph past ~200
+characters. Every `.prose-article` block is already carded this way.
+
+Also left inside a card: ticked or bulleted lists, where centring breaks the
+alignment between each marker and its line.
+
+**Still centred without needing a card:** the CTA panel, comparison table
+cells, stat-tile numerals, icon/step tiles, button labels, and the form
+success confirmation.
+
+---
+
 ## Components — primitives
 
 ### Buttons

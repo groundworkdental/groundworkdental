@@ -140,6 +140,21 @@
     @apply rounded p-6 border bg-surface-2 border-border-light;
   }
 
+  /*
+   * Long-form prose inside an otherwise centred section.
+   *
+   * Sections centre their heading and deck, but centring several Georgia
+   * paragraphs is genuinely hard to read — ragged on both edges, and the eye
+   * loses the line start on every return. The card keeps that text left and
+   * bounded while the section around it stays centred.
+   *
+   * White rather than surface-2, so it still reads as a panel on the tinted
+   * bands the gradient runs behind.
+   */
+  .prose-card {
+    @apply rounded p-6 md:p-8 border border-border-light bg-surface-1 text-left;
+  }
+
   .card-hairline {
     @apply border-y border-border-light py-6;
   }
