@@ -1,6 +1,6 @@
 ---
 title: "7 Signs Your Dental Website Is Costing You Patients"
-description: "Your dental website might look fine — but looking fine and performing well are different things. Here are seven specific signs your website is actively losing you patients, and what to do about each one."
+description: "Your dental website might look fine. But looking fine and performing well are different things. Here are seven specific signs your website is actively losing you patients, and what to do about each one."
 publishDate: 2026-02-26
 targetKeyword: "dental website not getting patients"
 category: dental-websites
@@ -9,11 +9,11 @@ author: Groundwork
 draft: false
 faqs:
   - question: "How do I know if my dental website is losing patients?"
-    answer: "Check three things: your Google PageSpeed score (below 70 is a problem), whether your site has structured data (most don't), and your bounce rate in Google Analytics (above 60% on mobile means visitors are leaving fast). If your site is slow, doesn't tell Google what you do, and visitors leave quickly — it's actively costing you."
+    answer: "Check three things: your Google PageSpeed score (below 70 is a problem), whether your site has structured data (most don't), and your bounce rate in Google Analytics (above 60% on mobile means visitors are leaving fast). If your site is slow, doesn't tell Google what you do, and visitors leave quickly. It's actively costing you."
   - question: "Does website speed really affect dental patient acquisition?"
     answer: "Yes. Google uses page speed as a ranking factor, and patients abandon slow sites. A dental website that loads in 5 seconds instead of 1 second can see 30-40% fewer page views. On mobile — where 70%+ of dental searches happen — speed matters even more."
   - question: "What is structured data and why does my dental website need it?"
-    answer: "Structured data (schema markup) is code that tells Google exactly what your practice offers, where you're located, your hours, your doctors' credentials, and what procedures you perform. Without it, Google has to guess — and it often guesses wrong or incomplete. It also powers rich results in search and feeds AI tools like ChatGPT and Google AI Overviews."
+    answer: "Structured data (schema markup) is code that tells Google exactly what your practice offers, where you're located, your hours, your doctors' credentials, and what procedures you perform. Without it, Google has to guess, and it often guesses wrong or incomplete. It also powers rich results in search and feeds AI tools like ChatGPT and Google AI Overviews."
   - question: "Should I redesign my dental website or just fix it?"
     answer: "It depends on the foundation. If your site is built on a modern platform and just needs speed optimization, better content, and schema markup — fix it. If it's a 2018 WordPress template on a slow host with generic content — rebuilding is faster and cheaper than trying to patch fundamental issues."
 ---
@@ -32,7 +32,7 @@ This is the single easiest thing to check and one of the most impactful problems
 
 **What it is:** Google PageSpeed Insights is a free tool that scores your website's loading performance on a 0-100 scale. It measures real-world user experience — how fast your site loads, how quickly it becomes interactive, and whether things shift around while loading.
 
-**How to check:** Go to [pagespeed.web.dev](https://pagespeed.web.dev), paste in your website URL, and hit Analyze. You'll get separate scores for mobile and desktop. Pay attention to the mobile score — that's the one Google uses for ranking.
+**How to check:** Go to [pagespeed.web.dev](https://pagespeed.web.dev), paste in your website URL, and hit Analyze. You'll get separate scores for mobile and desktop. Pay attention to the mobile score. That's the one Google uses for ranking.
 
 **Why it matters:** Page speed is a confirmed Google ranking factor. That means a slow site doesn't just frustrate visitors — it actively hurts your position in search results. A practice that ranks #3 for "dental implants in [your city]" might rank #7 or #8 with the same content and backlinks but a slower site. The difference between position 3 and position 8 in Google is enormous in terms of clicks.
 
@@ -77,7 +77,7 @@ This is the most technical item on this list, but we'll keep it straightforward 
 
 **What it is:** Structured data is a standardized format (code added to your website) that tells search engines exactly what your practice is, what you do, where you're located, and how to categorize your information. Think of it as filling out a detailed form for Google rather than making Google read your website and guess.
 
-Without structured data, Google has to parse your text, figure out that you're a dental practice (not a dental supply company or a dental school), determine what city you're in, understand what services you offer, find your hours, and piece together your doctors' credentials. Google is good at this, but it's not perfect — and when it guesses wrong, you lose visibility.
+Without structured data, Google has to parse your text, figure out that you're a dental practice (not a dental supply company or a dental school), determine what city you're in, understand what services you offer, find your hours, and piece together your doctors' credentials. Google is good at this, but it's not perfect, and when it guesses wrong, you lose visibility.
 
 With structured data, you're explicitly telling Google: "This is a dental practice. We're located at this address. Our hours are these. We offer these specific procedures. Our dentists have these credentials. Here are our reviews." No guessing required.
 
@@ -106,11 +106,11 @@ Or does it read like a Wikipedia summary of what dental implants are, followed b
 
 **Why it matters:** Google has spent years getting better at identifying thin and duplicate content. If your dental implant page reads almost identically to thousands of other dental implant pages across the country (because they all came from the same template library or content spinner), Google has no reason to rank your version over anyone else's. Why would it? Your page doesn't offer anything unique.
 
-Beyond Google, generic content fails with patients too. A potential patient reading your implant page is trying to figure out whether your practice is the right one for them. "Dental implants are a permanent tooth replacement solution" tells them nothing they don't already know. "Dr. Martinez places 200+ implants per year using guided surgery planning, and our practice offers sedation options for anxious patients" — that's a reason to choose you.
+Beyond Google, generic content fails with patients too. A potential patient reading your implant page is trying to figure out whether your practice is the right one for them. "Dental implants are a permanent tooth replacement solution" tells them nothing they don't already know. "Dr. Martinez places 200+ implants per year using guided surgery planning, and our practice offers sedation options for anxious patients". That's a reason to choose you.
 
 **What's usually wrong:** Most dental website companies use content libraries. They have pre-written descriptions for every dental procedure, and they swap in your practice name and maybe your city. The result is technically accurate content that's functionally useless for differentiation. Some agencies use AI to generate content but still produce the same generic result — just paraphrased differently.
 
-**The honest take:** Rewriting your service pages with original, practice-specific content is one of the most impactful improvements you can make. It helps with SEO, it helps convert visitors into patients, and it differentiates you from every other practice with template copy. This is fixable without rebuilding your site — you're just replacing the words on existing pages. The hard part is someone actually knowing your practice well enough to write content that reflects how you work.
+**The honest take:** Rewriting your service pages with original, practice-specific content is one of the most impactful improvements you can make. It helps with SEO, it helps convert visitors into patients, and it differentiates you from every other practice with template copy. This is fixable without rebuilding your site. You're just replacing the words on existing pages. The hard part is someone actually knowing your practice well enough to write content that reflects how you work.
 
 ## 5. Your Site Isn't Truly Mobile-First
 
@@ -149,7 +149,7 @@ Your website has one job: turn visitors into patients. That means every page nee
 
 Now do the same exercise on mobile.
 
-**Why it matters:** Every second of friction between a patient deciding "I want to contact this practice" and actually doing it is an opportunity to lose them. If your phone number is only in the footer, if your service pages don't have a call-to-action, if your "Contact" page is hard to find in the navigation — you're creating friction that costs you patients.
+**Why it matters:** Every second of friction between a patient deciding "I want to contact this practice" and actually doing it is an opportunity to lose them. If your phone number is only in the footer, if your service pages don't have a call-to-action, if your "Contact" page is hard to find in the navigation. You're creating friction that costs you patients.
 
 This isn't about being aggressive with pop-ups or making your site feel like an infomercial. It's about basic usability. A patient who just read your dental implants page and is ready to call shouldn't have to scroll back to the top and hunt through the navigation to find your number.
 
@@ -166,7 +166,7 @@ This isn't about being aggressive with pop-ups or making your site feel like an 
 
 ## 7. You Don't Own Your Domain, Hosting, or Code
 
-This is the one that can't be fixed with a tweak. If you don't own your website's domain, hosting, and source code, you don't really own your website — you're renting it. And the terms of that rental can change at any time.
+This is the one that can't be fixed with a tweak. If you don't own your website's domain, hosting, and source code, you don't really own your website. You're renting it. And the terms of that rental can change at any time.
 
 **How to check:**
 
@@ -178,7 +178,7 @@ This is the one that can't be fixed with a tweak. If you don't own your website'
 
 **Why it matters:** Practices that don't own their digital assets have less flexibility. If you want to switch providers, you may be starting over from scratch — new website, potential downtime, and extra steps to transfer your domain. We've talked to dentists who stayed with a provider longer than they wanted to because switching meant losing their domain's SEO authority and rebuilding everything.
 
-This isn't necessarily anyone's fault — it's just how some platforms are structured. But it's worth understanding before you sign up, because the practices most affected are the ones who've been with a provider for years and have built significant SEO authority on their domain.
+This isn't necessarily anyone's fault. It's just how some platforms are structured. But it's worth understanding before you sign up, because the practices most affected are the ones who've been with a provider for years and have built significant SEO authority on their domain.
 
 **What to look for in contracts:** Any web service agreement should clearly state that you own your domain, your content, and have the right to export your website files. If the contract is vague about ownership, ask for clarification before signing.
 

@@ -9,20 +9,20 @@ author: Groundwork
 draft: false
 faqs:
   - question: "What is baseline SEO for a dental practice?"
-    answer: "Baseline SEO is the minimum set of optimizations that make your practice eligible to appear in local search results. It includes a properly structured website with on-page SEO, a complete Google Business Profile, consistent directory citations, and basic conversion elements like click-to-call buttons. It's not a growth strategy — it's the starting line."
+    answer: "Baseline SEO is the minimum set of optimizations that make your practice eligible to appear in local search results. It includes a properly structured website with on-page SEO, a complete Google Business Profile, consistent directory citations, and basic conversion elements like click-to-call buttons. It's not a growth strategy. It's the starting line."
   - question: "How much traffic does baseline SEO generate?"
     answer: "A practice with solid baseline SEO typically sees 20-100 organic visitors per month from search. This caps out quickly because baseline only covers bottom-of-funnel searches like 'dentist near me' and basic service keywords. Without deeper content and authority building, there's a hard ceiling on organic growth."
   - question: "What is NAP consistency and why does it matter?"
     answer: "NAP stands for Name, Address, Phone number. NAP consistency means your practice information is identical across your website, Google Business Profile, Yelp, Healthgrades, and every other directory listing. Inconsistencies confuse Google and can hurt your local search rankings."
   - question: "How do I know if my dental practice is stuck at baseline SEO?"
-    answer: "If your organic traffic has been flat for 6+ months, you're only ranking for your practice name and a few 'dentist near me' variations, and your website has fewer than 15-20 pages of real content — you're stuck at baseline. Most practices plateau here because their agency has no strategy beyond the initial setup."
+    answer: "If your organic traffic has been flat for 6+ months, you're only ranking for your practice name and a few 'dentist near me' variations, and your website has fewer than 15-20 pages of real content. You're stuck at baseline. Most practices plateau here because their agency has no strategy beyond the initial setup."
   - question: "What's the difference between baseline SEO and growth SEO?"
     answer: "Baseline SEO makes you findable. Growth SEO makes you dominant. Baseline covers technical setup, GBP, and citations. Growth requires deep treatment content, topic clusters, authority building through backlinks, and a content strategy targeting the research phase of patient search behavior."
   - question: "Can I do baseline SEO myself?"
-    answer: "Yes. Baseline SEO is mostly setup and configuration, not ongoing strategy. A technically competent person can handle site structure, on-page optimization, GBP setup, and directory submissions. Where most people get stuck is knowing what comes after baseline — that's where a real SEO strategy starts."
+    answer: "Yes. Baseline SEO is mostly setup and configuration, not ongoing strategy. A technically competent person can handle site structure, on-page optimization, GBP setup, and directory submissions. Where most people get stuck is knowing what comes after baseline. That's where a real SEO strategy starts."
 ---
 
-Let me be upfront about something: most dental practices that say they're "doing SEO" are actually just sitting at baseline. And most agencies charging $300-500/month to "manage your SEO" are just maintaining that baseline — not building anything.
+Let me be upfront about something: most dental practices that say they're "doing SEO" are actually just sitting at baseline. And most agencies charging $300-500/month to "manage your SEO" are just maintaining that baseline, not building anything.
 
 That's not to say baseline doesn't matter. It does. It's the minimum viable presence that makes you eligible to show up in local search. But it's not a growth strategy. It's more like making sure the lights are on when someone walks by your storefront.
 
@@ -40,7 +40,7 @@ Your website needs to not actively hurt your search visibility. That means:
 
 **Site structure:** Every service you offer gets its own page. "General Dentistry," "Dental Implants," "Cosmetic Dentistry," "Emergency Dentist" — each one lives on its own URL with its own content. Not a single page with five accordion sections.
 
-**Technical basics:** Mobile-responsive design, fast load times (under 3 seconds), SSL certificate (HTTPS), proper heading hierarchy (H1, H2, H3), clean URLs. This isn't optional — it's table stakes. Google literally penalizes sites that fail these.
+**Technical basics:** Mobile-responsive design, fast load times (under 3 seconds), SSL certificate (HTTPS), proper heading hierarchy (H1, H2, H3), clean URLs. This isn't optional. It's table stakes. Google literally penalizes sites that fail these.
 
 **On-page SEO:** Title tags, meta descriptions, alt text on images, schema markup for local business and medical practice. Every page has a target keyword and content that actually addresses it.
 
@@ -115,7 +115,7 @@ It's not.
 
 Here's a quick self-diagnosis:
 
-**Check your organic traffic.** In Google Analytics, look at the last 12 months of organic search traffic. If it's flat — no meaningful growth — you're stuck.
+**Check your organic traffic.** In Google Analytics, look at the last 12 months of organic search traffic. If it's flat, with no meaningful growth, you're stuck.
 
 **Count your indexed pages.** Google "site:yourwebsite.com" and count the results. If you have fewer than 15-20 real content pages, you don't have enough content to grow beyond baseline.
 
@@ -123,7 +123,7 @@ Here's a quick self-diagnosis:
 
 **Look at your content.** Open your service pages. If each one has 2-3 paragraphs of generic text and a stock photo, that's baseline content. It's enough to tell Google the page exists. It's not enough to rank for anything competitive.
 
-**Ask your agency what changed last month.** If they can't name specific content created, links built, or strategic changes made — they're maintaining baseline and billing you for it.
+**Ask your agency what changed last month.** If they can't name specific content created, links built, or strategic changes made. They're maintaining baseline and billing you for it.
 
 ## What Comes After Baseline
 

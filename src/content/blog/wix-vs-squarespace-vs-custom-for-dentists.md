@@ -128,7 +128,7 @@ The learning curve is steep. Webflow is not a weekend project. Expect to spend 2
 
 You still need to handle content yourself. Webflow gives you the tools, but nobody's writing your service page content, optimizing your images, or planning your site structure. You're the designer, developer, copywriter, and SEO strategist. For a dentist running a practice, that's a lot of hats.
 
-No built-in schema markup. Like Wix and Squarespace, Webflow doesn't generate dental-specific structured data. The difference is that Webflow makes it easier to add manually — but you still need to know what to add and where.
+No built-in schema markup. Like Wix and Squarespace, Webflow doesn't generate dental-specific structured data. The difference is that Webflow makes it easier to add manually. But you still need to know what to add and where.
 
 Hosting costs are ongoing. $14-39/month doesn't sound like much, but it's $504-1,404 over three years for hosting alone. Custom-built static sites can be hosted for free on platforms like Cloudflare Pages or Netlify.
 
@@ -152,7 +152,7 @@ WordPress is the most flexible CMS on the planet. With the right developer, you 
 
 Agencies handle everything. You don't build it, you don't maintain it, you don't troubleshoot it at 10pm on a Thursday. For a busy dentist, that delegation has real value.
 
-WordPress has strong SEO DNA. The platform itself, with proper configuration, produces search-friendly sites. Custom post types, proper heading structures, schema plugins, XML sitemaps — it's all there. A well-built WordPress dental site can compete with anything in search.
+WordPress has strong SEO DNA. The platform itself, with proper configuration, produces search-friendly sites. Custom post types, proper heading structures, schema plugins, XML sitemaps. It's all there. A well-built WordPress dental site can compete with anything in search.
 
 **The honest cons:**
 
@@ -160,7 +160,7 @@ Most dental WordPress sites are not well-built. The agency installs a heavyweigh
 
 Those monthly fees add up. $300/month for "website maintenance" is $10,800 over three years. What does that maintenance include? Usually: keeping WordPress and its plugins updated (15-30 minutes per month), running backups (automated), and hosting (costs the agency $10-20). The math doesn't hold up, but it's industry standard so nobody questions it.
 
-You probably don't own your site. Read the fine print. Many dental website agencies build your site on *their* hosting, using *their* theme license, with *their* proprietary tools. If you leave, you leave empty-handed. The site stays with them. This is not universal — some agencies are transparent about ownership — but it's common enough that you need to ask before signing.
+You probably don't own your site. Read the fine print. Many dental website agencies build your site on *their* hosting, using *their* theme license, with *their* proprietary tools. If you leave, you leave empty-handed. The site stays with them. This is not universal — some agencies are transparent about ownership. But it's common enough that you need to ask before signing.
 
 Plugin dependency creates fragility. A typical agency WordPress site relies on 15+ plugins. Each plugin is a potential security vulnerability, a potential compatibility conflict, and a dependency on a third-party developer who might abandon the project. When plugins conflict after an update, your site breaks. When a plugin gets hacked, your site gets hacked.
 
@@ -171,7 +171,7 @@ A practice that wants full delegation and is comfortable paying premium monthly 
 ## Custom-Built: Purpose-Built for Dental
 
 **Setup cost:** $2,000-15,000 (varies widely)
-**Monthly cost:** $0-100/month (hosting only — or free on Cloudflare/Netlify)
+**Monthly cost:** $0-100/month (hosting only, or free on Cloudflare/Netlify)
 **3-year total:** $2,000-18,600
 
 **What you get:**
@@ -226,7 +226,7 @@ Most comparison articles stop at features and pricing. But the decision that mat
 
 With Wix or Squarespace, you hit the ceiling fast. You want a dedicated page for dental implants that targets a specific keyword? You can make one, but the platform's URL structure, heading limitations, and lack of schema markup mean it won't compete with a purpose-built page. You want to add FAQ schema to help your questions appear in Google's "People Also Ask" boxes? Not without manual code injection that might break on the next platform update.
 
-With a WordPress agency site, the ceiling is higher but the costs scale with it. Every new feature, every custom page, every integration is a billable request. The $300/month you're already paying doesn't cover custom development — that's extra.
+With a WordPress agency site, the ceiling is higher but the costs scale with it. Every new feature, every custom page, every integration is a billable request. The $300/month you're already paying doesn't cover custom development. That's extra.
 
 With a custom-built site, the ceiling is wherever you want it. New service page? It slots into the existing architecture. FAQ schema? Already built into the page template. A new section targeting a specific procedure in a specific city? That's an afternoon of work, not a $2,000 change order.
 
@@ -258,7 +258,7 @@ The practical impact: a dental site with proper schema gives Google more confide
 
 This is the topic that makes website platform companies uncomfortable, so it rarely comes up in their marketing materials.
 
-If you build on Wix and decide to leave in two years, you lose your site. Not your content — you can copy and paste text — but your design, your page structure, your URLs, and any SEO equity those URLs have built. You start over.
+If you build on Wix and decide to leave in two years, you lose your site. Not your content — you can copy and paste text. But your design, your page structure, your URLs, and any SEO equity those URLs have built. You start over.
 
 Squarespace is marginally better. There's a basic export feature, but it produces a stripped-down version that still requires a complete rebuild on whatever platform you move to.
 
@@ -280,4 +280,4 @@ For those practices, a custom-built website isn't a luxury. It's the foundation 
 
 The right answer isn't always the most expensive one. But it's also not always the cheapest one. It's the one that matches where your practice is today and where you want it to be in three years.
 
-[See what a custom-built dental site actually looks like](/example) — and decide for yourself whether the difference matters for your practice.
+[See what a custom-built dental site actually looks like](/example), and decide for yourself whether the difference matters for your practice.

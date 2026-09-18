@@ -17,7 +17,7 @@ faqs:
   - question: "What are authority signals in dental SEO?"
     answer: "Authority signals include backlinks from reputable websites, content depth across your site, brand mentions, citations in dental directories, and topical expertise demonstrated through comprehensive content clusters. These signals tell Google your practice is trustworthy and knowledgeable, which boosts rankings across all your pages."
   - question: "How should a dental practice prioritize its marketing budget?"
-    answer: "Fix your Google Business Profile first — it's free and has the highest immediate impact. Then invest in a strong website with real content for your core services. Then build authority through content depth and backlinks. Only after these three engines are running should you consider supplementary channels like social media or paid ads."
+    answer: "Fix your Google Business Profile first. It's free and has the highest immediate impact. Then invest in a strong website with real content for your core services. Then build authority through content depth and backlinks. Only after these three engines are running should you consider supplementary channels like social media or paid ads."
   - question: "Do Google reviews really affect dental search rankings?"
     answer: "Absolutely. Review quantity, quality (star rating), velocity (how fast you're getting new ones), and recency all factor into local rankings. In competitive markets, the practices in the Map Pack almost always have significantly more reviews with higher ratings than those below them. Reviews are arguably the single strongest local ranking factor."
 ---
@@ -51,7 +51,7 @@ Here's the thing that should make every practice owner uncomfortable: **a medioc
 
 We've seen it repeatedly. Beautiful $20,000 custom websites sitting on page two while a practice with a decent-but-not-amazing site dominates the Map Pack because they have 350 reviews, a 4.8 rating, and consistent GBP activity.
 
-That doesn't mean websites don't matter. They do — and we'll get to that. But if you're spending $500/month on website SEO and have no systematic approach to review generation, your priorities are backwards.
+That doesn't mean websites don't matter. They do, and we'll get to that. But if you're spending $500/month on website SEO and have no systematic approach to review generation, your priorities are backwards.
 
 ## Engine 2: Local Organic Pages
 
@@ -146,7 +146,7 @@ Most dental marketing dollars are spent on things that don't move any of these t
 
 If your marketing provider can't clearly articulate how their work improves one of these three engines, it's worth asking what you're paying for.
 
-The practices that grow fastest are the ones that ignore the noise, focus their resources on these three engines, and commit to the compound effect over 12-24 months. It's not complicated. It's just not easy — and "not easy" is where most agencies check out and hand you a template.
+The practices that grow fastest are the ones that ignore the noise, focus their resources on these three engines, and commit to the compound effect over 12-24 months. It's not complicated. It's just not easy, and "not easy" is where most agencies check out and hand you a template.
 
 At [Groundwork Dental](/dental-seo-foundation), we build the foundation for Engines 2 and 3 — the website, the content architecture, the technical SEO, the schema markup. Engine 1 is on you and your team (we'll tell you exactly what to do, but nobody can fake reviews for you). Together, the three engines create something most practices never achieve: a search presence that compounds over time instead of decaying.
 

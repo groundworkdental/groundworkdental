@@ -9,7 +9,7 @@ author: Groundwork
 draft: false
 faqs:
   - question: "What is the dental SEO funnel?"
-    answer: "The dental SEO funnel describes how patients move from initial research (googling symptoms or treatment costs) to choosing a provider. Most agencies only optimize for the bottom of this funnel — 'dentist near me' — and completely ignore the research phase where high-value patients spend weeks before ever searching for a provider."
+    answer: "The dental SEO funnel describes how patients move from initial research (googling symptoms or treatment costs) to choosing a provider. Most agencies only optimize for the bottom of this funnel — 'dentist near me', and completely ignore the research phase where high-value patients spend weeks before ever searching for a provider."
   - question: "Why is 'dentist near me' not the most valuable keyword?"
     answer: "Because someone searching 'dentist near me' typically needs a cleaning or exam worth $100-300. Someone searching 'dental implant cost' is researching a $5,000-40,000 procedure. The research keywords attract patients worth 10-100x more, but most agencies ignore them entirely."
   - question: "How do I rank for treatment research keywords?"
@@ -17,12 +17,12 @@ faqs:
   - question: "Should I stop targeting 'dentist near me'?"
     answer: "No — you should rank for it. But it shouldn't be your only strategy. The real growth comes from also capturing patients during their research phase, weeks before they ever search for a provider. That's the part of the funnel most agencies completely ignore."
   - question: "What percentage of dental searches are research-based?"
-    answer: "Roughly 80-90% of healthcare searches start informational, not provider-based. Patients search for their problem first, then a provider. If your site answers the earlier questions, you own the research phase — and you're the obvious choice when they're ready to book."
+    answer: "Roughly 80-90% of healthcare searches start informational, not provider-based. Patients search for their problem first, then a provider. If your site answers the earlier questions, you own the research phase, and you're the obvious choice when they're ready to book."
 ---
 
 Every dental marketing agency in the country is optimizing for the same keyword: "dentist near me."
 
-They're not wrong — it's a real search with real intent. But they're leaving enormous value on the table by ignoring the rest of the funnel. And that funnel is where the $30,000 patients come from.
+They're not wrong. It's a real search with real intent. But they're leaving enormous value on the table by ignoring the rest of the funnel. And that funnel is where the $30,000 patients come from.
 
 ## The Search Most Agencies Optimize For
 
@@ -36,7 +36,7 @@ There's nothing wrong with ranking for these terms. But if this is your *entire*
 
 Now consider what happens weeks or months before someone books a dental appointment.
 
-A patient notices their front tooth is chipped. They Google "how much do veneers cost." They read three articles, watch a YouTube video, and bookmark a practice whose website had the most helpful content. Two weeks later, they search "cosmetic dentist near me" — but they already know who they're calling.
+A patient notices their front tooth is chipped. They Google "how much do veneers cost." They read three articles, watch a YouTube video, and bookmark a practice whose website had the most helpful content. Two weeks later, they search "cosmetic dentist near me". But they already know who they're calling.
 
 That research phase is where the real money lives.
 
@@ -108,6 +108,6 @@ It's also exactly what we build for every client at [Groundwork Dental](/compare
 
 "Dentist near me" isn't the wrong keyword. It's just not enough.
 
-The highest-value patients in your market are searching for treatment information right now. They're comparing costs, reading about procedures, and forming opinions about which practices seem trustworthy. If your website doesn't show up during that research phase, you're invisible to the patients worth $5,000-$40,000 — and you're fighting every other dentist in your city for $200 cleanings.
+The highest-value patients in your market are searching for treatment information right now. They're comparing costs, reading about procedures, and forming opinions about which practices seem trustworthy. If your website doesn't show up during that research phase, you're invisible to the patients worth $5,000-$40,000, and you're fighting every other dentist in your city for $200 cleanings.
 
 The SEO funnel isn't a mystery. It's just that most agencies make more money pretending it doesn't exist.

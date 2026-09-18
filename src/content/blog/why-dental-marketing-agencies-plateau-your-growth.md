@@ -15,14 +15,14 @@ faqs:
   - question: "What should a dental marketing agency actually be doing for ongoing SEO?"
     answer: "After baseline setup, real SEO work includes creating deep treatment research content, building topical authority through content clusters, earning quality backlinks, targeting high-value procedure keywords, and continuously expanding your site's authority. If your agency can't tell you what content they created or links they built last month, they're not doing real SEO."
   - question: "How do I know if my dental marketing agency is just maintaining baseline?"
-    answer: "Check three things: Is your organic traffic growing month-over-month? Has your agency added substantial new content to your site recently? Can they describe their strategy for targeting treatment research keywords? If the answers are no, flat, and blank stare — you're paying for baseline maintenance, not growth."
+    answer: "Check three things: Is your organic traffic growing month-over-month? Has your agency added substantial new content to your site recently? Can they describe their strategy for targeting treatment research keywords? If the answers are no, flat, and blank stare. You're paying for baseline maintenance, not growth."
   - question: "Why do some dental marketing agreements have long commitment terms?"
     answer: "Long-term contracts provide revenue predictability for the provider. They're not inherently bad — some agencies use that stability to invest in your growth. But it's worth understanding what you're committing to and what happens if results plateau. Look for agreements with clear performance expectations."
   - question: "Can I do dental marketing myself instead of hiring an agency?"
-    answer: "You can handle baseline setup yourself — it's mostly configuration and setup tasks. Real growth past baseline requires content strategy, technical SEO knowledge, and consistent execution that most practice owners don't have time for. But baseline is genuinely valuable on its own. The key is not overpaying for it — and making sure you own what gets built."
+    answer: "You can handle baseline setup yourself. It's mostly configuration and setup tasks. Real growth past baseline requires content strategy, technical SEO knowledge, and consistent execution that most practice owners don't have time for. But baseline is genuinely valuable on its own. The key is not overpaying for it, and making sure you own what gets built."
 ---
 
-Let's walk through the standard dental marketing playbook — the one most providers follow — and explain why it produces results up to a point, then levels off. You'll probably recognize the steps.
+Let's walk through the standard dental marketing playbook — the one most providers follow, and explain why it produces results up to a point, then levels off. You'll probably recognize the steps.
 
 This isn't a criticism of agencies or the people working in them. Many are talented and genuinely trying. But the standard playbook has a built-in ceiling, and understanding why can help you make better decisions about your marketing.
 
@@ -76,7 +76,7 @@ That research phase is where the $5,000-$40,000 cases come from. And your agency
 
 When someone searches "dental implant cost" or "Invisalign vs braces," they're in the research phase of a high-value treatment decision. Google serves local results for these queries — meaning a dentist in your city can rank for them without the user ever typing a location.
 
-Most agencies never build content targeting these keywords. It requires deep, original research content — not the 300-word service page blurbs that come with a template.
+Most agencies never build content targeting these keywords. It requires deep, original research content, not the 300-word service page blurbs that come with a template.
 
 ### 2. Template Content Reused Across Clients
 
@@ -94,11 +94,11 @@ Authority in Google's system comes from other reputable websites linking to your
 
 Template sites with thin content pages don't build authority. They establish presence — which is a good start, but it's not the same thing.
 
-Building authority requires pitching content to dental publications, creating resources that other sites want to reference, and building the kind of content depth that signals expertise to Google. That's hard, slow, and expensive — and it's typically beyond what a standard marketing package includes.
+Building authority requires pitching content to dental publications, creating resources that other sites want to reference, and building the kind of content depth that signals expertise to Google. That's hard, slow, and expensive, and it's typically beyond what a standard marketing package includes.
 
 ### 4. No Topical Authority
 
-Topical authority means covering a subject so thoroughly that Google recognizes your site as an authoritative resource on that topic. For a dental practice, that means having deep content clusters around each major treatment — not a single page per service.
+Topical authority means covering a subject so thoroughly that Google recognizes your site as an authoritative resource on that topic. For a dental practice, that means having deep content clusters around each major treatment, not a single page per service.
 
 A practice with topical authority on dental implants might have pages covering implant costs, implant types, the procedure process, recovery timelines, implants vs bridges, implant failure rates, implant care, and patient case studies. Interconnected, comprehensive, and original.
 
@@ -127,7 +127,7 @@ Think about the math:
 
 Investing in real growth — deep content creation, authority building, backlink outreach — would require significantly more time per client. That would require significantly higher fees. Most practices aren't willing to pay $2,000-3,000/month for ongoing marketing (and honestly, many don't need to).
 
-The result is a natural ceiling. The standard package gets you to baseline — which is genuinely valuable — but isn't structured to take you further. Understanding this helps you set realistic expectations and plan accordingly.
+The result is a natural ceiling. The standard package gets you to baseline, which is genuinely valuable, but it isn't structured to take you further. Understanding this helps you set realistic expectations and plan accordingly.
 
 ## What Growth Actually Requires
 
