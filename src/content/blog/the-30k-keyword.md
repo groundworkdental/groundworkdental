@@ -135,7 +135,7 @@ These pages capture patients who are actively making a treatment decision. They'
 
 This point keeps coming up because it's central to the problem: the standard dental marketing agency business model can't support this level of work.
 
-Creating a comprehensive dental implant page with original cost breakdowns, procedure details, and real clinical information takes significant time and effort. Multiply that across every major treatment a practice offers — implants, veneers, Invisalign, crowns, bridges, dentures, root canals, whitening — and you're looking at 30-50+ pages of deep content.
+Creating a comprehensive dental implant page with original cost breakdowns, procedure details, and real clinical information takes significant time and effort. Multiply that across every major treatment a practice offers — implants, veneers, Invisalign, crowns, bridges, dentures, root canals, whitening, and you're looking at 30-50+ pages of deep content.
 
 That's not a template swap. That's not something you can automate or outsource to a content mill. It requires research, clinical accuracy (working with the dentist to verify information), strategic keyword targeting, and thoughtful site architecture.
 
@@ -163,4 +163,4 @@ But the alternative is paying an agency $500/month forever to maintain a ceiling
 
 If you want to understand how treatment research content fits into a complete dental SEO strategy, we wrote the whole framework in [The Dental SEO Foundation guide](/dental-seo-foundation). It covers everything from baseline setup through authority building and growth content.
 
-The $30K keyword is sitting there in your market right now. Patients in your city are searching for it today. The only question is whether your website shows up — or whether they find someone else's.
+The $30K keyword is sitting there in your market right now. Patients in your city are searching for it today. The only question is whether your website shows up, or whether they find someone else's.

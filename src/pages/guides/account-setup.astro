@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CTABlock from '../../components/CTABlock.astro';
 import { site } from '../../config/site';
+import GradientBackdrop from '../../components/GradientBackdrop.astro';
 
 const contactEmail = site.email;
 const inviteEmail = site.cloudflareInviteEmail;
@@ -91,9 +92,9 @@ const registrars = [
   description="Two steps before go-live: create Cloudflare so we can host in your account, then point nameservers at go-live. Registrar-specific steps included."
   noindex={false}
 >
-  <section class="bg-surface-2 border-b border-border-light">
+  <section class="relative isolate bg-surface-2 border-b border-border-light">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12">
-      <p class="eyebrow text-sage-dark mb-3">Client guide</p>
       <h1 class="font-serif text-3xl md:text-4xl text-charcoal tracking-tight mb-3">Account setup</h1>
       <p class="font-serif text-base md:text-lg text-mid-gray max-w-3xl leading-relaxed">
         You own the hosting. We build in your Cloudflare account. You can remove our access anytime.

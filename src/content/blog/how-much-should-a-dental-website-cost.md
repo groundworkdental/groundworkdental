@@ -1,6 +1,6 @@
 ---
 title: "How Much Should a Dental Website Cost? A Brutally Honest Breakdown"
-description: "The real cost of a dental website isn't the setup fee — it's the total cost of ownership over 3 years. Here's an honest breakdown of every tier, from DIY to full custom, including the costs that aren't always obvious upfront."
+description: "The real cost of a dental website isn't the setup fee. It's the total cost of ownership over 3 years. Here's an honest breakdown of every tier, from DIY to full custom, including the costs that aren't always obvious upfront."
 publishDate: 2026-03-06
 targetKeyword: "dental website cost"
 category: pricing
@@ -11,7 +11,7 @@ faqs:
   - question: "How much does a dental website cost?"
     answer: "It depends on the tier. DIY platforms like Wix or Squarespace cost $0-500. Template agencies charge $2,000-5,000 setup plus $200-500/month ongoing. Custom agencies charge $10,000-25,000 setup plus $500-2,000/month. Groundwork Dental charges a flat $2,000 with no monthly website fees. The real cost is total ownership over 3 years, which ranges from $600 to $80,000+ depending on the path you choose."
   - question: "Is a cheap dental website worth it?"
-    answer: "A DIY website on Wix or Squarespace can work for a brand new practice just getting started, but it has real limitations for SEO, page speed, and professional credibility. If you're established and trying to grow through search, a $0-500 website is likely holding you back. The question isn't whether it's cheap — it's whether the limitations cost you more in lost patients than you're saving."
+    answer: "A DIY website on Wix or Squarespace can work for a brand new practice just getting started, but it has real limitations for SEO, page speed, and professional credibility. If you're established and trying to grow through search, a $0-500 website is likely holding you back. The question isn't whether it's cheap. It's whether the limitations cost you more in lost patients than you're saving."
   - question: "What are the hidden costs of dental website agencies?"
     answer: "Common costs that aren't always obvious upfront include: monthly hosting fees ($50-200/month), premium plugin licenses, content update fees for simple text changes, SEO as a mandatory add-on, and annual redesign fees. It's also worth understanding the portability of your site — whether you can take it with you if you switch providers."
   - question: "Why are custom dental websites so expensive?"
@@ -21,7 +21,7 @@ faqs:
   - question: "What is the total cost of ownership for a dental website over 3 years?"
     answer: "Over 3 years: DIY costs roughly $600-1,800. Template agency costs $9,200-23,000 (setup + monthly fees). Custom agency costs $28,000-97,000 (setup + monthly fees). Groundwork Dental costs $2,000 flat (plus whatever hosting you choose, typically $10-20/month). The spread is enormous, and the most expensive option doesn't always deliver the most value."
   - question: "Do I need to pay monthly for a dental website?"
-    answer: "You need to pay for hosting (typically $10-50/month) and your domain renewal ($10-20/year). Those are real costs. But the $200-500/month 'website management' fees that agencies charge are mostly profit margin on services that cost them very little to deliver. Ongoing SEO work is a separate, legitimate expense — but basic website hosting and maintenance should not cost $500/month."
+    answer: "You need to pay for hosting (typically $10-50/month) and your domain renewal ($10-20/year). Those are real costs. But the $200-500/month 'website management' fees that agencies charge are mostly profit margin on services that cost them very little to deliver. Ongoing SEO work is a separate, legitimate expense. But basic website hosting and maintenance should not cost $500/month."
 ---
 
 Let's walk through the actual cost of a dental website at every level — from doing it yourself to hiring a premium agency. We'll include the numbers nobody puts in the proposal: the monthly fees, the hidden costs, and what you're really paying over three years.
@@ -85,7 +85,7 @@ The other thing to consider is portability. Some template agencies build on prop
 
 **The honest assessment:**
 
-The value of this tier depends heavily on the specific provider. Some agencies in this range use standard WordPress, give you full ownership, and provide genuine value in their monthly retainer. Others offer less flexibility. The $15,000-23,000 you spend over three years can be worth it if the ongoing work is real — or it can feel like a lot if the monthly fee mostly covers hosting and occasional updates.
+The value of this tier depends heavily on the specific provider. Some agencies in this range use standard WordPress, give you full ownership, and provide genuine value in their monthly retainer. Others offer less flexibility. The $15,000-23,000 you spend over three years can be worth it if the ongoing work is real, or it can feel like a lot if the monthly fee mostly covers hosting and occasional updates.
 
 **When this makes sense:** You find an honest agency that builds on standard WordPress, gives you full ownership, and the monthly fee covers real ongoing SEO work (not just hosting).
 
@@ -133,7 +133,7 @@ Yes, we're including ourselves. We told you we're biased, and we're not going to
 
 **What you get:**
 
-A custom website — not a template — built with AI-powered efficiency. Unique design, real content, full technical SEO, schema markup, fast performance. You own everything: the code, the domain, the hosting, the content. No monthly fees to us. No contracts.
+A custom website, not a template — built with AI-powered efficiency. Unique design, real content, full technical SEO, schema markup, fast performance. You own everything: the code, the domain, the hosting, the content. No monthly fees to us. No contracts.
 
 **What's actually included:**
 
@@ -168,7 +168,7 @@ The trade-off: we don't offer ongoing monthly SEO services (though we offer an [
 | Custom Agency | $10K-25K | $500-2,000 | $28,000-97,000 |
 | Groundwork Dental | $2,000 | $10-20 (hosting only) | ~$2,400-2,700 |
 
-The spread between the cheapest and most expensive option is staggering. And the most expensive option is not always — or even usually — the best value.
+The spread between the cheapest and most expensive option is staggering. And the most expensive option is not always, or even usually — the best value.
 
 ## The Middle Tier Trap
 

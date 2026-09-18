@@ -2,11 +2,12 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FAQBlock from '../components/FAQBlock.astro';
 import CTABlock from '../components/CTABlock.astro';
+import GradientBackdrop from '../components/GradientBackdrop.astro';
 
 const faqs = [
   {
     question: 'Do I really need SEO if I already get patients from referrals?',
-    answer: 'Referrals are great — but what happens when the referred patient Googles your name before calling? If your website looks like it was built in 2015, loads slowly, or doesn\'t show up at all, you\'re losing patients who were already pre-sold. SEO isn\'t just about new patients. It\'s about not losing the ones you already have.',
+    answer: 'Referrals are great. But what happens when the referred patient Googles your name before calling? If your website looks like it was built in 2015, loads slowly, or doesn\'t show up at all, you\'re losing patients who were already pre-sold. SEO isn\'t just about new patients. It\'s about not losing the ones you already have.',
   },
   {
     question: 'How long does SEO take to work?',
@@ -36,10 +37,10 @@ const faqs = [
   description="The complete guide to dental SEO: baseline presence, growth levels, treatment keywords, the three ranking engines, and what agencies actually do. We're giving all of this away."
 >
   <!-- Hero -->
-  <section class="bg-surface-2">
+  <section class="relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
       <div class="max-w-3xl">
-        <p class="eyebrow text-sage-dark mb-4">Yes, we're giving this away</p>
         <h1 class="section-heading mb-6">Everything You Need to Know About Dental SEO.</h1>
         <p class="font-serif text-xl text-mid-gray leading-relaxed">
           Every secret, every framework, every thing a dental marketing agency charges $5k to explain in a sales call. Right here. For free. Because dentists will read it, appreciate the honesty, realize the implementation requires actual engineering, and hire us anyway.
@@ -189,7 +190,7 @@ const faqs = [
           The biggest lever for dentists isn't blogging. It's <strong>reviews + Google Business Profile optimization.</strong> Those two signals often matter more than the website. A mediocre website with 200 reviews will often outrank a perfect website with 10. Google prioritizes local proximity, relevance, and prominence in map rankings.
         </p>
         <p>
-          This is why we include a full GBP audit and optimization with every website build. The website is the foundation — but if your GBP has 8 reviews and wrong hours listed, the website won't save you.
+          This is why we include a full GBP audit and optimization with every website build. The website is the foundation. But if your GBP has 8 reviews and wrong hours listed, the website won't save you.
         </p>
 
         <h2>What Dental SEO Agencies Actually Do</h2>

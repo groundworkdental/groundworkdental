@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CTABlock from '../../components/CTABlock.astro';
+import GradientBackdrop from '../../components/GradientBackdrop.astro';
 
 const specialties = [
   {
@@ -35,10 +36,10 @@ const specialties = [
   description="We build custom websites for specific dental specialties — cosmetic, orthodontics, pediatric, oral surgery, and more. Specialty-specific copy, schema, and SEO. $2,000 flat."
 >
   <!-- Hero -->
-  <section class="bg-surface-2">
+  <section class="relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
       <div class="max-w-3xl">
-        <p class="eyebrow text-sage-dark mb-4">Specialty dental websites</p>
         <h1 class="section-heading mb-6">A Cosmetic Dentistry Site Isn't a Pediatric Dentistry Site.</h1>
         <p class="font-serif text-xl text-mid-gray leading-relaxed">
           Different patients. Different searches. Different trust signals. We build websites that speak directly to your specialty — not a generic dental template with your name swapped in.
@@ -71,7 +72,8 @@ const specialties = [
   </section>
 
   <!-- Why Specialty Matters -->
-  <section class="py-10 bg-surface-2">
+  <section class="py-10 relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
       <h2 class="section-subheading mb-8">Why Specialty-Specific Matters</h2>
       <div class="prose-article text-lg">
@@ -115,7 +117,8 @@ const specialties = [
   </section>
 
   <!-- CTA -->
-  <section class="py-10 bg-surface-2">
+  <section class="py-10 relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <CTABlock
         heading="Not sure which page fits your practice?"

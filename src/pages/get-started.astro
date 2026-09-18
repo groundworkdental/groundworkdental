@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../config/site';
+import GradientBackdrop from '../components/GradientBackdrop.astro';
 ---
 
 <BaseLayout
@@ -8,12 +9,13 @@ import { site } from '../config/site';
   description="We build a real preview of your new dental website before you pay. See it first — if you want it, it's $2,000 flat. If not, you owe nothing."
 >
   <!-- Hero -->
-  <section class="bg-surface-2">
+  <section class="relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
       <div class="max-w-2xl mx-auto text-center">
         <h1 class="section-heading mb-6">See Your New Website Before You Pay.</h1>
         <p class="font-serif text-xl text-mid-gray leading-relaxed">
-          Send your practice name and current site. We'll build a real preview — not a mockup —
+          Send your practice name and current site. We'll build a real preview, not a mockup —
           and send you the link. If you want it, it's $2,000. If not, you owe nothing.
         </p>
         <p class="mt-5 font-serif text-base text-mid-gray">
@@ -39,7 +41,7 @@ import { site } from '../config/site';
             name="name"
             required
             placeholder="Dr. Sarah Smith"
-            class="w-full px-4 py-3 border border-border-light rounded font-serif text-charcoal placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent"
+            class="w-full px-4 py-3 border border-border-light rounded font-serif text-charcoal placeholder:text-mid-gray focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent"
           />
         </div>
 
@@ -53,20 +55,20 @@ import { site } from '../config/site';
             name="email"
             required
             placeholder="doctor@yourpractice.com"
-            class="w-full px-4 py-3 border border-border-light rounded font-serif text-charcoal placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent"
+            class="w-full px-4 py-3 border border-border-light rounded font-serif text-charcoal placeholder:text-mid-gray focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent"
           />
         </div>
 
         <div>
           <label for="website" class="block font-sans text-xs uppercase tracking-widest text-mid-gray mb-2">
-            Current Website URL <span class="text-neutral-400">(if you have one)</span>
+            Current Website URL <span class="text-mid-gray">(if you have one)</span>
           </label>
           <input
             type="text"
             id="website"
             name="website"
             placeholder="https://yourdentalpractice.com"
-            class="w-full px-4 py-3 border border-border-light rounded font-serif text-charcoal placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent"
+            class="w-full px-4 py-3 border border-border-light rounded font-serif text-charcoal placeholder:text-mid-gray focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent"
           />
         </div>
 
@@ -79,7 +81,7 @@ import { site } from '../config/site';
             name="comment"
             rows="4"
             placeholder="Tell us about your practice, what services you offer, or what you're looking for in a website..."
-            class="w-full px-4 py-3 border border-border-light rounded font-serif text-charcoal placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent resize-y"
+            class="w-full px-4 py-3 border border-border-light rounded font-serif text-charcoal placeholder:text-mid-gray focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent resize-y"
           ></textarea>
         </div>
 
@@ -88,7 +90,7 @@ import { site } from '../config/site';
           id="submit-btn"
           class="w-full btn-primary py-3.5 text-center"
         >
-          Build My Free Preview
+          <span class="text-swap" data-label>Build My Free Preview</span>
         </button>
 
         <p class="text-center font-serif text-sm text-mid-gray">
@@ -106,9 +108,9 @@ import { site } from '../config/site';
 
       <!-- Success State -->
       <div id="form-success" class="hidden text-center py-8">
-        <div class="w-16 h-16 rounded-full bg-sage/20 flex items-center justify-center mx-auto mb-6">
+        <div class="success-check w-16 h-16 rounded-full bg-sage/20 flex items-center justify-center mx-auto mb-6">
           <svg class="w-8 h-8 text-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" pathLength="1" d="M5 13l4 4L19 7" />
           </svg>
         </div>
         <h2 class="font-serif text-2xl text-charcoal mb-4">Got it — we'll start on your preview.</h2>
@@ -121,7 +123,7 @@ import { site } from '../config/site';
       </div>
 
       <!-- Error State -->
-      <div id="form-error" class="hidden mt-4 p-4 bg-red-50 border border-red-200 rounded text-center">
+      <div id="form-error" class="error-reveal hidden mt-4 p-4 bg-red-50 border border-red-200 rounded text-center" role="alert">
         <p class="font-serif text-sm text-red-700">
           Something went wrong. Please email us directly at <a href={`mailto:${site.email}`} class="underline">{site.email}</a>.
         </p>
@@ -130,7 +132,8 @@ import { site } from '../config/site';
   </section>
 
   <!-- Trust Signals -->
-  <section class="py-8 bg-surface-2">
+  <section class="py-8 relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
         <div>
@@ -143,18 +146,146 @@ import { site } from '../config/site';
         </div>
         <div>
           <p class="font-serif text-charcoal font-semibold mb-1">~$12/year after</p>
-          <p class="font-serif text-sm text-mid-gray">Domain renewal paid to your registrar — not us. Hosting should be free.</p>
+          <p class="font-serif text-sm text-mid-gray">Domain renewal paid to your registrar, not us. Hosting should be free.</p>
         </div>
       </div>
     </div>
   </section>
 </BaseLayout>
 
+<style>
+  /*
+   * Three transitions on the one page that actually changes state. Durations
+   * are deliberately short — this is a confirmation, not a celebration.
+   */
+
+  /* --- Success check -------------------------------------------------- */
+  /* The circle settles up into place while the tick draws itself. */
+  .success-check {
+    opacity: 0;
+    transform: translateY(6px) scale(0.94);
+  }
+
+  .success-check[data-state='in'] {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 260ms ease-out,
+      /* ease-out-quint: decelerates like a real object. An overshoot curve
+         here reads as a celebration, which is the wrong note for a form
+         that just quietly did what it said it would. */
+      transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* pathLength="1" on the <path> normalises the stroke, so the draw is a
+     single 0..1 tween no matter what the real path length is. */
+  .success-check path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+
+  .success-check[data-state='in'] path {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 420ms cubic-bezier(0.65, 0, 0.35, 1) 120ms;
+  }
+
+  /* --- Button label swap ---------------------------------------------- */
+  .text-swap {
+    display: inline-block;
+    transition:
+      opacity 150ms ease-in-out,
+      transform 150ms ease-in-out,
+      filter 150ms ease-in-out;
+  }
+
+  /* Old label leaves upward; the new one is placed below, then released. */
+  .text-swap.is-exit {
+    opacity: 0;
+    transform: translateY(-4px);
+    filter: blur(2px);
+  }
+
+  .text-swap.is-enter {
+    opacity: 0;
+    transform: translateY(4px);
+    filter: blur(2px);
+    transition: none;
+  }
+
+  /* --- Error reveal ---------------------------------------------------- */
+  /* No shake: a failed POST is our fault, and shaking the form implies the
+     reader typed something wrong. It just needs to arrive noticeably. */
+  .error-reveal {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  .error-reveal[data-state='in'] {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 200ms ease-out,
+      transform 200ms ease-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .success-check,
+    .success-check[data-state='in'],
+    .success-check path,
+    .success-check[data-state='in'] path,
+    .text-swap,
+    .text-swap.is-exit,
+    .text-swap.is-enter,
+    .error-reveal,
+    .error-reveal[data-state='in'] {
+      opacity: 1;
+      transform: none;
+      filter: none;
+      stroke-dashoffset: 0;
+      transition: none;
+    }
+  }
+</style>
+
 <script>
   const form = document.getElementById('get-started-form') as HTMLFormElement;
   const successDiv = document.getElementById('form-success');
   const errorDiv = document.getElementById('form-error');
   const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+  const btnLabel = submitBtn?.querySelector<HTMLElement>('[data-label]');
+
+  const DUR = 150; // keep in step with .text-swap's transition
+
+  /**
+   * Swaps a label's text in place: the old one leaves upward, the new one
+   * arrives from below. Falls back to a plain assignment when the reader has
+   * asked for reduced motion, so the label never sits mid-animation.
+   */
+  function swapLabel(el: HTMLElement | null | undefined, next: string) {
+    if (!el) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      el.textContent = next;
+      return;
+    }
+    el.classList.add('is-exit');
+    window.setTimeout(() => {
+      el.textContent = next;
+      el.classList.remove('is-exit');
+      el.classList.add('is-enter');
+      // Force a reflow so the browser paints the "below" position before the
+      // class is dropped; without this the enter tween is skipped entirely.
+      void el.offsetWidth;
+      el.classList.remove('is-enter');
+    }, DUR);
+  }
+
+  /** Reveals a hidden block and lets its transition run from the start. */
+  function reveal(el: HTMLElement | null) {
+    if (!el) return;
+    el.classList.remove('hidden');
+    void el.offsetWidth;
+    el.dataset.state = 'in';
+  }
 
   // Fired once, on the first keystroke in any field.
   //
@@ -175,8 +306,9 @@ import { site } from '../config/site';
 
     // Disable button and show loading state
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending...';
+    swapLabel(btnLabel, 'Sending...');
     errorDiv?.classList.add('hidden');
+    if (errorDiv) delete errorDiv.dataset.state;
 
     const formData = new FormData(form);
     const data = {
@@ -209,6 +341,9 @@ import { site } from '../config/site';
       // Show success, hide form
       form.classList.add('hidden');
       successDiv?.classList.remove('hidden');
+      // The check draws itself once the block is in the layout.
+      const check = successDiv?.querySelector<HTMLElement>('.success-check');
+      if (check) { void check.offsetWidth; check.dataset.state = 'in'; }
     } catch (err) {
       // A failed submission is a lost lead, and it is invisible unless it is
       // recorded. If submits and failures both climb, the problem is the
@@ -219,9 +354,9 @@ import { site } from '../config/site';
         });
       }
       console.error('Form submission failed:', err);
-      errorDiv?.classList.remove('hidden');
+      reveal(errorDiv);
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Build My Free Preview';
+      swapLabel(btnLabel, 'Build My Free Preview');
     }
   });
 </script>

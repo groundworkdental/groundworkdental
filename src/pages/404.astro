@@ -6,6 +6,7 @@
  * browser, which is why it goes unnoticed.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
+import GradientBackdrop from '../components/GradientBackdrop.astro';
 
 export const prerender = true;
 
@@ -24,7 +25,8 @@ const destinations = [
   description="That page doesn't exist. Here's where most people are headed."
   noindex={true}
 >
-  <section class="bg-surface-2">
+  <section class="relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
       <div class="max-w-3xl mx-auto text-center">
         <p class="font-serif text-sm uppercase tracking-widest text-mid-gray mb-4">404</p>

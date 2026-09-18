@@ -1,0 +1,285 @@
+---
+/**
+ * GradientBackdrop — a very slow, very quiet animated mesh gradient.
+ *
+ * Dependency-free WebGL (~4KB, no three.js). Renders in the sage/surface
+ * palette at low contrast so it reads as a surface, not a graphic.
+ *
+ * Degrades in this order: WebGL2 shader → static CSS gradient (no WebGL,
+ * reduced-motion, small screens). It is decorative and aria-hidden, so the
+ * fallback costs nothing.
+ */
+interface Props {
+  /**
+   * Multiplier on the sage ceiling (0.26 at 1.0). Body sections run ~0.55,
+   * which keeps mid-gray secondary text above 4.5:1 without a scrim.
+   */
+  intensity?: number;
+  /**
+   * 'left' fades the field out across the copy column — for hero-style bands
+   * with open space on the right. 'none' for sections with full-width text,
+   * which instead rely on a lower intensity.
+   */
+  scrim?: 'left' | 'none';
+  class?: string;
+}
+
+const { intensity = 1, scrim = 'none', class: className = '' } = Astro.props;
+---
+
+<div
+  class:list={['gradient-backdrop', className]}
+  data-intensity={intensity}
+  aria-hidden="true"
+>
+  <canvas class="gradient-backdrop__canvas"></canvas>
+  {scrim === 'left' && <div class="gradient-backdrop__scrim"></div>}
+</div>
+
+<style>
+  .gradient-backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    /* Fallback, and what shows before/instead of the shader. */
+    background:
+      radial-gradient(70% 90% at 15% 20%, #DDE6DF 0%, transparent 62%),
+      radial-gradient(60% 80% at 85% 75%, #D8E3DB 0%, transparent 66%),
+      #F8F8F3;
+  }
+
+  .gradient-backdrop__canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+
+  .gradient-backdrop__canvas[data-ready] {
+    opacity: 1;
+  }
+
+  /*
+   * Keeps the copy column sitting on ~surface-2 so text contrast is
+   * unaffected by however strong the gradient gets, while leaving the open
+   * right-hand side of the hero at full strength. Without this the mid-gray
+   * eyebrow falls to ~3.1:1 over the deepest sage.
+   */
+  .gradient-backdrop__scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to right,
+      #F8F8F3 0%,
+      rgba(248, 248, 243, 0.92) 34%,
+      rgba(248, 248, 243, 0.55) 52%,
+      rgba(248, 248, 243, 0) 72%
+    );
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gradient-backdrop__canvas {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const VERT = `#version 300 es
+  in vec2 p;
+  void main() { gl_Position = vec4(p, 0.0, 1.0); }`;
+
+  // Two octaves of value noise, domain-warped. Slow enough that the motion
+  // is felt rather than watched.
+  const FRAG = `#version 300 es
+  precision mediump float;
+  uniform vec2 uRes;
+  uniform float uTime;
+  uniform float uIntensity;
+  out vec4 outColor;
+
+  float hash(vec2 v) {
+    return fract(sin(dot(v, vec2(127.1, 311.7))) * 43758.5453);
+  }
+
+  float noise(vec2 v) {
+    vec2 i = floor(v), f = fract(v);
+    vec2 u = f * f * (3.0 - 2.0 * f);
+    return mix(
+      mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),
+      mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x),
+      u.y
+    );
+  }
+
+  float fbm(vec2 v) {
+    return 0.6 * noise(v) + 0.3 * noise(v * 2.3 + 4.1);
+  }
+
+  void main() {
+    // Aspect-correct so the blobs stay round on wide viewports.
+    vec2 uv = gl_FragCoord.xy / uRes;
+    uv.x *= uRes.x / uRes.y;
+
+    float t = uTime * 0.06;
+    vec2 warp = vec2(fbm(uv * 1.4 + t), fbm(uv * 1.4 - t + 8.3));
+    float n = fbm(uv * 1.1 + warp * 0.85);
+    // fbm's weights sum to 0.9 and value noise rarely reaches its extremes,
+    // so n lands in roughly [0.16, 0.70]. Normalise to 0..1 so the ramps
+    // below actually span the range the noise produces.
+    n = clamp((n - 0.16) / 0.54, 0.0, 1.0);
+
+    vec3 surface  = vec3(0.973, 0.973, 0.953); // #F8F8F3
+    vec3 tint     = vec3(0.922, 0.941, 0.925); // #EBF0EC
+    vec3 sage     = vec3(0.373, 0.498, 0.420); // #5F7F6B
+
+    vec3 col = mix(surface, tint, smoothstep(0.05, 0.95, n));
+    // True sage through the deeper folds. Capped at 26%, which bottoms out
+    // around #CBD7CE — charcoal body copy stays above 6.5:1 on it.
+    col = mix(col, sage, smoothstep(0.35, 1.0, n) * 0.26 * uIntensity);
+
+    outColor = vec4(col, 1.0);
+  }`;
+
+  function compile(gl: WebGL2RenderingContext, type: number, src: string) {
+    const sh = gl.createShader(type)!;
+    gl.shaderSource(sh, src);
+    gl.compileShader(sh);
+    if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) {
+      gl.deleteShader(sh);
+      return null;
+    }
+    return sh;
+  }
+
+  /**
+   * Each band owns a WebGL context only while it is near the viewport, and
+   * gives it back once it is well clear. A page like /how-it-works has 11
+   * bands; without this they would all hold a live context at once, near
+   * Chrome's ~16 limit, for backdrops the reader cannot see.
+   */
+  function start(host: HTMLElement) {
+    const canvas = host.querySelector<HTMLCanvasElement>('.gradient-backdrop__canvas');
+    if (!canvas) return;
+
+    const intensity = Number(host.dataset.intensity) || 1;
+
+    let gl: WebGL2RenderingContext | null = null;
+    let uTime: WebGLUniformLocation | null = null;
+    let uRes: WebGLUniformLocation | null = null;
+    let raf = 0;
+    let running = false;
+    let near = false;     // within acquire margin
+    let onScreen = false; // actually visible
+    const t0 = performance.now();
+
+    const sizeTo = () => {
+      if (!gl) return;
+      // Half resolution: invisible on a gradient this soft, ~quarter the work.
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5) * 0.5;
+      const w = Math.max(1, Math.round(host.clientWidth * dpr));
+      const h = Math.max(1, Math.round(host.clientHeight * dpr));
+      if (canvas.width === w && canvas.height === h) return;
+      canvas.width = w;
+      canvas.height = h;
+      gl.viewport(0, 0, w, h);
+      gl.uniform2f(uRes, w, h);
+    };
+
+    const acquire = () => {
+      if (gl) return true;
+      const ctx = canvas.getContext('webgl2', {
+        antialias: false,
+        alpha: false,
+        powerPreference: 'low-power',
+      });
+      if (!ctx) return false; // CSS fallback stands.
+
+      const vs = compile(ctx, ctx.VERTEX_SHADER, VERT);
+      const fs = compile(ctx, ctx.FRAGMENT_SHADER, FRAG);
+      if (!vs || !fs) return false;
+
+      const prog = ctx.createProgram()!;
+      ctx.attachShader(prog, vs);
+      ctx.attachShader(prog, fs);
+      ctx.linkProgram(prog);
+      if (!ctx.getProgramParameter(prog, ctx.LINK_STATUS)) return false;
+      ctx.useProgram(prog);
+
+      const buf = ctx.createBuffer();
+      ctx.bindBuffer(ctx.ARRAY_BUFFER, buf);
+      ctx.bufferData(ctx.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), ctx.STATIC_DRAW);
+      const loc = ctx.getAttribLocation(prog, 'p');
+      ctx.enableVertexAttribArray(loc);
+      ctx.vertexAttribPointer(loc, 2, ctx.FLOAT, false, 0, 0);
+
+      gl = ctx;
+      uRes = ctx.getUniformLocation(prog, 'uRes');
+      uTime = ctx.getUniformLocation(prog, 'uTime');
+      ctx.uniform1f(ctx.getUniformLocation(prog, 'uIntensity'), intensity);
+
+      // So a sized-but-not-yet-drawing canvas reads as the surface colour
+      // rather than the default black.
+      ctx.clearColor(0.973, 0.973, 0.953, 1.0);
+      ctx.clear(ctx.COLOR_BUFFER_BIT);
+
+      canvas.width = 0; // force sizeTo to run
+      sizeTo();
+      canvas.dataset.ready = '';
+      return true;
+    };
+
+    const release = () => {
+      if (!gl) return;
+      cancelAnimationFrame(raf);
+      running = false;
+      delete canvas.dataset.ready;
+      gl.getExtension('WEBGL_lose_context')?.loseContext();
+      gl = null;
+    };
+
+    const frame = () => {
+      if (!gl) return;
+      gl.uniform1f(uTime, (performance.now() - t0) / 1000);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+      raf = requestAnimationFrame(frame);
+    };
+
+    const sync = () => {
+      if (near && !gl && !acquire()) return;
+      if (!near) {
+        release();
+        return;
+      }
+      const on = onScreen && !document.hidden;
+      if (on === running) return;
+      running = on;
+      if (on) frame();
+      else cancelAnimationFrame(raf);
+    };
+
+    // Acquire early so the field is already drawn when the band scrolls in;
+    // release only once it is a full viewport away, to avoid thrashing.
+    new IntersectionObserver(([e]) => { near = e.isIntersecting; sync(); },
+      { rootMargin: '100% 0px' }).observe(host);
+    new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; sync(); },
+      { threshold: 0 }).observe(host);
+
+    document.addEventListener('visibilitychange', sync);
+    new ResizeObserver(sizeTo).observe(host);
+  }
+
+  function init() {
+    const quiet = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Below this width the gradient is mostly hidden behind text anyway.
+    const small = window.matchMedia('(max-width: 640px)').matches;
+    if (quiet || small) return;
+    document.querySelectorAll<HTMLElement>('.gradient-backdrop').forEach(start);
+  }
+
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>

@@ -68,7 +68,7 @@ What you can actually export from your current website depends entirely on the p
 
 ### WordPress (Self-Hosted)
 
-WordPress is the most portable option. You can export your entire site — content, media, database, theme files — and move it to a new host. WordPress has a built-in export tool (Tools > Export) that generates an XML file with all your posts, pages, and media references. If you have FTP or file manager access to your hosting account, you can also download the full site files directly.
+WordPress is the most portable option. You can export your entire site — content, media, database, theme files, and move it to a new host. WordPress has a built-in export tool (Tools > Export) that generates an XML file with all your posts, pages, and media references. If you have FTP or file manager access to your hosting account, you can also download the full site files directly.
 
 The catch: if your agency built a custom theme or used proprietary plugins, the theme and plugin code might be licensed to them, not to you. The content is yours, but the design template might not be. Check your contract.
 
@@ -78,7 +78,7 @@ This is where it gets frustrating. Proprietary platforms are closed systems. The
 
 What you can take: your text content (copy/paste from each page), your images (right-click save), and your blog posts if you have them. What you can't take: the design, the page structure, any custom functionality, form configurations, or integrations.
 
-Plan on rebuilding from scratch. This is not a migration — it's a fresh start using your existing content.
+Plan on rebuilding from scratch. This is not a migration. It's a fresh start using your existing content.
 
 ### Wix and Squarespace
 
@@ -156,7 +156,7 @@ Google has been crawling and indexing your old site for months or years. When yo
 
 **Keep your Google Search Console verified.** Make sure the verification method you used for Search Console still works with the new site. If verification breaks, Google may temporarily de-index your pages while it figures out what happened.
 
-Most practices see rankings recover — and often improve — within 3-6 weeks, especially if the new site is faster, better structured, and has improved content. The dip is temporary. The improvement is permanent.
+Most practices see rankings recover, and often improve — within 3-6 weeks, especially if the new site is faster, better structured, and has improved content. The dip is temporary. The improvement is permanent.
 
 ## What Happens to Your Google Business Profile
 
@@ -182,7 +182,7 @@ Migration also works if you're staying on the same platform but switching hostin
 
 If you're leaving a proprietary platform, a rebuild is your only option. But even when migration is technically possible, a rebuild is often the smarter choice.
 
-Here's why. If you're switching providers because your current site isn't performing well — it's slow, it doesn't rank, it doesn't convert — then migrating that same site to a new server doesn't fix the underlying problems. You're just moving a mediocre site to a new address.
+Here's why. If you're switching providers because your current site isn't performing well. It's slow, it doesn't rank, it doesn't convert — then migrating that same site to a new server doesn't fix the underlying problems. You're just moving a mediocre site to a new address.
 
 A rebuild gives you the chance to start clean. Better page structure. Faster load times. Improved content. Proper technical SEO from day one. Yes, it takes more time upfront. But if the whole reason you're switching is that your current site isn't working, migrating the same broken thing defeats the purpose.
 
@@ -214,7 +214,7 @@ Understand what you can and can't take with you based on your current platform. 
 
 Build the new site first, then switch. Maintain an overlap period so you're never without a live website.
 
-Expect a temporary ranking dip, but know that it recovers — and often improves — if your new site is better than the old one.
+Expect a temporary ranking dip, but know that it recovers, and often improves — if your new site is better than the old one.
 
 Choose your next provider carefully. Ownership, transparency, and the ability to leave are more important than flashy design or slick sales presentations. If you want a framework for evaluating your options, [here's what to look for in a new provider](/compare).
 

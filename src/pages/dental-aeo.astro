@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FAQBlock from '../components/FAQBlock.astro';
 import CTABlock from '../components/CTABlock.astro';
+import GradientBackdrop from '../components/GradientBackdrop.astro';
 
 const faqs = [
   {
@@ -33,13 +34,13 @@ const faqs = [
 
 <BaseLayout
   title="Dental AEO — Answer Engine Optimization for Dental Practices | Groundwork Dental"
-  description="AI doesn't rank pages. It picks answers. Answer Engine Optimization (AEO) is how you make sure your dental practice gets cited — not ignored — when patients ask AI systems about implants, Invisalign, and local dentists."
+  description="AI doesn't rank pages. It picks answers. Answer Engine Optimization (AEO) is how you make sure your dental practice gets cited, not ignored — when patients ask AI systems about implants, Invisalign, and local dentists."
 >
   <!-- Hero -->
-  <section class="bg-surface-2">
+  <section class="relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
       <div class="max-w-3xl">
-        <p class="eyebrow text-sage-dark mb-4">The fourth engine</p>
         <h1 class="section-heading mb-6">AI Doesn't Rank Pages. It Picks Answers.</h1>
         <p class="font-serif text-xl text-mid-gray leading-relaxed">
           Over 60% of searches now end without a click — the answer appears on the results page, drawn from whichever site is clearest and best structured. Here's what that shift means for dental practices, and what it takes to be the site that gets cited.
@@ -90,7 +91,7 @@ const faqs = [
 
         <h3>2. Answer-Oriented Content</h3>
         <p>
-          AI systems prefer pages built around one clear question with one clear answer. "How much does a dental implant cost?" as an H2 followed by a direct, specific answer — not a paragraph of hedging — is exactly what gets quoted. Most dental pages are written as marketing copy, not answers. That's the gap.
+          AI systems prefer pages built around one clear question with one clear answer. "How much does a dental implant cost?" as an H2 followed by a direct, specific answer, not a paragraph of hedging — is exactly what gets quoted. Most dental pages are written as marketing copy, not answers. That's the gap.
         </p>
 
         <h3>3. Content Hierarchy and Clarity</h3>
@@ -111,7 +112,7 @@ const faqs = [
           The difference is in how the content is written. SEO has historically rewarded keyword density, link acquisition, and page depth. AEO rewards directness, clarity, and answer structure. A page that says "Dental implants are permanent tooth replacements. The average cost in the United States is $3,000–$5,000 per implant" will be quoted by AI before a page that says "We offer comprehensive dental implant solutions tailored to your unique smile goals."
         </p>
         <p>
-          If you've read our <a href="/dental-seo-foundation">dental SEO foundation guide</a>, you know we already talk about three ranking engines: Google Maps, local organic pages, and authority signals. AEO is the fourth engine — and it runs on the same infrastructure. Build the foundation right once, and it works for all four.
+          If you've read our <a href="/dental-seo-foundation">dental SEO foundation guide</a>, you know we already talk about three ranking engines: Google Maps, local organic pages, and authority signals. AEO is the fourth engine, and it runs on the same infrastructure. Build the foundation right once, and it works for all four.
         </p>
 
         <h2>What "AEO-Ready" Looks Like in Practice</h2>

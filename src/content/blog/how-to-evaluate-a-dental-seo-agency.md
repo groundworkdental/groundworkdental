@@ -30,13 +30,13 @@ Bias disclosure up front: we're [Groundwork Dental](/compare). We compete with t
 
 That said, this framework is genuinely useful regardless of whether you ever become a client. These are the same tests and questions we'd tell a friend to use, and they work whether you're evaluating us, a large dental marketing agency, or a local freelancer.
 
-Use this framework on us, too. We pass every test below — but don't take our word for it. Verify.
+Use this framework on us, too. We pass every test below. But don't take our word for it. Verify.
 
 ## 1. Domain Ownership
 
 Your domain is your address on the internet. If someone else controls it, they control your online presence.
 
-**🚩 Red flag:** The agency registered your domain in their name or their account. If you leave, you have to negotiate to get it back — or start over with a new domain and lose your SEO history.
+**🚩 Red flag:** The agency registered your domain in their name or their account. If you leave, you have to negotiate to get it back, or start over with a new domain and lose your SEO history.
 
 **✅ Green flag:** The domain is registered to you, paid by you, in an account you control. The agency has access only if you grant it.
 
@@ -50,7 +50,7 @@ If the provider builds your website on a proprietary platform, switching provide
 
 **🚩 Red flag:** Your site is built on a platform that only the agency controls. You can't export your files, and no other developer can work on it. Ask "If I cancel, does my website stay online?" — if there's any hesitation, conditions, or "well, our platform..." — that's your answer.
 
-**✅ Green flag:** Your site is built on standard technology — WordPress, Astro, Next.js, static HTML — and you can get a complete copy of all files, images, and content that a different developer could deploy somewhere else.
+**✅ Green flag:** Your site is built on standard technology — WordPress, Astro, Next.js, static HTML, and you can get a complete copy of all files, images, and content that a different developer could deploy somewhere else.
 
 **What to ask:** "Can I export my website files and host them somewhere else?" If the answer is no, you don't own your website. You're renting it. We've written more about [how the different approaches compare](/compare).
 
@@ -78,7 +78,7 @@ Template sites aren't inherently terrible — a good template is better than a b
 
 **✅ Green flag:** Your site looks and reads like it was built for your practice. Unique design, unique content, specific to your location and services.
 
-**What to ask:** "Show me five client websites." Then actually look at them side by side. Do they look identical? Then run this test: go to one of your service pages, find a distinctive sentence from the middle of the page, copy it, and search it in Google with quotes around it. If that exact sentence appears on other dental websites, you're not just getting a template design — you're getting template words. Google recognizes duplicate content and devalues it.
+**What to ask:** "Show me five client websites." Then actually look at them side by side. Do they look identical? Then run this test: go to one of your service pages, find a distinctive sentence from the middle of the page, copy it, and search it in Google with quotes around it. If that exact sentence appears on other dental websites, you're not just getting a template design. You're getting template words. Google recognizes duplicate content and devalues it.
 
 > **How Groundwork handles this:** Every site is built from scratch. No templates, no themes, no shared layouts across clients. All content is written specifically for your practice — your location, your services, your voice. Run the duplicate content test on any site we build. [See an example](/example).
 

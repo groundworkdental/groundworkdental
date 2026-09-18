@@ -10,7 +10,9 @@
     "build": "node scripts/build.mjs",
     "preview": "astro preview",
     "deploy": "npm run build && npx wrangler pages deploy dist --project-name=groundworkdental",
-    "astro": "astro"
+    "astro": "astro",
+    "audit": "npm run build && npx --yes impeccable@latest detect dist/",
+    "audit:src": "npx --yes impeccable@latest detect src/"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.12",

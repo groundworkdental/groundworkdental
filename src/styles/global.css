@@ -107,7 +107,7 @@
   }
 
   .prose-article blockquote {
-    @apply border-t-2 border-sage bg-sage/5 px-6 pt-5 pb-4 my-6 not-italic text-charcoal rounded text-base;
+    @apply bg-sage/5 px-6 py-5 my-6 not-italic text-charcoal rounded text-base;
   }
 
   .prose-article blockquote strong {

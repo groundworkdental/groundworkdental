@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FAQBlock from '../components/FAQBlock.astro';
 import CTABlock from '../components/CTABlock.astro';
+import GradientBackdrop from '../components/GradientBackdrop.astro';
 
 const faqs = [
   {
@@ -121,7 +122,7 @@ const faqs = [
       </div>
 
       <div class="text-center mt-10">
-        <p class="font-serif text-sm text-mid-gray mb-4">A real site for a real practice — not a mockup, not a demo, not a Figma file.</p>
+        <p class="font-serif text-sm text-mid-gray mb-4">A real site for a real practice, not a mockup, not a demo, not a Figma file.</p>
         <a
           href="https://hbimplants.com"
           target="_blank"
@@ -138,7 +139,8 @@ const faqs = [
   </section>
 
   <!-- Stats -->
-  <section class="py-10 bg-surface-2">
+  <section class="py-10 relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
         <div class="card">
@@ -229,7 +231,8 @@ AggregateRating  → Overall review score from Google`}</code></pre>
   </section>
 
   <!-- Test It Yourself -->
-  <section class="py-10 bg-surface-2">
+  <section class="py-10 relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="max-w-3xl mx-auto text-center">
         <h2 class="section-subheading mb-4">Test It Yourself</h2>

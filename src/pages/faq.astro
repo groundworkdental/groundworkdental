@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FAQBlock from '../components/FAQBlock.astro';
 import CTABlock from '../components/CTABlock.astro';
+import GradientBackdrop from '../components/GradientBackdrop.astro';
 
 const buildFaqs = [
   {
@@ -25,7 +26,7 @@ const buildFaqs = [
 const pricingFaqs = [
   {
     question: 'What\'s the catch with the $2,000 price?',
-    answer: 'No catch. That\'s just the minimum cost to have a properly built website. Domain renewal is ~$12/year paid to your registrar — not to us. Hosting on Cloudflare Pages is free. There is no monthly fee. If you want us to manage things for you, that\'s $100/month — but it\'s priced that way intentionally so you\'re motivated to just host it yourself and save the money.',
+    answer: 'No catch. That\'s just the minimum cost to have a properly built website. Domain renewal is ~$12/year paid to your registrar, not to us. Hosting on Cloudflare Pages is free. There is no monthly fee. If you want us to manage things for you, that\'s $100/month. But it\'s priced that way intentionally so you\'re motivated to just host it yourself and save the money.',
   },
   {
     question: 'Why is it only $2,000 when other agencies charge $5,000–$15,000?',
@@ -33,7 +34,7 @@ const pricingFaqs = [
   },
   {
     question: 'What\'s the ~$12/year cost after the build?',
-    answer: 'That\'s your domain renewal (like yourpractice.com), paid directly to your domain registrar — not to us. Hosting on Cloudflare Pages is free. No monthly fees, no platform subscriptions.',
+    answer: 'That\'s your domain renewal (like yourpractice.com), paid directly to your domain registrar, not to us. Hosting on Cloudflare Pages is free. No monthly fees, no platform subscriptions.',
   },
   {
     question: 'Is there a contract or commitment?',
@@ -45,7 +46,7 @@ const pricingFaqs = [
   },
   {
     question: 'Do I really not need managed hosting?',
-    answer: 'Honestly, no — and we price it high on purpose. Your hosting on Cloudflare Pages is free after the build. There are no plugins to update, no database to manage, no security patches. The site runs itself. Your only recurring cost is ~$12/year for domain renewal. You\'re capable of owning your own accounts. Managed hosting exists for practices that genuinely want zero technical involvement, but for most dentists, it\'s money you don\'t need to spend.',
+    answer: 'Honestly, no, and we price it high on purpose. Your hosting on Cloudflare Pages is free after the build. There are no plugins to update, no database to manage, no security patches. The site runs itself. Your only recurring cost is ~$12/year for domain renewal. You\'re capable of owning your own accounts. Managed hosting exists for practices that genuinely want zero technical involvement, but for most dentists, it\'s money you don\'t need to spend.',
   },
   {
     question: 'Can I self-host and pay $0/month?',
@@ -53,7 +54,7 @@ const pricingFaqs = [
   },
   {
     question: 'What\'s NOT included?',
-    answer: 'Paid advertising, complex software integrations, patient portal development, and ongoing marketing strategy. We build the website and Google Business Profile foundation — but not a full marketing department. No ongoing content creation unless you ask for it separately.',
+    answer: 'Paid advertising, complex software integrations, patient portal development, and ongoing marketing strategy. We build the website and Google Business Profile foundation. But not a full marketing department. No ongoing content creation unless you ask for it separately.',
   },
 ];
 
@@ -76,7 +77,7 @@ const afterFaqs = [
   },
   {
     question: 'Will this actually help me get more patients?',
-    answer: 'A great website won\'t flood your practice with new patients — but a bad one is actively turning people away. Our focus is the baseline foundation: every technical signal Google and AI search actually check, done correctly. Real growth beyond that requires regular content creation. We\'ll tell you exactly what that involves and what to realistically expect.',
+    answer: 'A great website won\'t flood your practice with new patients. But a bad one is actively turning people away. Our focus is the baseline foundation: every technical signal Google and AI search actually check, done correctly. Real growth beyond that requires regular content creation. We\'ll tell you exactly what that involves and what to realistically expect.',
   },
   {
     question: 'I already use a service like Tebra for my practice. How is this different?',
@@ -91,11 +92,11 @@ const aboutFaqs = [
   },
   {
     question: 'Why dental websites specifically?',
-    answer: 'Dentists are some of the most skilled professionals we know — and some of the most underserved when it comes to their online presence. The dental marketing industry has been overcharging for underwhelming work for years. Modern tools make it possible to deliver dramatically better results at a fraction of the cost.',
+    answer: 'Dentists are some of the most skilled professionals we know, and some of the most underserved when it comes to their online presence. The dental marketing industry has been overcharging for underwhelming work for years. Modern tools make it possible to deliver dramatically better results at a fraction of the cost.',
   },
   {
     question: 'Do you use AI to build the websites?',
-    answer: 'Yes — and we\'re direct about it. AI is why this costs $2,000 instead of $15,000. Every agency in 2026 uses AI tools. Most won\'t say so because they\'re still charging 2019 prices. The AI does the heavy lifting; we do the quality control, specific content writing, and engineering that AI can\'t handle on its own yet.',
+    answer: 'Yes, and we\'re direct about it. AI is why this costs $2,000 instead of $15,000. Every agency in 2026 uses AI tools. Most won\'t say so because they\'re still charging 2019 prices. The AI does the heavy lifting; we do the quality control, specific content writing, and engineering that AI can\'t handle on its own yet.',
   },
   {
     question: 'What happens if you get hit by a bus?',
@@ -109,7 +110,8 @@ const aboutFaqs = [
   description="Answers to common questions about Groundwork Dental — pricing, the build process, what you own, and what happens after."
 >
   <!-- Hero -->
-  <section class="bg-surface-2">
+  <section class="relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
       <div class="max-w-3xl">
         <h1 class="section-heading">FAQ</h1>
