@@ -118,24 +118,31 @@
 
   /*
    * Static field for charcoal surfaces — the dark counterpart to
-   * GradientBackdrop, without the WebGL cost, since these sections are
-   * mostly footer and CTA furniture.
+   * GradientBackdrop, without the WebGL cost.
    *
-   * The warm stop is a cream HUE at charcoal's luminance, not cream itself.
-   * Cream is a light colour, and on-dark-muted sits at only 4.94:1 on
-   * charcoal — mixing in real #F8F8F3 fails AA by 5% (4.29:1), and 3% is
-   * invisible. #423F36 carries the same warmth at 5.02:1, and #293546 deepens
-   * the far corner at 5.92:1.
+   * One hue family, varying only depth. Earlier passes mixed a second hue
+   * into the charcoal (first sage, then a warm cream tone) and both read as
+   * mud: a saturated colour against dark blue at nearly the same lightness
+   * has no contrast to resolve into, so it just looks like a stain. Corner
+   * radials made it worse by concentrating that into a visible blob.
    *
-   * Stops fade to a zero-alpha copy of their own colour rather than
-   * `transparent`, which interpolates through transparent black and greys
-   * the midpoint out.
+   * So: a single broad diagonal wash from charcoal down to #283340, with the
+   * warmth carried as a very slight hue drift in the deepest corner (#2C3238)
+   * rather than as its own colour. Everything is at or below charcoal's
+   * Nothing here is lighter than charcoal itself. on-dark-muted sits at only
+   * 4.94:1 on charcoal, so a lift at the top end would cost contrast the
+   * footer cannot spare; deepening is free. Stops hold 4.94 / 5.12 / 5.76 /
+   * 6.18:1.
    */
   .gradient-dark {
     background-color: #334155;
-    background-image:
-      radial-gradient(75% 110% at 12% 0%, #423F36 0%, rgba(66, 63, 54, 0) 58%),
-      radial-gradient(65% 100% at 88% 100%, #293546 0%, rgba(41, 53, 70, 0) 62%);
+    background-image: linear-gradient(
+      152deg,
+      #334155 0%,
+      #303D4E 34%,
+      #2B3747 72%,
+      #2C3238 100%
+    );
   }
 
   .card {
