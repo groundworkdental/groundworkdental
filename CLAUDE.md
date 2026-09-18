@@ -12,14 +12,12 @@ The marketing website for Groundwork Dental, a productized dental website agency
 - `src/config/site.ts` — agency info, Organization schema (single source of truth)
 - `src/config/navigation.ts` — header nav (dropdowns); see `navMain` / `navLinks`
 - `src/layouts/BaseLayout.astro` — master layout (SEO head, OG, schema, GA4, fonts)
-- `src/layouts/IntakeLayout.astro` — intake portal shell
 - `src/components/` — shared Astro components (Header, Footer, CTABlock, FAQBlock, etc.)
-- `src/components/intake/` — React intake forms
-- `src/pages/` — marketing routes, `dental-websites/` specialty landers, `blog/`, `intake/`, `admin/`, `handoff/`, `api/`
+- `src/pages/` — marketing routes, `dental-websites/` specialty landers, `blog/`, `api/` (`api/contact.ts` writes leads to Cloudflare D1 + emails via Gmail)
 - `src/content/blog/` — markdown blog posts
 - `src/styles/global.css` — Tailwind utilities and component classes
 - `public/images/` — static assets served at `/images/...` (screenshots, branding)
-- `supabase/migration.sql` — DB schema (run in Supabase SQL editor)
+- `public/_redirects` — forwards legacy `/audits/*` and `/pitch/*` links to `reports.groundworkdental.com` (per-prospect reports now live in the builder-owned `groundwork-reports` Pages project)
 - `References/` — internal operator docs (not deployed): playbook, client build standards, `sales/` for business artifacts
 - `DESIGN.md` — design system tokens and patterns
 
@@ -40,4 +38,6 @@ Calm, competent, honest. An engineer explaining to a smart friend how something 
 - Full playbook: `References/groundwork-dental-playbook.md`
 - Go-live & payment (ops): `References/GO_LIVE_AND_PAYMENT.md` — $2,000 is the public offer; $500 is a side path, not a website SKU
 - Client build standards (IA, SEO, schema, crawl): `References/client-site-build-best-practices.md`
-- Reference client site: `/Users/garrettgunther/Projects/hbimplants/`
+- Reference client site (legacy, pre-builder): `/Users/garrettgunther/Projects/hbimplants/`
+- First builder-produced client site: https://github.com/groundworkdental/mansfielddds
+- Build pipeline & agents live in `/Users/garrettgunther/Projects/groundwork-builder/` (it pushes audit/pitch artifacts into this repo — see `public/audits/`)

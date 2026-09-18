@@ -220,7 +220,7 @@ Every client site ships with a static reviews section and a review collection sy
 
 ---
 
-## 15. QA & launch (condensed from playbook §21)
+## 16. QA & launch (condensed from playbook §21)
 
 **Technical**
 
@@ -247,9 +247,38 @@ Every client site ships with a static reviews section and a review collection sy
 
 ---
 
-## 16. Groundwork **agency** repo vs client sites
+## 18. Groundwork **agency** repo vs client sites
 
 - This repository (**groundworkdental.com**) follows **`CLAUDE.md`** and **`src/config/site.ts`** for the **agency** brand. **Client** sites use the same **patterns** (Astro, `site.ts`, `navigation.ts`, `BaseLayout`, schema) with **practice-specific** nav, sitemap priorities, and `robots` rules—tune per domain.
+
+---
+
+## 17. Launch checklist additions — learnings from Mansfield DDS (first client, Sept 2026)
+
+Every item below caused a post-launch fix on the first client build. Bake into pre-launch gates.
+
+**Deploy / infra**
+- [ ] Pin Node version for Cloudflare Pages in **both** `.nvmrc` and `NODE_VERSION` in `wrangler.toml` (Node 22)
+- [ ] GA4 measurement ID set via `wrangler.toml` env — verify it is present before any deploy
+- [ ] Guard manual deploys: confirm the Cloudflare **account ID** matches the client project before pushing
+- [ ] Preview hostnames excluded from search (noindex / robots) before the preview goes up
+
+**Content completeness**
+- [ ] Real front-desk **phone and email** present — verify a working contact path end to end (no empty `tel:` links)
+- [ ] No unwritten blog stubs published; no superseded stub pages left in the sitemap
+- [ ] Every service page has its media/sections (don't ship 1 of 4 populated)
+- [ ] **Custom 404 page** exists — unmatched routes must not silently return the homepage
+- [ ] Before/after gallery: per-image **provenance documented** (compliance)
+
+**SEO / schema / analytics**
+- [ ] `LocalBusiness` schema complete; **OG image** present
+- [ ] `robots.txt` origin points at the live domain, not the preview
+- [ ] All `tel:` links labeled/instrumented so GA4 **call attribution** works
+- [ ] `llms.txt` generated from `site.ts` config, then hand-reviewed — not blindly auto-generated
+
+**Process / DRY**
+- [ ] All practice details flow through `src/config/site.ts` — never retyped inline on pages
+- [ ] Every env var used by the deploy is documented; delete vars that do nothing
 
 ---
 

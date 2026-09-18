@@ -1,0 +1,8 @@
+# Prospect audit reports and pitch pages moved to the dedicated
+# groundwork-reports Pages project (deployed by groundwork-builder).
+# These keep links sent out before the migration working.
+/audits/* https://reports.groundworkdental.com/audits/:splat 301
+/pitch/* https://reports.groundworkdental.com/pitch/:splat 301
+# Lead-capture endpoint moved with the audit pages. 308 preserves the
+# POST method for any old page still calling this origin.
+/api/audit-preview-request https://reports.groundworkdental.com/api/audit-preview-request 308
