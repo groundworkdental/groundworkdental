@@ -13,6 +13,7 @@ Voice in one line: **the honest dental website guy.** Conversational, self-aware
 2. [Typography](#typography)
 3. [Spacing & radius](#spacing--radius)
 4. [Layout](#layout)
+4b. [Alignment](#alignment)
 5. [Components — primitives](#components--primitives)
 6. [Components — organisms](#components--organisms)
 7. [Accessibility](#accessibility)
@@ -158,6 +159,35 @@ Stay on this ladder; reach for a new step only with a reason.
 - **Section vertical padding:** `py-10` standard; `py-12`/`py-16` for emphasis.
 - **Sticky header** at `top-0 z-50`, solid white, hairline bottom rule.
 - **Grid** collapses to single column under 740px (`md:` / `lg:` breakpoints).
+
+---
+
+## Alignment
+
+**Left is the default. Centring is the exception, and it is a short list.**
+
+The system had no alignment rule before v2.1, which is why it drifted: two of
+ten homepage sections were centred with no pattern behind them, `/how-it-works`
+had 20 centred elements and `/about` had none.
+
+**Left-align** every heading, deck, and paragraph. The body face is Georgia, and
+centred serif prose is ragged on both edges and slower to scan — which works
+against "answer first" (see `References/voice-and-tone.md`). Constrain the
+measure with `max-w-*` + `mx-auto`; centring the *block* is not the same as
+centring the *text*.
+
+**Centre only:**
+
+| What | Why |
+|---|---|
+| The CTA panel (`CTABlock`) | Terminal, symmetric, one action. |
+| Comparison table cells | Tabular data reads better centred under a centred head. |
+| Numerals in a stat tile (`$2,000`, PageSpeed scores) | A figure, not a sentence. |
+| Icon / step tiles, and button labels | UI furniture. |
+| The form success confirmation | Terminal state; behaves like a CTA. |
+
+Anything not on that list is left-aligned. If a new section seems to want
+centring, the likely problem is that it has too much prose to be a CTA.
 
 ---
 

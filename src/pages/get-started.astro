@@ -12,7 +12,7 @@ import GradientBackdrop from '../components/GradientBackdrop.astro';
   <section class="relative isolate bg-surface-2">
     <GradientBackdrop intensity={0.68} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
-      <div class="max-w-2xl mx-auto text-center">
+      <div class="max-w-2xl mx-auto">
         <h1 class="section-heading mb-6">See Your New Website Before You Pay.</h1>
         <p class="font-serif text-xl text-mid-gray leading-relaxed">
           Send your practice name and current site. We'll build a real preview, not a mockup —
@@ -93,11 +93,11 @@ import GradientBackdrop from '../components/GradientBackdrop.astro';
           <span class="text-swap" data-label>Build My Free Preview</span>
         </button>
 
-        <p class="text-center font-serif text-sm text-mid-gray">
+        <p class="font-serif text-sm text-mid-gray">
           No payment, no commitment. We build the preview first — you decide after you've seen it.
         </p>
 
-        <p class="text-center font-serif text-sm text-mid-gray">
+        <p class="font-serif text-sm text-mid-gray">
           Not ready?
           <a href="/checklist" class="text-sage-dark underline underline-offset-4 hover:text-charcoal">
             Grab the free online presence checklist
@@ -123,7 +123,7 @@ import GradientBackdrop from '../components/GradientBackdrop.astro';
       </div>
 
       <!-- Error State -->
-      <div id="form-error" class="error-reveal hidden mt-4 p-4 bg-red-50 border border-red-200 rounded text-center" role="alert">
+      <div id="form-error" class="error-reveal hidden mt-4 p-4 bg-red-50 border border-red-200 rounded" role="alert">
         <p class="font-serif text-sm text-red-700">
           Something went wrong. Please email us directly at <a href={`mailto:${site.email}`} class="underline">{site.email}</a>.
         </p>
@@ -135,7 +135,7 @@ import GradientBackdrop from '../components/GradientBackdrop.astro';
   <section class="py-8 relative isolate bg-surface-2">
     <GradientBackdrop intensity={0.68} />
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div>
           <p class="font-serif text-charcoal font-semibold mb-1">No payment upfront</p>
           <p class="font-serif text-sm text-mid-gray">You see a live preview first. Pay $2,000 when you want it — it can go live on your domain that day.</p>
