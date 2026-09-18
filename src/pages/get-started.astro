@@ -90,7 +90,7 @@ import GradientBackdrop from '../components/GradientBackdrop.astro';
           id="submit-btn"
           class="w-full btn-primary py-3.5 text-center"
         >
-          Build My Free Preview
+          <span class="text-swap" data-label>Build My Free Preview</span>
         </button>
 
         <p class="text-center font-serif text-sm text-mid-gray">
@@ -108,9 +108,9 @@ import GradientBackdrop from '../components/GradientBackdrop.astro';
 
       <!-- Success State -->
       <div id="form-success" class="hidden text-center py-8">
-        <div class="w-16 h-16 rounded-full bg-sage/20 flex items-center justify-center mx-auto mb-6">
+        <div class="success-check w-16 h-16 rounded-full bg-sage/20 flex items-center justify-center mx-auto mb-6">
           <svg class="w-8 h-8 text-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" pathLength="1" d="M5 13l4 4L19 7" />
           </svg>
         </div>
         <h2 class="font-serif text-2xl text-charcoal mb-4">Got it — we'll start on your preview.</h2>
@@ -123,7 +123,7 @@ import GradientBackdrop from '../components/GradientBackdrop.astro';
       </div>
 
       <!-- Error State -->
-      <div id="form-error" class="hidden mt-4 p-4 bg-red-50 border border-red-200 rounded text-center">
+      <div id="form-error" class="error-reveal hidden mt-4 p-4 bg-red-50 border border-red-200 rounded text-center" role="alert">
         <p class="font-serif text-sm text-red-700">
           Something went wrong. Please email us directly at <a href={`mailto:${site.email}`} class="underline">{site.email}</a>.
         </p>
@@ -153,11 +153,136 @@ import GradientBackdrop from '../components/GradientBackdrop.astro';
   </section>
 </BaseLayout>
 
+<style>
+  /*
+   * Three transitions on the one page that actually changes state. Durations
+   * are deliberately short — this is a confirmation, not a celebration.
+   */
+
+  /* --- Success check -------------------------------------------------- */
+  /* The circle settles up into place while the tick draws itself. */
+  .success-check {
+    opacity: 0;
+    transform: translateY(6px) scale(0.94);
+  }
+
+  .success-check[data-state='in'] {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 260ms ease-out,
+      transform 420ms cubic-bezier(0.22, 1.2, 0.36, 1); /* slight overshoot */
+  }
+
+  /* pathLength="1" on the <path> normalises the stroke, so the draw is a
+     single 0..1 tween no matter what the real path length is. */
+  .success-check path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+
+  .success-check[data-state='in'] path {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 420ms cubic-bezier(0.65, 0, 0.35, 1) 120ms;
+  }
+
+  /* --- Button label swap ---------------------------------------------- */
+  .text-swap {
+    display: inline-block;
+    transition:
+      opacity 150ms ease-in-out,
+      transform 150ms ease-in-out,
+      filter 150ms ease-in-out;
+  }
+
+  /* Old label leaves upward; the new one is placed below, then released. */
+  .text-swap.is-exit {
+    opacity: 0;
+    transform: translateY(-4px);
+    filter: blur(2px);
+  }
+
+  .text-swap.is-enter {
+    opacity: 0;
+    transform: translateY(4px);
+    filter: blur(2px);
+    transition: none;
+  }
+
+  /* --- Error reveal ---------------------------------------------------- */
+  /* No shake: a failed POST is our fault, and shaking the form implies the
+     reader typed something wrong. It just needs to arrive noticeably. */
+  .error-reveal {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  .error-reveal[data-state='in'] {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 200ms ease-out,
+      transform 200ms ease-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .success-check,
+    .success-check[data-state='in'],
+    .success-check path,
+    .success-check[data-state='in'] path,
+    .text-swap,
+    .text-swap.is-exit,
+    .text-swap.is-enter,
+    .error-reveal,
+    .error-reveal[data-state='in'] {
+      opacity: 1;
+      transform: none;
+      filter: none;
+      stroke-dashoffset: 0;
+      transition: none;
+    }
+  }
+</style>
+
 <script>
   const form = document.getElementById('get-started-form') as HTMLFormElement;
   const successDiv = document.getElementById('form-success');
   const errorDiv = document.getElementById('form-error');
   const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+  const btnLabel = submitBtn?.querySelector<HTMLElement>('[data-label]');
+
+  const DUR = 150; // keep in step with .text-swap's transition
+
+  /**
+   * Swaps a label's text in place: the old one leaves upward, the new one
+   * arrives from below. Falls back to a plain assignment when the reader has
+   * asked for reduced motion, so the label never sits mid-animation.
+   */
+  function swapLabel(el: HTMLElement | null | undefined, next: string) {
+    if (!el) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      el.textContent = next;
+      return;
+    }
+    el.classList.add('is-exit');
+    window.setTimeout(() => {
+      el.textContent = next;
+      el.classList.remove('is-exit');
+      el.classList.add('is-enter');
+      // Force a reflow so the browser paints the "below" position before the
+      // class is dropped; without this the enter tween is skipped entirely.
+      void el.offsetWidth;
+      el.classList.remove('is-enter');
+    }, DUR);
+  }
+
+  /** Reveals a hidden block and lets its transition run from the start. */
+  function reveal(el: HTMLElement | null) {
+    if (!el) return;
+    el.classList.remove('hidden');
+    void el.offsetWidth;
+    el.dataset.state = 'in';
+  }
 
   // Fired once, on the first keystroke in any field.
   //
@@ -178,8 +303,9 @@ import GradientBackdrop from '../components/GradientBackdrop.astro';
 
     // Disable button and show loading state
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending...';
+    swapLabel(btnLabel, 'Sending...');
     errorDiv?.classList.add('hidden');
+    if (errorDiv) delete errorDiv.dataset.state;
 
     const formData = new FormData(form);
     const data = {
@@ -212,6 +338,9 @@ import GradientBackdrop from '../components/GradientBackdrop.astro';
       // Show success, hide form
       form.classList.add('hidden');
       successDiv?.classList.remove('hidden');
+      // The check draws itself once the block is in the layout.
+      const check = successDiv?.querySelector<HTMLElement>('.success-check');
+      if (check) { void check.offsetWidth; check.dataset.state = 'in'; }
     } catch (err) {
       // A failed submission is a lost lead, and it is invisible unless it is
       // recorded. If submits and failures both climb, the problem is the
@@ -222,9 +351,9 @@ import GradientBackdrop from '../components/GradientBackdrop.astro';
         });
       }
       console.error('Form submission failed:', err);
-      errorDiv?.classList.remove('hidden');
+      reveal(errorDiv);
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Build My Free Preview';
+      swapLabel(btnLabel, 'Build My Free Preview');
     }
   });
 </script>
