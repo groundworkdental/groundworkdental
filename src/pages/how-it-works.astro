@@ -5,6 +5,7 @@ import ComparisonTable from '../components/ComparisonTable.astro';
 import FAQBlock from '../components/FAQBlock.astro';
 import CTABlock from '../components/CTABlock.astro';
 import { site } from '../config/site';
+import GradientBackdrop from '../components/GradientBackdrop.astro';
 
 const comparisonRows = [
   { feature: 'Setup cost', diy: 'Free', traditional: '$2,000–$15,000', groundwork: '$2,000 flat' },
@@ -51,10 +52,10 @@ const faqs = [
   description="A modern dental website + optimized Google presence. One flat price. You own everything. No templates. No monthly fees. No fine print. Ready in days."
 >
   <!-- Hero -->
-  <section class="bg-surface-2">
+  <section class="relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
       <div class="max-w-3xl">
-        <p class="eyebrow text-sage-dark mb-4">How it works</p>
         <h1 class="section-heading mb-6">Your Practice Deserves a Better Online Presence.</h1>
         <p class="font-serif text-xl text-mid-gray leading-relaxed">
           A fast, custom website. An optimized Google Business Profile. Full setup and handoff to your accounts. One flat price. Ready in days.
@@ -79,7 +80,8 @@ const faqs = [
   </section>
 
   <!-- What This Service Is -->
-  <section class="py-10 bg-surface-2">
+  <section class="py-10 relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
       <h2 class="section-subheading mb-8">What This Service Is</h2>
       <div class="prose-article text-lg">
@@ -129,10 +131,10 @@ const faqs = [
   </section>
 
   <!-- AI SEO Section -->
-  <section class="py-10 bg-surface-2">
+  <section class="py-10 relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="max-w-3xl mx-auto">
-        <p class="eyebrow text-sage-dark mb-4 text-center">The new search</p>
         <h2 class="section-subheading text-center mb-8">Showing Up in AI Search — Not Just Google</h2>
         <div class="prose-article text-lg">
           <p>
@@ -190,7 +192,8 @@ const faqs = [
   </section>
 
   <!-- How We Compare -->
-  <section class="py-10 bg-surface-2">
+  <section class="py-10 relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <ComparisonTable rows={comparisonRows} heading="How We Compare" />
       <div class="max-w-3xl mx-auto mt-8">
@@ -255,9 +258,9 @@ const faqs = [
   </section>
 
   <!-- The Handoff Doc -->
-  <section class="py-10 bg-surface-2">
+  <section class="py-10 relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-      <p class="eyebrow text-sage-dark mb-4 text-center">What you receive at handoff</p>
       <h2 class="section-subheading text-center mb-8">The Handoff Doc</h2>
       <div class="card mb-6">
         <p class="font-serif text-mid-gray leading-relaxed mb-4">
@@ -294,7 +297,8 @@ const faqs = [
   </section>
 
   <!-- The Process -->
-  <section class="py-10 bg-surface-2">
+  <section class="py-10 relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <h2 class="section-subheading text-center mb-12">The Process</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
@@ -433,7 +437,8 @@ const faqs = [
   </section>
 
   <!-- FAQ -->
-  <section class="py-10 bg-surface-2">
+  <section class="py-10 relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <FAQBlock faqs={faqs} />
     </div>

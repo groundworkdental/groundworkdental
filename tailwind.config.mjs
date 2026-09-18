@@ -12,7 +12,7 @@ export default {
         'sage-tint': '#EBF0EC',
         // Neutrals
         charcoal:       '#334155',
-        'mid-gray':     '#64748B',
+        'mid-gray':     '#556070',
         'border-light': '#E0DDD5',
         // Surfaces (surface-warm dropped)
         surface: { 1: '#FFFFFF', 2: '#F8F8F3' },

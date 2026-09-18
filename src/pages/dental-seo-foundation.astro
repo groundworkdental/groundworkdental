@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FAQBlock from '../components/FAQBlock.astro';
 import CTABlock from '../components/CTABlock.astro';
+import GradientBackdrop from '../components/GradientBackdrop.astro';
 
 const faqs = [
   {
@@ -36,10 +37,10 @@ const faqs = [
   description="The complete guide to dental SEO: baseline presence, growth levels, treatment keywords, the three ranking engines, and what agencies actually do. We're giving all of this away."
 >
   <!-- Hero -->
-  <section class="bg-surface-2">
+  <section class="relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
       <div class="max-w-3xl">
-        <p class="eyebrow text-sage-dark mb-4">Yes, we're giving this away</p>
         <h1 class="section-heading mb-6">Everything You Need to Know About Dental SEO.</h1>
         <p class="font-serif text-xl text-mid-gray leading-relaxed">
           Every secret, every framework, every thing a dental marketing agency charges $5k to explain in a sales call. Right here. For free. Because dentists will read it, appreciate the honesty, realize the implementation requires actual engineering, and hire us anyway.

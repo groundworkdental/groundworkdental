@@ -42,7 +42,7 @@ Every value appears **exactly once**. v1 had `#F8F8F3` under four names and `#33
 | Token | Hex | Usage |
 |---|---|---|
 | `charcoal` | `#334155` | Primary text, headings, dark surfaces, `.btn-dark`. |
-| `mid-gray` | `#64748B` | Secondary text, descriptions, captions, labels, default eyebrows. |
+| `mid-gray` | `#556070` | Secondary text, descriptions, captions, labels. 5.99:1 on `surface-2` — darkened from `#64748B` (4.47:1, under AA) so it also clears 4.5:1 over the animated gradient field. |
 | `border-light` | `#E0DDD5` | Hairline borders, dividers, input & card outlines. A warm beige. |
 
 ### Surfaces
@@ -301,7 +301,7 @@ Direct find-and-replace across `tailwind.config.mjs`, `global.css`, and markup. 
 | `surface-warm` | `surface-2` | token dropped (~8 uses) |
 | `neutral-light` | `surface-2` | same `#F8F8F3` — drop from config |
 | `neutral-dark` | `charcoal` | same `#334155` — drop duplicate key |
-| `neutral-mid` | `mid-gray` | same `#64748B` |
+| `neutral-mid` | `mid-gray` | `#64748B` → `#556070` in v2.1 |
 | `neutral-border` | `border-light` | same `#E0DDD5` |
 | `bg-amber-50` / `text-amber-700` / `text-amber-600` | `warning` | badges + autosave |
 | `bg-neutral-100` | `pending` | pending badge |

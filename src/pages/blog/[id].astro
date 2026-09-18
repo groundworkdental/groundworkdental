@@ -5,6 +5,7 @@ import CTABlock from '../../components/CTABlock.astro';
 import RelatedArticles from '../../components/RelatedArticles.astro';
 import { getCollection, render } from 'astro:content';
 import { site } from '../../config/site';
+import GradientBackdrop from '../../components/GradientBackdrop.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -49,7 +50,8 @@ const blogPostingSchema = {
 >
   <article>
     <!-- Header -->
-    <section class="bg-surface-2">
+    <section class="relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
         <p class="eyebrow text-sage-dark mb-4">
           {post.data.category.replace(/-/g, ' ')}
@@ -83,7 +85,8 @@ const blogPostingSchema = {
 
     <!-- FAQ (if present) -->
     {post.data.faqs && post.data.faqs.length > 0 && (
-      <section class="py-16 bg-surface-2">
+      <section class="py-16 relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <FAQBlock faqs={post.data.faqs} />
         </div>

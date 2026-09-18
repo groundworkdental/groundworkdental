@@ -5,6 +5,7 @@ import ComparisonTable from '../components/ComparisonTable.astro';
 import FAQBlock from '../components/FAQBlock.astro';
 import CTABlock from '../components/CTABlock.astro';
 import { site } from '../config/site';
+import GradientBackdrop from '../components/GradientBackdrop.astro';
 
 const buildHref = site.stripe.websiteBuild || `mailto:${site.email}?subject=Website%20Build&body=I'm%20interested%20in%20getting%20a%20custom%20dental%20website.%20Here's%20my%20current%20site%3A%20`;
 const hostingHref = site.stripe.managedHosting || `mailto:${site.email}?subject=Managed%20Hosting&body=I'm%20interested%20in%20managed%20hosting%20for%20my%20dental%20website.`;
@@ -111,7 +112,8 @@ const faqs = [
   description="Straightforward pricing. $2,000 for a custom dental website. $100/month optional managed hosting. No hidden fees. No 'contact us for a quote.' The actual price."
 >
   <!-- Hero -->
-  <section class="bg-surface-2">
+  <section class="relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
       <div class="max-w-3xl mx-auto text-center">
         <h1 class="section-heading mb-6">The Price Is Right Here.</h1>
@@ -130,7 +132,8 @@ const faqs = [
   </section>
 
   <!-- Full Comparison -->
-  <section class="py-10 bg-surface-2">
+  <section class="py-10 relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-8">
         <h2 class="section-subheading mb-4">How the Options Compare</h2>
@@ -206,7 +209,8 @@ const faqs = [
   </section>
 
   <!-- FAQ -->
-  <section class="py-10 bg-surface-2">
+  <section class="py-10 relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <FAQBlock faqs={faqs} />
     </div>

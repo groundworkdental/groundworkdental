@@ -10,12 +10,21 @@
  * fallback costs nothing.
  */
 interface Props {
-  /** Overall visibility. 1 = the tuned default; lower for quieter sections. */
+  /**
+   * Multiplier on the sage ceiling (0.26 at 1.0). Body sections run ~0.55,
+   * which keeps mid-gray secondary text above 4.5:1 without a scrim.
+   */
   intensity?: number;
+  /**
+   * 'left' fades the field out across the copy column — for hero-style bands
+   * with open space on the right. 'none' for sections with full-width text,
+   * which instead rely on a lower intensity.
+   */
+  scrim?: 'left' | 'none';
   class?: string;
 }
 
-const { intensity = 1, class: className = '' } = Astro.props;
+const { intensity = 1, scrim = 'none', class: className = '' } = Astro.props;
 ---
 
 <div
@@ -24,13 +33,14 @@ const { intensity = 1, class: className = '' } = Astro.props;
   aria-hidden="true"
 >
   <canvas class="gradient-backdrop__canvas"></canvas>
-  <div class="gradient-backdrop__scrim"></div>
+  {scrim === 'left' && <div class="gradient-backdrop__scrim"></div>}
 </div>
 
 <style>
   .gradient-backdrop {
     position: absolute;
     inset: 0;
+    z-index: -1;
     overflow: hidden;
     pointer-events: none;
     /* Fallback, and what shows before/instead of the shader. */
@@ -145,43 +155,30 @@ const { intensity = 1, class: className = '' } = Astro.props;
     return sh;
   }
 
+  /**
+   * Each band owns a WebGL context only while it is near the viewport, and
+   * gives it back once it is well clear. A page like /how-it-works has 11
+   * bands; without this they would all hold a live context at once, near
+   * Chrome's ~16 limit, for backdrops the reader cannot see.
+   */
   function start(host: HTMLElement) {
     const canvas = host.querySelector<HTMLCanvasElement>('.gradient-backdrop__canvas');
     if (!canvas) return;
 
-    const gl = canvas.getContext('webgl2', {
-      antialias: false,
-      alpha: false,
-      powerPreference: 'low-power',
-    });
-    if (!gl) return; // CSS fallback stands.
+    const intensity = Number(host.dataset.intensity) || 1;
 
-    const vs = compile(gl, gl.VERTEX_SHADER, VERT);
-    const fs = compile(gl, gl.FRAGMENT_SHADER, FRAG);
-    if (!vs || !fs) return;
+    let gl: WebGL2RenderingContext | null = null;
+    let uTime: WebGLUniformLocation | null = null;
+    let uRes: WebGLUniformLocation | null = null;
+    let raf = 0;
+    let running = false;
+    let near = false;     // within acquire margin
+    let onScreen = false; // actually visible
+    const t0 = performance.now();
 
-    const prog = gl.createProgram()!;
-    gl.attachShader(prog, vs);
-    gl.attachShader(prog, fs);
-    gl.linkProgram(prog);
-    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return;
-    gl.useProgram(prog);
-
-    const buf = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-    const loc = gl.getAttribLocation(prog, 'p');
-    gl.enableVertexAttribArray(loc);
-    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-
-    const uRes = gl.getUniformLocation(prog, 'uRes');
-    const uTime = gl.getUniformLocation(prog, 'uTime');
-    const uIntensity = gl.getUniformLocation(prog, 'uIntensity');
-    gl.uniform1f(uIntensity, Number(host.dataset.intensity) || 1);
-
-    // Half-resolution is invisible on a gradient this soft and roughly
-    // quarters the fragment work.
-    const resize = () => {
+    const sizeTo = () => {
+      if (!gl) return;
+      // Half resolution: invisible on a gradient this soft, ~quarter the work.
       const dpr = Math.min(window.devicePixelRatio || 1, 1.5) * 0.5;
       const w = Math.max(1, Math.round(host.clientWidth * dpr));
       const h = Math.max(1, Math.round(host.clientHeight * dpr));
@@ -191,29 +188,72 @@ const { intensity = 1, class: className = '' } = Astro.props;
       gl.viewport(0, 0, w, h);
       gl.uniform2f(uRes, w, h);
     };
-    resize();
-    new ResizeObserver(resize).observe(host);
 
-    let raf = 0;
-    let running = false;
-    let onScreen = false;
-    const t0 = performance.now();
+    const acquire = () => {
+      if (gl) return true;
+      const ctx = canvas.getContext('webgl2', {
+        antialias: false,
+        alpha: false,
+        powerPreference: 'low-power',
+      });
+      if (!ctx) return false; // CSS fallback stands.
 
-    // So a canvas that is sized but not yet drawing reads as the surface
-    // colour rather than the default black.
-    gl.clearColor(0.973, 0.973, 0.953, 1.0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
+      const vs = compile(ctx, ctx.VERTEX_SHADER, VERT);
+      const fs = compile(ctx, ctx.FRAGMENT_SHADER, FRAG);
+      if (!vs || !fs) return false;
+
+      const prog = ctx.createProgram()!;
+      ctx.attachShader(prog, vs);
+      ctx.attachShader(prog, fs);
+      ctx.linkProgram(prog);
+      if (!ctx.getProgramParameter(prog, ctx.LINK_STATUS)) return false;
+      ctx.useProgram(prog);
+
+      const buf = ctx.createBuffer();
+      ctx.bindBuffer(ctx.ARRAY_BUFFER, buf);
+      ctx.bufferData(ctx.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), ctx.STATIC_DRAW);
+      const loc = ctx.getAttribLocation(prog, 'p');
+      ctx.enableVertexAttribArray(loc);
+      ctx.vertexAttribPointer(loc, 2, ctx.FLOAT, false, 0, 0);
+
+      gl = ctx;
+      uRes = ctx.getUniformLocation(prog, 'uRes');
+      uTime = ctx.getUniformLocation(prog, 'uTime');
+      ctx.uniform1f(ctx.getUniformLocation(prog, 'uIntensity'), intensity);
+
+      // So a sized-but-not-yet-drawing canvas reads as the surface colour
+      // rather than the default black.
+      ctx.clearColor(0.973, 0.973, 0.953, 1.0);
+      ctx.clear(ctx.COLOR_BUFFER_BIT);
+
+      canvas.width = 0; // force sizeTo to run
+      sizeTo();
+      canvas.dataset.ready = '';
+      return true;
+    };
+
+    const release = () => {
+      if (!gl) return;
+      cancelAnimationFrame(raf);
+      running = false;
+      delete canvas.dataset.ready;
+      gl.getExtension('WEBGL_lose_context')?.loseContext();
+      gl = null;
+    };
 
     const frame = () => {
+      if (!gl) return;
       gl.uniform1f(uTime, (performance.now() - t0) / 1000);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       raf = requestAnimationFrame(frame);
     };
 
-    // Don't burn frames on a backdrop that's scrolled off or in a hidden tab.
-    // Both inputs are re-evaluated on every change, so returning from a
-    // background tab resumes instead of leaving the canvas stalled.
     const sync = () => {
+      if (near && !gl && !acquire()) return;
+      if (!near) {
+        release();
+        return;
+      }
       const on = onScreen && !document.hidden;
       if (on === running) return;
       running = on;
@@ -221,16 +261,15 @@ const { intensity = 1, class: className = '' } = Astro.props;
       else cancelAnimationFrame(raf);
     };
 
-    new IntersectionObserver(
-      ([e]) => {
-        onScreen = e.isIntersecting;
-        sync();
-      },
-      { threshold: 0 }
-    ).observe(host);
-    document.addEventListener('visibilitychange', sync);
+    // Acquire early so the field is already drawn when the band scrolls in;
+    // release only once it is a full viewport away, to avoid thrashing.
+    new IntersectionObserver(([e]) => { near = e.isIntersecting; sync(); },
+      { rootMargin: '100% 0px' }).observe(host);
+    new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; sync(); },
+      { threshold: 0 }).observe(host);
 
-    canvas.dataset.ready = '';
+    document.addEventListener('visibilitychange', sync);
+    new ResizeObserver(sizeTo).observe(host);
   }
 
   function init() {

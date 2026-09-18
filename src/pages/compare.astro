@@ -4,6 +4,7 @@ import FeatureCard from '../components/FeatureCard.astro';
 import ComparisonTable from '../components/ComparisonTable.astro';
 import FAQBlock from '../components/FAQBlock.astro';
 import CTABlock from '../components/CTABlock.astro';
+import GradientBackdrop from '../components/GradientBackdrop.astro';
 
 const fullComparison = [
   { feature: 'Setup cost',       diy: 'Free',                         traditional: '$2,000–$15,000',         groundwork: '$2,000 flat' },
@@ -62,7 +63,8 @@ const faqs = [
   description="Honest comparison of dental website options: Wix, Squarespace, Webflow, traditional agencies, and Groundwork Dental. Cost, ownership, speed, and what actually matters for your practice."
 >
   <!-- Hero -->
-  <section class="bg-surface-2">
+  <section class="relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
       <div class="max-w-3xl">
         <h1 class="section-heading mb-6">How Your Options Actually Compare.</h1>
@@ -113,7 +115,8 @@ const faqs = [
   </section>
 
   <!-- Traditional Agencies -->
-  <section class="py-10 bg-surface-2">
+  <section class="py-10 relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
       <p class="font-sans text-eyebrow uppercase text-mid-gray tracking-widest mb-4">Option 2</p>
       <h2 class="section-subheading mb-6">Dental Marketing Agencies</h2>
@@ -220,7 +223,8 @@ const faqs = [
   </section>
 
   <!-- Custom Agencies ($10k-$25k) -->
-  <section class="py-10 bg-surface-2">
+  <section class="py-10 relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
       <p class="font-sans text-eyebrow uppercase text-mid-gray tracking-widest mb-4">Option 3</p>
       <h2 class="section-subheading mb-6">Premium Custom Agencies ($10k–$25k+)</h2>
@@ -322,7 +326,8 @@ const faqs = [
   </section>
 
   <!-- FAQ -->
-  <section class="py-10 bg-surface-2">
+  <section class="py-10 relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.55} />
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <FAQBlock faqs={faqs} />
     </div>

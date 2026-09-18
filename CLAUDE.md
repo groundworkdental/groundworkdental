@@ -24,7 +24,7 @@ The marketing website for Groundwork Dental, a productized dental website agency
 - `DESIGN.md` — design system tokens and patterns
 
 ## Design System
-- **Palette:** charcoal `#334155`, sage `#5F7F6B` (accent) / sage-dark `#4A6B55` (text & buttons), surface-2 `#F8F8F3`, mid-gray `#64748B`
+- **Palette:** charcoal `#334155`, sage `#5F7F6B` (accent) / sage-dark `#4A6B55` (text & buttons), surface-2 `#F8F8F3`, mid-gray `#556070`
 - **Typography:** Georgia (serif, body + headings), Figtree (sans, buttons/nav/labels), system mono (pricing numbers only)
 - **NOT dental blue.** Warm, honest, tech-forward.
 - **No stock photos.** Real screenshots, PageSpeed scores, founder photos only.
