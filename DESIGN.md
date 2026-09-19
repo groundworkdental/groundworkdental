@@ -199,6 +199,71 @@ confirmation.
 
 ---
 
+## Motion
+
+**Never animate an edge.** No rules drawing across, no underlines sweeping in
+from the left, no accent bars running along a card border, no side-tab
+borders animating. A line that draws itself is one of the most recognisable
+AI-generated-design tells, and this system rejects it outright. The
+detector's `side-tab accent border` rule points at the static version of the
+same instinct.
+
+A border may change **colour** on hover (`hover:border-sage transition-colors`,
+already used across the site). That is a state change, not a line performing
+itself.
+
+What motion is allowed to touch: `opacity`, `transform` (translate, scale),
+`filter: blur`, `clip-path`, and an SVG `stroke-dashoffset` where the drawing
+IS the content — the tick in the pain-point list, the confirmation check on
+/get-started. Those draw a mark the reader is meant to read, not a decoration
+on a box.
+
+### Easing
+
+**Pick the curve by direction, not by flavour.** Three curves, one job each.
+Never the CSS keyword `ease`, never `linear`, never overshoot.
+
+| Direction | Value | Use |
+|---|---|---|
+| **Entering** | `cubic-bezier(0.22, 1, 0.36, 1)` | ease-out-quint. The default. Decelerates into place. |
+| **Leaving** | `cubic-bezier(0.7, 0, 0.84, 0)` | ease-in. Accelerates away — exits should not linger. |
+| **There and back** | `cubic-bezier(0.65, 0, 0.35, 1)` | ease-in-out. Accordions and toggles, which must run in reverse. |
+
+Earlier drafts carried ease-out-expo and a damped spring alongside quint. Both
+were dropped: three deceleration curves that differ only slightly are a
+distinction nobody can see, and having them invites a different one per
+section. Expo's "snappy" character and a spring's physical settle are for
+interfaces with drawers and thrown objects. This site has neither.
+
+### Duration
+
+| Band | Use |
+|---|---|
+| 100–150ms | Button press, toggle, colour change |
+| 200–300ms | Menu, tooltip, dropdown |
+| 300–500ms | Accordion, modal, drawer |
+| 450–800ms | Component and page entrance |
+
+Exits run at ~75% of their entrance. Under 80ms reads as instant; feedback
+over 500ms reads as lag. Stagger at 50ms per item and cap the total — ten
+items is already half a second.
+
+### Rationing
+
+Motion is spent, not applied. The failure mode is every scroll triggering
+something; the fix is that most of the page does not move at all. Repeat a
+small set of patterns rather than giving each section its own — density reads
+as a system, novelty reads as clutter.
+
+### Properties
+
+Animate `transform` and `opacity`. Height changes go through
+`grid-template-rows: 0fr → 1fr`, never `height`. `filter: blur` and `clip-path`
+are permitted but cost more than a composited transform, so they are for single
+moments, not for anything repeated down a page.
+
+---
+
 ## Components — primitives
 
 ### Buttons

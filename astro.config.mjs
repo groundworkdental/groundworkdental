@@ -16,7 +16,7 @@ export default defineConfig({
   adapter: cloudflare(),
   integrations: [
     sitemap({
-      filter: (page) => !page.includes('/intake') && !page.includes('/admin'),
+      filter: (page) => !page.includes('/intake') && !page.includes('/admin') && !page.includes('/motion'),
       serialize(item) {
         if (item.url === 'https://groundworkdental.com/') {
           return { ...item, priority: 1.0, changefreq: 'weekly' };

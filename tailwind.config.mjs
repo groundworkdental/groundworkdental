@@ -38,7 +38,7 @@ export default {
         eyebrow: ['11px', { lineHeight: '1.4', letterSpacing: '0.14em' }],
         label:   ['11px', { lineHeight: '1.4', letterSpacing: '0.12em' }],
       },
-      transitionDuration: { DEFAULT: '200ms' },
+      transitionDuration: { DEFAULT: '140ms' }, // colour + press feedback: 100-150ms band
     },
   },
 };

@@ -56,9 +56,11 @@ const groundworkCell = 'py-3.5 px-5 font-serif text-charcoal text-sm font-medium
           <th scope="col" class={groundworkHead}>Groundwork</th>
         </tr>
       </thead>
-      <tbody>
-        {rows.map((row) => (
-          <tr class="border-b border-border-light">
+      <tbody data-reveal-group>
+        {rows.map((row, i) => (
+          // Stagger capped at 8 steps: past that a 12-row table starts to
+          // crawl rather than cascade.
+          <tr class="reveal-row border-b border-border-light" style={`--reveal-delay:${Math.min(i, 8) * 45}ms`}>
             <td scope="row" class={featureCell}>{row.feature}</td>
             {hasFourColumns && (
               <td class={cell}>{row.wix}</td>

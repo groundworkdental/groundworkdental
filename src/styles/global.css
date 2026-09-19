@@ -145,6 +145,59 @@
     );
   }
 
+  /*
+   * Scroll reveal.
+   *
+   * Components animate, never sections. Hiding a whole <section> takes its
+   * background with it, so a tinted band fades up from white and the page
+   * shows a blank gap while you scroll toward it. Marking the heading, the
+   * deck, each card and the buttons instead means the band is always painted
+   * and its contents arrive independently.
+   *
+   * [data-reveal-hidden] is only ever set on elements that start below the
+   * fold — the homepage's LCP element sits in the second section, and hiding
+   * it at first paint cost ~500-780ms of LCP.
+   */
+  [data-reveal-hidden] {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  [data-reveal-hidden][data-revealed] {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 450ms ease-out var(--reveal-delay, 0ms),
+      transform 450ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
+  }
+
+  /* Table rows are hidden by their group and revealed together, staggered. */
+  [data-reveal-hidden] .reveal-row {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  .reveal-row[data-revealed] {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 400ms ease-out var(--reveal-delay, 0ms),
+      transform 400ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
+  }
+
+  /*
+   * Anything that renders the page without scrolling it — print, PDF export,
+   * a screenshot service — never fires the observer, so un-revealed sections
+   * would come out blank. Show everything.
+   */
+  @media print {
+    [data-reveal-hidden],
+    [data-reveal-hidden] .reveal-row {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+
   .card {
     @apply rounded p-6 border bg-surface-2 border-border-light;
   }
@@ -231,4 +284,66 @@
   .status-badge-error {
     @apply status-badge bg-danger-bg text-danger;
   }
+}
+
+/*
+ * Page transition.
+ *
+ * ClientRouter already cross-fades every navigation; this only replaces the
+ * default curve and timing. The outgoing page just fades — moving it as well
+ * reads as two pages fighting. The incoming one fades and rises 8px, the same
+ * gesture the scroll reveal uses, so navigation and scrolling feel like the
+ * same system.
+ *
+ * Curves follow direction: the leaving page uses ease-in (accelerates away),
+ * the arriving page ease-out (decelerates in). The exit runs at 75% of the
+ * enter — leaving should not take as long as arriving.
+ *
+ * The header is pinned with its own name so it holds still while the content
+ * beneath it swaps, instead of cross-fading with everything else. It is NOT
+ * transition:persist — the DOM still updates, so the active nav state stays
+ * correct; only the animation is suppressed.
+ *
+ * These are document-level pseudo-elements, so they live outside any layer.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) {
+    animation: gw-page-out 240ms cubic-bezier(0.7, 0, 0.84, 0) both;
+  }
+
+  ::view-transition-new(root) {
+    animation: gw-page-in 320ms cubic-bezier(0.22, 1, 0.36, 1) 40ms both;
+  }
+
+  ::view-transition-old(site-header),
+  ::view-transition-new(site-header) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+}
+
+@keyframes gw-page-out {
+  to { opacity: 0; }
+}
+
+@keyframes gw-page-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/*
+ * Going back reverses the gesture: the page you are returning to arrives from
+ * above rather than below. Forward moves you down a stack, back moves you up
+ * it. Without this, back feels like another forward step and the history
+ * stops making sense underfoot.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-nav='back']::view-transition-new(root) {
+    animation-name: gw-page-in-back;
+  }
+}
+
+@keyframes gw-page-in-back {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: none; }
 }

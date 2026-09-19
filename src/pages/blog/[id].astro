@@ -75,7 +75,7 @@ const blogPostingSchema = {
     </section>
 
     <!-- Content -->
-    <section class="py-10">
+    <section class="reveal py-10">
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="prose-article text-lg">
           <Content />
@@ -85,7 +85,7 @@ const blogPostingSchema = {
 
     <!-- FAQ (if present) -->
     {post.data.faqs && post.data.faqs.length > 0 && (
-      <section class="py-16 relative isolate bg-surface-2">
+      <section class="reveal py-16 relative isolate bg-surface-2">
     <GradientBackdrop intensity={0.68} />
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <FAQBlock faqs={post.data.faqs} />
@@ -98,7 +98,7 @@ const blogPostingSchema = {
   <RelatedArticles current={post} allPosts={allPosts} />
 
   <!-- Author Box -->
-  <section class="py-12">
+  <section class="reveal py-12">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="card flex flex-col sm:flex-row items-start gap-4">
         <div>
@@ -112,7 +112,7 @@ const blogPostingSchema = {
   </section>
 
   <!-- CTA -->
-  <section class="py-10">
+  <section class="reveal py-10">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <CTABlock variant="dark" />
     </div>
