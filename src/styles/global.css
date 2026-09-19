@@ -168,7 +168,7 @@
     transform: none;
     transition:
       opacity 450ms ease-out var(--reveal-delay, 0ms),
-      transform 450ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
+      transform 450ms cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms);
   }
 
   /* Table rows are hidden by their group and revealed together, staggered. */
@@ -182,7 +182,7 @@
     transform: none;
     transition:
       opacity 400ms ease-out var(--reveal-delay, 0ms),
-      transform 400ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
+      transform 400ms cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms);
   }
 
   /*

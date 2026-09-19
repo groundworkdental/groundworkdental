@@ -23,12 +23,18 @@ const { tiers } = Astro.props;
 ---
 
 <div class={`grid grid-cols-1 gap-6 max-w-5xl mx-auto ${tiers.length === 2 ? 'md:grid-cols-2 max-w-3xl' : 'md:grid-cols-3'}`}>
-  {tiers.map((tier) => (
+  {tiers.map((tier, i) => (
     <div class={`rounded p-8 flex flex-col ${tier.highlighted ? 'gradient-dark text-white border border-neutral-700' : 'bg-surface-2 border border-border-light'}`}>
       <div class="mb-6">
         <h2 class={`font-sans text-eyebrow uppercase mb-3 ${tier.highlighted ? 'text-on-dark' : 'text-mid-gray'}`}>{tier.name}</h2>
         <div class="flex items-baseline gap-1">
-          <span class={`font-serif text-4xl ${tier.highlighted ? 'text-white' : 'text-charcoal'}`}>{tier.price}</span>
+          {/* Shared name so the figure morphs across navigation rather than
+              redrawing. Only the first tier claims it — a view-transition name
+              must be unique on the page. */}
+          <span
+            class={`font-serif text-4xl ${tier.highlighted ? 'text-white' : 'text-charcoal'}`}
+            transition:name={i === 0 ? 'price-figure' : undefined}
+          >{tier.price}</span>
           <span class={`font-sans text-xs ${tier.highlighted ? 'text-on-dark-muted' : 'text-mid-gray'}`}>{tier.period}</span>
         </div>
         <p class={`font-serif text-sm mt-3 leading-relaxed ${tier.highlighted ? 'text-on-dark' : 'text-mid-gray'}`}>{tier.description}</p>

@@ -26,12 +26,9 @@ const tableRows = [
 ];
 
 const easings = [
-  { id: 'linear',    label: 'linear',                                   note: 'Mechanical. Never right for UI.' },
-  { id: 'ease-out',  label: 'ease-out',                                 note: 'The browser default. Fine, unremarkable.' },
-  { id: 'quint',     label: 'ease-out-quint',           note: 'What the site uses now. Decisive, settles clean.' },
-  { id: 'expo',      label: 'ease-out-expo',            note: 'Faster commit, longer tail. Slightly more dramatic.' },
-  { id: 'spring',    label: 'damped spring',       note: 'Spring physics sampled into linear(). No overshoot.' },
-  { id: 'overshoot', label: 'overshoot (rejected)',        note: 'Bounce. Flagged as an AI-slop tell, and off-voice.' },
+  { id: 'expo',   label: 'ease-out-expo',  note: 'PREFERRED. Faster commit, longer tail.' },
+  { id: 'quint',  label: 'ease-out-quint', note: 'Slightly softer start. Settles clean.' },
+  { id: 'spring', label: 'damped spring',  note: 'Spring physics sampled into linear(). No overshoot.' },
 ];
 ---
 
@@ -202,7 +199,7 @@ const easings = [
         <h2 class="demo-title">8 · Easing, same distance <span class="demo-tag">the character dial</span></h2>
         <button class="replay" data-replay="ease">Replay</button>
       </header>
-      <p class="demo-note">Identical move, different curve. This is where "calm" versus "springy" is actually decided — more than the distance or duration.</p>
+      <p class="demo-note">The three approved curves, same distance. ease-out-expo is the default; the others are here for cases where it feels too quick.</p>
       <div class="demo-stage space-y-3">
         {easings.map((e) => (
           <div class="ease-row">
@@ -239,7 +236,7 @@ const easings = [
         <li>— <strong class="text-charcoal">Counting numerals.</strong> Your voice guide says state the number, don't perform it.</li>
         <li>— <strong class="text-charcoal">Card tilt / 3D.</strong> The generic-AI look the design system is positioned against.</li>
         <li>— <strong class="text-charcoal">Parallax on text.</strong> Hurts readability and LCP.</li>
-        <li>— <strong class="text-charcoal">Overshoot.</strong> Shown in §8 only so you can reject it deliberately.</li>
+        <li>— <strong class="text-charcoal">Overshoot and linear.</strong> Removed from the menu entirely.</li>
       </ul>
     </section>
   </div>
@@ -420,13 +417,10 @@ const easings = [
   .ease-track { container-type: inline-size; }
   .is-out .ease-dot, .ease-row.is-out .ease-dot { transform: translateX(0); }
 
-  .ease-linear    { transition: transform 900ms linear; }
-  .ease-ease-out  { transition: transform 900ms ease-out; }
   .ease-quint     { transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1); }
   .ease-expo      { transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1); }
   /* A critically damped spring, sampled into linear(). No overshoot. */
   .ease-spring    { transition: transform 900ms linear(0, 0.06, 0.22, 0.44, 0.66, 0.82, 0.92, 0.97, 0.99, 1); }
-  .ease-overshoot { transition: transform 900ms cubic-bezier(0.22, 1.5, 0.36, 1); }
 
   /*
    * Applied for one frame while the demo is reset. Without it, adding the

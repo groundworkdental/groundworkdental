@@ -218,9 +218,21 @@ IS the content — the tick in the pain-point list, the confirmation check on
 /get-started. Those draw a mark the reader is meant to read, not a decoration
 on a box.
 
-No overshoot. Springs that bounce past their target are both an AI tell and
-off-voice for "calm, competent". A critically damped curve
-(`cubic-bezier(0.22, 1, 0.36, 1)`) is the default.
+### Easing
+
+Three curves are approved. Anything else, including `linear` and the browser
+default `ease`, is not.
+
+| Curve | Value | Use |
+|---|---|---|
+| **ease-out-expo** | `cubic-bezier(0.16, 1, 0.3, 1)` | **The default.** Commits fast, settles long. |
+| ease-out-quint | `cubic-bezier(0.22, 1, 0.36, 1)` | When expo feels too quick for a large element. |
+| damped spring | `linear(0, .06, .22, .44, .66, .82, .92, .97, .99, 1)` | Spring character without overshoot. |
+
+**Never `linear`** — nothing in the physical world starts and stops at a
+constant rate, and it reads as mechanical. **Never overshoot**
+(any cubic-bezier with a y value above 1): bouncing past the target is both a
+recognisable AI tell and the opposite of "calm, competent".
 
 ---
 
