@@ -386,6 +386,33 @@ same aspect ratio as their parent.
 The single change that turns client configuration from dashboard clicking into
 scripted work.
 
+### Two tokens: ours, and theirs
+
+Internal work and client work get separate tokens. Not for blast radius —
+for **offboarding**.
+
+When an engagement ends you revoke your access to that practice's Cloudflare.
+If client access shares a token with the builder's own, revoking it takes down
+the pipeline, and keeping it means holding access to a former client's
+infrastructure. One token makes that a choice between two wrong answers; two
+tokens make it a non-question.
+
+| | Reaches | Permissions | Lifecycle |
+|---|---|---|---|
+| `CLOUDFLARE_API_TOKEN` | Groundwork Dental only | D1, R2, Workers, Pages, Access, DNS on our zone | permanent |
+| `CLOUDFLARE_API_TOKEN_CLIENTS` | client accounts we are a member of | Zone DNS Edit, Pages Edit — nothing else | edited per engagement |
+
+The client token has no D1, no R2 and no Access on purpose. A credential used
+on someone else's infrastructure must not be able to reach our ledger.
+
+**Create the second token when the engagement build needs it, not before.**
+Everything automated today runs on our own account: cold-build previews are
+`<slug>.groundworkdental.com` on Groundwork's Cloudflare, and the move to a
+client's account is still a manual step. A `CLOUDFLARE_API_TOKEN_CLIENTS`
+variable already existed here once, sat empty for months, reached zero
+accounts, and told nobody — an unused credential decays into a thing nobody
+can explain or safely delete.
+
 ### Use a USER token, not an Account token
 
 Creating an **Account-owned** token generally requires **Super Administrator**
