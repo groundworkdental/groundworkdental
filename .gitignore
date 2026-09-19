@@ -44,3 +44,9 @@ public/pitch/
 
 # Playwright MCP scratch output (screenshots, snapshots)
 .playwright-mcp/
+
+# Portable motion system + its showcase page. Kept out of this repo so they can
+# travel to groundwork-builder and be applied to client sites. MOTION.md is the
+# spec; /motion is the live demo of it. Deleting motion.astro removes the page.
+MOTION.md
+src/pages/motion.astro

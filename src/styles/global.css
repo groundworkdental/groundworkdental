@@ -148,30 +148,86 @@
   /*
    * Scroll reveal.
    *
-   * Components animate, never sections. Hiding a whole <section> takes its
-   * background with it, so a tinted band fades up from white and the page
-   * shows a blank gap while you scroll toward it. Marking the heading, the
-   * deck, each card and the buttons instead means the band is always painted
-   * and its contents arrive independently.
+   * Motion describes; it does not decorate. A component's treatment is chosen
+   * by what the component IS, not by where it sits — so the same kind of thing
+   * always moves the same way, on every page, without anyone tagging it.
    *
-   * [data-reveal-hidden] is only ever set on elements that start below the
-   * fold — the homepage's LCP element sits in the second section, and hiding
-   * it at first paint cost ~500-780ms of LCP.
+   *   heading  -> wipe     type is uncovered, never moves. Reads settled.
+   *   ticks    -> draw     the mark IS the content, so draw the mark.
+   *   figure   -> resolve  comes into focus. A number must never count up.
+   *   anything -> rise     the neutral default. Most things are this.
+   *
+   * Only elements starting below the fold are hidden — the homepage's LCP
+   * element sits in the second section, and hiding it cost ~500-780ms.
    */
   [data-reveal-hidden] {
     opacity: 0;
-    transform: translateY(10px);
   }
 
   [data-reveal-hidden][data-revealed] {
     opacity: 1;
+    transition: opacity 450ms ease-out var(--reveal-delay, 0ms);
+  }
+
+  /* rise — the default */
+  [data-reveal-hidden][data-motion='rise'] {
+    transform: translateY(10px);
+  }
+  [data-reveal-hidden][data-motion='rise'][data-revealed] {
     transform: none;
     transition:
       opacity 450ms ease-out var(--reveal-delay, 0ms),
       transform 450ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
   }
 
-  /* Table rows are hidden by their group and revealed together, staggered. */
+  /* wipe — headings. The type is uncovered in place. */
+  [data-reveal-hidden][data-motion='wipe'] {
+    clip-path: inset(0 100% 0 0);
+  }
+  [data-reveal-hidden][data-motion='wipe'][data-revealed] {
+    clip-path: inset(0 0 0 0);
+    transition:
+      opacity 200ms linear var(--reveal-delay, 0ms),
+      clip-path 700ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
+  }
+
+  /* resolve — figures. Comes into focus; the number never moves. */
+  [data-reveal-hidden][data-motion='resolve'] {
+    transform: scale(0.97);
+    filter: blur(5px);
+  }
+  [data-reveal-hidden][data-motion='resolve'][data-revealed] {
+    transform: none;
+    filter: none;
+    transition:
+      opacity 400ms ease-out var(--reveal-delay, 0ms),
+      transform 550ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+      filter 450ms ease-out var(--reveal-delay, 0ms);
+  }
+
+  /* ticks — the list checks itself off. Needs pathLength="1" on the path. */
+  [data-reveal-hidden][data-motion='ticks'] svg path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  [data-reveal-hidden][data-motion='ticks'][data-revealed] svg path {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 420ms cubic-bezier(0.65, 0, 0.35, 1)
+                calc(var(--reveal-delay, 0ms) + var(--tick-delay, 0ms) + 100ms);
+  }
+  [data-reveal-hidden][data-motion='ticks'] > * {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  [data-reveal-hidden][data-motion='ticks'][data-revealed] > * {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 300ms ease-out var(--tick-delay, 0ms),
+      transform 300ms cubic-bezier(0.22, 1, 0.36, 1) var(--tick-delay, 0ms);
+  }
+
+  /* Table rows, staggered as one group. */
   [data-reveal-hidden] .reveal-row {
     opacity: 0;
     transform: translateY(8px);
@@ -183,6 +239,27 @@
     transition:
       opacity 400ms ease-out var(--reveal-delay, 0ms),
       transform 400ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
+  }
+
+  /*
+   * Response — motion that answers the reader, not the scroll.
+   * Only ever on something interactive. Never on an edge.
+   */
+  .hover-lift {
+    transition:
+      transform 140ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 140ms ease-out;
+  }
+  .hover-lift:hover {
+    transform: translateY(-2px);
+  }
+
+  .link-arrow .arrow {
+    display: inline-block;
+    transition: transform 140ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .link-arrow:hover .arrow {
+    transform: translateX(4px);
   }
 
   /*

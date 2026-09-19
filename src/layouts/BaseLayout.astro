@@ -208,9 +208,26 @@ const breadcrumbSchema = pathSegments.length > 0 ? {
   // a button, a grid cell. Deliberately not wrappers or layout divs.
   const COMPONENTS = [
     'h1', 'h2', 'h3', 'p', 'ul', 'ol', 'table', 'form', 'img', 'blockquote',
+    // .prose-article is listed so a long article reveals as one block. Left
+    // out, its paragraphs each fire separately and a 13-paragraph section
+    // becomes 13 events.
+    '.prose-article',
     '.card', '.prose-card', '.btn-primary', '.btn-secondary', '.btn-dark',
     "[class*='grid'] > *",
   ].join(',');
+
+  /**
+   * The treatment is decided by what the component IS, so the same kind of
+   * thing always moves the same way without anyone tagging it per page.
+   */
+  function motionFor(el: HTMLElement): string {
+    if (el.matches('h1, h2, h3')) return 'wipe';
+    // A figure: a tile built around a mono numeral. Resolves into focus.
+    if (el.querySelector('.font-mono') || el.classList.contains('font-mono')) return 'resolve';
+    // A ticked list: items carrying an inline check. Draws its own marks.
+    if (el.matches('ul, ol') && el.querySelector('svg path')) return 'ticks';
+    return 'rise';
+  }
 
   function componentsIn(section: Element): HTMLElement[] {
     const found = [...section.querySelectorAll<HTMLElement>(COMPONENTS)];
@@ -234,9 +251,17 @@ const breadcrumbSchema = pathSegments.length > 0 ? {
     const consider = (el: HTMLElement, delayIndex: number) => {
       if (el.hasAttribute('data-reveal-hidden') || el.hasAttribute('data-revealed')) return;
       if (el.getBoundingClientRect().top <= fold) return; // visible already — leave alone
+      const motion = motionFor(el);
       el.setAttribute('data-reveal-hidden', '');
+      el.setAttribute('data-motion', motion);
       // Only matters for components that enter together, e.g. a row of cards.
       if (delayIndex) el.style.setProperty('--reveal-delay', Math.min(delayIndex, 6) * 50 + 'ms');
+      // A ticked list staggers its own rows.
+      if (motion === 'ticks') {
+        [...el.children].forEach((li, i) => {
+          (li as HTMLElement).style.setProperty('--tick-delay', Math.min(i, 8) * 90 + 'ms');
+        });
+      }
       hidden.push(el);
     };
 
@@ -270,9 +295,7 @@ const breadcrumbSchema = pathSegments.length > 0 ? {
           io.unobserve(entry.target);
         }
       },
-      // Fires once the element's top is ~78% down the screen. Tighter than the
-      // section-level version was, because a single component is much shorter
-      // than a band and would otherwise animate well before it is looked at.
+      // Fires once the element's top is ~78% down the screen — properly in view.
       { rootMargin: '0px 0px -22% 0px', threshold: 0 }
     );
 
