@@ -397,16 +397,31 @@ const easings = [
 
   @supports (animation-timeline: view()) {
     .scroll-demo {
-      animation: sd-tint linear both;
+      /*
+       * Longhands, not the `animation` shorthand. The shorthand resets
+       * animation-duration to 0s, and a scroll-driven animation needs `auto`
+       * to take its length from the timeline — with 0s the active interval is
+       * empty and progress stays pinned at 0 forever.
+       */
+      animation-name: sd-tint;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
       animation-timeline: view();
-      animation-range: entry 10% exit 90%;
+      /*
+       * `cover` spans the entire time the element intersects the viewport.
+       * entry/exit phases are tiny for a short block in a tall viewport, so
+       * the range never reached its own midpoint — progress bottomed out at
+       * 0.78 and the deepest tint was never shown.
+       */
+      animation-range: cover 0% cover 100%;
     }
   }
 
   @keyframes sd-tint {
-    0%   { background: theme('colors.surface.2'); transform: translateY(8px); }
-    50%  { background: theme('colors.sage-tint'); transform: translateY(0); }
-    100% { background: theme('colors.surface.2'); transform: translateY(-8px); }
+    0%   { background: theme('colors.surface.2'); transform: translateY(18px) scale(0.985); }
+    50%  { background: #DCE7DF;                   transform: translateY(0) scale(1); }
+    100% { background: theme('colors.surface.2'); transform: translateY(-18px) scale(0.985); }
   }
 
   /* ── Hover ─────────────────────────────────────────────────────────── */
