@@ -174,7 +174,7 @@ import GradientBackdrop from '../components/GradientBackdrop.astro';
       /* ease-out-quint: decelerates like a real object. An overshoot curve
          here reads as a celebration, which is the wrong note for a form
          that just quietly did what it said it would. */
-      transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+      transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   /* pathLength="1" on the <path> normalises the stroke, so the draw is a
@@ -192,10 +192,11 @@ import GradientBackdrop from '../components/GradientBackdrop.astro';
   /* --- Button label swap ---------------------------------------------- */
   .text-swap {
     display: inline-block;
+    /* Entering: decelerate. The exit below accelerates away instead. */
     transition:
-      opacity 150ms ease-in-out,
-      transform 150ms ease-in-out,
-      filter 150ms ease-in-out;
+      opacity 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      filter 150ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   /* Old label leaves upward; the new one is placed below, then released. */
@@ -203,6 +204,7 @@ import GradientBackdrop from '../components/GradientBackdrop.astro';
     opacity: 0;
     transform: translateY(-4px);
     filter: blur(2px);
+    transition-timing-function: cubic-bezier(0.7, 0, 0.84, 0);
   }
 
   .text-swap.is-enter {

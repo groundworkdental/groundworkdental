@@ -236,7 +236,7 @@ const breadcrumbSchema = pathSegments.length > 0 ? {
       if (el.getBoundingClientRect().top <= fold) return; // visible already — leave alone
       el.setAttribute('data-reveal-hidden', '');
       // Only matters for components that enter together, e.g. a row of cards.
-      if (delayIndex) el.style.setProperty('--reveal-delay', Math.min(delayIndex, 4) * 70 + 'ms');
+      if (delayIndex) el.style.setProperty('--reveal-delay', Math.min(delayIndex, 6) * 50 + 'ms');
       hidden.push(el);
     };
 

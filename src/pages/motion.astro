@@ -26,9 +26,9 @@ const tableRows = [
 ];
 
 const easings = [
-  { id: 'expo',   label: 'ease-out-expo',  note: 'PREFERRED. Faster commit, longer tail.' },
-  { id: 'quint',  label: 'ease-out-quint', note: 'Slightly softer start. Settles clean.' },
-  { id: 'spring', label: 'damped spring',  note: 'Spring physics sampled into linear(). No overshoot.' },
+  { id: 'quint', label: 'entering',  note: 'ease-out-quint · cubic-bezier(0.22, 1, 0.36, 1). The default.' },
+  { id: 'exit',  label: 'leaving',   note: 'ease-in · cubic-bezier(0.7, 0, 0.84, 0). Accelerates away.' },
+  { id: 'toggle',label: 'there and back', note: 'ease-in-out · cubic-bezier(0.65, 0, 0.35, 1). Accordions, toggles.' },
 ];
 ---
 
@@ -163,8 +163,7 @@ const easings = [
       </p>
       <div class="demo-stage">
         <div class="scroll-demo">
-          <div class="scroll-demo__bar"></div>
-          <p class="font-serif text-charcoal">This block's tint and offset track your scroll position.</p>
+          <p class="font-serif text-charcoal">This block's tint and position track your scroll.</p>
           <p class="font-serif text-sm text-mid-gray mt-1">Nothing "fires" — there is no before and after, only position.</p>
         </div>
         <p class="font-serif text-xs text-mid-gray mt-3" id="sd-support"></p>
@@ -196,10 +195,10 @@ const easings = [
     <!-- 9 ─────────────────────────────────────────────── easing -->
     <section class="demo" data-demo="ease">
       <header class="demo-head">
-        <h2 class="demo-title">8 · Easing, same distance <span class="demo-tag">the character dial</span></h2>
+        <h2 class="demo-title">8 · Easing by direction <span class="demo-tag">three curves, one each</span></h2>
         <button class="replay" data-replay="ease">Replay</button>
       </header>
-      <p class="demo-note">The three approved curves, same distance. ease-out-expo is the default; the others are here for cases where it feels too quick.</p>
+      <p class="demo-note">One curve per direction, not three flavours of the same thing. Enter decelerates, exit accelerates away, a toggle eases both ends because it has to run in reverse too.</p>
       <div class="demo-stage space-y-3">
         {easings.map((e) => (
           <div class="ease-row">
@@ -396,24 +395,11 @@ const easings = [
     background: theme('colors.surface.2');
   }
 
-  .scroll-demo__bar {
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    background: theme('colors.sage');
-    transform-origin: top;
-  }
-
   @supports (animation-timeline: view()) {
     .scroll-demo {
       animation: sd-tint linear both;
       animation-timeline: view();
       animation-range: entry 10% exit 90%;
-    }
-    .scroll-demo__bar {
-      animation: sd-bar linear both;
-      animation-timeline: view();
-      animation-range: entry 0% exit 100%;
     }
   }
 
@@ -421,11 +407,6 @@ const easings = [
     0%   { background: theme('colors.surface.2'); transform: translateY(8px); }
     50%  { background: theme('colors.sage-tint'); transform: translateY(0); }
     100% { background: theme('colors.surface.2'); transform: translateY(-8px); }
-  }
-
-  @keyframes sd-bar {
-    0%   { transform: scaleY(0); }
-    100% { transform: scaleY(1); }
   }
 
   /* ── Hover ─────────────────────────────────────────────────────────── */
@@ -455,7 +436,7 @@ const easings = [
   .ship-faq__panel {
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows 220ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition: grid-template-rows 320ms cubic-bezier(0.65, 0, 0.35, 1);
   }
   .ship-faq[open] .ship-faq__panel { grid-template-rows: 1fr; }
   .ship-faq__panel > * { overflow: hidden; }
@@ -470,7 +451,7 @@ const easings = [
   .ship-check { opacity: 0; transform: translateY(6px) scale(0.94); }
   .ship-check[data-state='in'] {
     opacity: 1; transform: none;
-    transition: opacity 260ms ease-out, transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition: opacity 260ms ease-out, transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   .ship-check path { stroke-dasharray: 1; stroke-dashoffset: 1; }
   .ship-check[data-state='in'] path {
@@ -510,9 +491,8 @@ const easings = [
   .is-out .ease-dot, .ease-row.is-out .ease-dot { transform: translateX(0); }
 
   .ease-quint     { transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1); }
-  .ease-expo      { transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1); }
-  /* A critically damped spring, sampled into linear(). No overshoot. */
-  .ease-spring    { transition: transform 900ms linear(0, 0.06, 0.22, 0.44, 0.66, 0.82, 0.92, 0.97, 0.99, 1); }
+  .ease-exit      { transition: transform 900ms cubic-bezier(0.7, 0, 0.84, 0); }
+  .ease-toggle    { transition: transform 900ms cubic-bezier(0.65, 0, 0.35, 1); }
 
   /*
    * Applied for one frame while the demo is reset. Without it, adding the
@@ -524,7 +504,7 @@ const easings = [
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .anim, .anim::after, .ease-dot, .hv-arrow__i, .hv-lift, .hv-tint, .scroll-demo, .scroll-demo__bar {
+    .anim, .anim::after, .ease-dot, .hv-arrow__i, .hv-lift, .hv-tint, .scroll-demo {
       transition: none !important;
       animation: none !important;
     }

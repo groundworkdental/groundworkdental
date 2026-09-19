@@ -168,7 +168,7 @@
     transform: none;
     transition:
       opacity 450ms ease-out var(--reveal-delay, 0ms),
-      transform 450ms cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms);
+      transform 450ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
   }
 
   /* Table rows are hidden by their group and revealed together, staggered. */
@@ -182,7 +182,7 @@
     transform: none;
     transition:
       opacity 400ms ease-out var(--reveal-delay, 0ms),
-      transform 400ms cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms);
+      transform 400ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
   }
 
   /*
@@ -295,6 +295,10 @@
  * gesture the scroll reveal uses, so navigation and scrolling feel like the
  * same system.
  *
+ * Curves follow direction: the leaving page uses ease-in (accelerates away),
+ * the arriving page ease-out (decelerates in). The exit runs at 75% of the
+ * enter — leaving should not take as long as arriving.
+ *
  * The header is pinned with its own name so it holds still while the content
  * beneath it swaps, instead of cross-fading with everything else. It is NOT
  * transition:persist — the DOM still updates, so the active nav state stays
@@ -304,11 +308,11 @@
  */
 @media (prefers-reduced-motion: no-preference) {
   ::view-transition-old(root) {
-    animation: gw-page-out 160ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation: gw-page-out 240ms cubic-bezier(0.7, 0, 0.84, 0) both;
   }
 
   ::view-transition-new(root) {
-    animation: gw-page-in 320ms cubic-bezier(0.16, 1, 0.3, 1) 40ms both;
+    animation: gw-page-in 320ms cubic-bezier(0.22, 1, 0.36, 1) 40ms both;
   }
 
   ::view-transition-old(site-header),

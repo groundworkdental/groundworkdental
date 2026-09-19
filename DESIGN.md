@@ -220,19 +220,47 @@ on a box.
 
 ### Easing
 
-Three curves are approved. Anything else, including `linear` and the browser
-default `ease`, is not.
+**Pick the curve by direction, not by flavour.** Three curves, one job each.
+Never the CSS keyword `ease`, never `linear`, never overshoot.
 
-| Curve | Value | Use |
+| Direction | Value | Use |
 |---|---|---|
-| **ease-out-expo** | `cubic-bezier(0.16, 1, 0.3, 1)` | **The default.** Commits fast, settles long. |
-| ease-out-quint | `cubic-bezier(0.22, 1, 0.36, 1)` | When expo feels too quick for a large element. |
-| damped spring | `linear(0, .06, .22, .44, .66, .82, .92, .97, .99, 1)` | Spring character without overshoot. |
+| **Entering** | `cubic-bezier(0.22, 1, 0.36, 1)` | ease-out-quint. The default. Decelerates into place. |
+| **Leaving** | `cubic-bezier(0.7, 0, 0.84, 0)` | ease-in. Accelerates away — exits should not linger. |
+| **There and back** | `cubic-bezier(0.65, 0, 0.35, 1)` | ease-in-out. Accordions and toggles, which must run in reverse. |
 
-**Never `linear`** — nothing in the physical world starts and stops at a
-constant rate, and it reads as mechanical. **Never overshoot**
-(any cubic-bezier with a y value above 1): bouncing past the target is both a
-recognisable AI tell and the opposite of "calm, competent".
+Earlier drafts carried ease-out-expo and a damped spring alongside quint. Both
+were dropped: three deceleration curves that differ only slightly are a
+distinction nobody can see, and having them invites a different one per
+section. Expo's "snappy" character and a spring's physical settle are for
+interfaces with drawers and thrown objects. This site has neither.
+
+### Duration
+
+| Band | Use |
+|---|---|
+| 100–150ms | Button press, toggle, colour change |
+| 200–300ms | Menu, tooltip, dropdown |
+| 300–500ms | Accordion, modal, drawer |
+| 450–800ms | Component and page entrance |
+
+Exits run at ~75% of their entrance. Under 80ms reads as instant; feedback
+over 500ms reads as lag. Stagger at 50ms per item and cap the total — ten
+items is already half a second.
+
+### Rationing
+
+Motion is spent, not applied. The failure mode is every scroll triggering
+something; the fix is that most of the page does not move at all. Repeat a
+small set of patterns rather than giving each section its own — density reads
+as a system, novelty reads as clutter.
+
+### Properties
+
+Animate `transform` and `opacity`. Height changes go through
+`grid-template-rows: 0fr → 1fr`, never `height`. `filter: blur` and `clip-path`
+are permitted but cost more than a composited transform, so they are for single
+moments, not for anything repeated down a page.
 
 ---
 
