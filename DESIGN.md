@@ -199,6 +199,31 @@ confirmation.
 
 ---
 
+## Motion
+
+**Never animate an edge.** No rules drawing across, no underlines sweeping in
+from the left, no accent bars running along a card border, no side-tab
+borders animating. A line that draws itself is one of the most recognisable
+AI-generated-design tells, and this system rejects it outright. The
+detector's `side-tab accent border` rule points at the static version of the
+same instinct.
+
+A border may change **colour** on hover (`hover:border-sage transition-colors`,
+already used across the site). That is a state change, not a line performing
+itself.
+
+What motion is allowed to touch: `opacity`, `transform` (translate, scale),
+`filter: blur`, `clip-path`, and an SVG `stroke-dashoffset` where the drawing
+IS the content — the tick in the pain-point list, the confirmation check on
+/get-started. Those draw a mark the reader is meant to read, not a decoration
+on a box.
+
+No overshoot. Springs that bounce past their target are both an AI tell and
+off-voice for "calm, competent". A critically damped curve
+(`cubic-bezier(0.22, 1, 0.36, 1)`) is the default.
+
+---
+
 ## Components — primitives
 
 ### Buttons

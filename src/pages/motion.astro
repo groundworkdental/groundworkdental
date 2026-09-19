@@ -134,29 +134,10 @@ const easings = [
       </div>
     </section>
 
-    <!-- 5 ─────────────────────────────────────────────── rule draw -->
-    <section class="demo" data-demo="rule">
-      <header class="demo-head">
-        <h2 class="demo-title">5 · Rule draw <span class="demo-tag">dividers, card edges</span></h2>
-        <button class="replay" data-replay="rule">Replay</button>
-      </header>
-      <p class="demo-note">Hairlines draw across. Very quiet — you register it as the page assembling rather than as an animation. Suits a brand whose claim is engineering.</p>
-      <div class="demo-stage">
-        <div class="ruled anim anim-rule py-4">
-          <p class="font-serif text-charcoal">SEO Foundation</p>
-          <p class="font-serif text-sm text-mid-gray">Every page set up so patients searching nearby can find you.</p>
-        </div>
-        <div class="ruled anim anim-rule py-4" style="--d:140ms">
-          <p class="font-serif text-charcoal">Google Business Profile</p>
-          <p class="font-serif text-sm text-mid-gray">Hours, services, and photos, set up properly.</p>
-        </div>
-      </div>
-    </section>
-
     <!-- 6 ─────────────────────────────────────────────── scale + blur -->
     <section class="demo" data-demo="scale">
       <header class="demo-head">
-        <h2 class="demo-title">6 · Scale + blur-to-sharp <span class="demo-tag">cards, numerals</span></h2>
+        <h2 class="demo-title">5 · Scale + blur-to-sharp <span class="demo-tag">cards, numerals</span></h2>
         <button class="replay" data-replay="scale">Replay</button>
       </header>
       <p class="demo-note">Comes into focus rather than sliding. Works for figures because the number never moves — it just resolves. No counting.</p>
@@ -175,7 +156,7 @@ const easings = [
     <!-- 7 ─────────────────────────────────────────────── scroll-linked -->
     <section class="demo">
       <header class="demo-head">
-        <h2 class="demo-title">7 · Scroll-<em>linked</em> <span class="demo-tag">continuous, zero JS</span></h2>
+        <h2 class="demo-title">6 · Scroll-<em>linked</em> <span class="demo-tag">continuous, zero JS</span></h2>
         <span class="demo-hint">scroll slowly ↕</span>
       </header>
       <p class="demo-note">
@@ -196,21 +177,20 @@ const easings = [
     <!-- 8 ─────────────────────────────────────────────── hover -->
     <section class="demo">
       <header class="demo-head">
-        <h2 class="demo-title">8 · Hover <span class="demo-tag">hover these</span></h2>
+        <h2 class="demo-title">7 · Hover <span class="demo-tag">hover these</span></h2>
         <span class="demo-hint">point at them ↓</span>
       </header>
       <p class="demo-note">Today every hover on the site is a colour change (43 of them). These cost nothing and carry more character.</p>
       <div class="demo-stage space-y-5">
-        <p><a href="#" class="hv-underline font-serif text-sage-dark">Underline draws from the left</a></p>
         <p><a href="#" class="hv-arrow font-sans text-sm text-sage-dark">See an example <span class="hv-arrow__i">→</span></a></p>
         <div class="grid sm:grid-cols-2 gap-4 max-w-lg">
           <div class="hv-lift card">
             <p class="font-serif text-charcoal">Card lift</p>
             <p class="font-serif text-sm text-mid-gray">Rises 2px, border warms to sage.</p>
           </div>
-          <div class="hv-sweep card">
-            <p class="font-serif text-charcoal">Edge sweep</p>
-            <p class="font-serif text-sm text-mid-gray">A sage rule runs along the bottom.</p>
+          <div class="hv-tint card">
+            <p class="font-serif text-charcoal">Surface warm</p>
+            <p class="font-serif text-sm text-mid-gray">Background shifts to sage-tint. No lines.</p>
           </div>
         </div>
       </div>
@@ -219,7 +199,7 @@ const easings = [
     <!-- 9 ─────────────────────────────────────────────── easing -->
     <section class="demo" data-demo="ease">
       <header class="demo-head">
-        <h2 class="demo-title">9 · Easing, same distance <span class="demo-tag">the character dial</span></h2>
+        <h2 class="demo-title">8 · Easing, same distance <span class="demo-tag">the character dial</span></h2>
         <button class="replay" data-replay="ease">Replay</button>
       </header>
       <p class="demo-note">Identical move, different curve. This is where "calm" versus "springy" is actually decided — more than the distance or duration.</p>
@@ -237,7 +217,7 @@ const easings = [
     <!-- 10 ────────────────────────────────────────────── view transition -->
     <section class="demo">
       <header class="demo-head">
-        <h2 class="demo-title">10 · Shared-element transition <span class="demo-tag">between pages</span></h2>
+        <h2 class="demo-title">9 · Shared-element transition <span class="demo-tag">between pages</span></h2>
         <span class="demo-hint">click it ↓</span>
       </header>
       <p class="demo-note">
@@ -259,7 +239,7 @@ const easings = [
         <li>— <strong class="text-charcoal">Counting numerals.</strong> Your voice guide says state the number, don't perform it.</li>
         <li>— <strong class="text-charcoal">Card tilt / 3D.</strong> The generic-AI look the design system is positioned against.</li>
         <li>— <strong class="text-charcoal">Parallax on text.</strong> Hurts readability and LCP.</li>
-        <li>— <strong class="text-charcoal">Overshoot.</strong> Shown in §9 only so you can reject it deliberately.</li>
+        <li>— <strong class="text-charcoal">Overshoot.</strong> Shown in §8 only so you can reject it deliberately.</li>
       </ul>
     </section>
   </div>
@@ -342,20 +322,6 @@ const easings = [
                 transform 500ms cubic-bezier(0.22, 1, 0.36, 1) var(--d);
   }
 
-  .ruled { position: relative; }
-  .ruled::after {
-    content: '';
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    height: 1px;
-    background: theme('colors.border-light');
-    transform-origin: left;
-    transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1) var(--d);
-  }
-  .anim-rule.is-out::after { transform: scaleX(0); }
-  .anim-rule.is-out { opacity: 0; }
-  .anim-rule { transition: opacity 300ms ease-out var(--d); }
-
   .anim-scale.is-out { opacity: 0; transform: scale(0.96); filter: blur(6px); }
   .anim-scale {
     transition: opacity 400ms ease-out var(--d),
@@ -404,22 +370,6 @@ const easings = [
   }
 
   /* ── Hover ─────────────────────────────────────────────────────────── */
-  .hv-underline {
-    position: relative;
-    text-decoration: none;
-  }
-  .hv-underline::after {
-    content: '';
-    position: absolute;
-    left: 0; right: 0; bottom: -3px;
-    height: 1px;
-    background: currentColor;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .hv-underline:hover::after { transform: scaleX(1); }
-
   .hv-arrow { text-decoration: none; }
   .hv-arrow__i {
     display: inline-block;
@@ -436,18 +386,8 @@ const easings = [
     border-color: theme('colors.sage');
   }
 
-  .hv-sweep { position: relative; overflow: hidden; }
-  .hv-sweep::after {
-    content: '';
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    height: 2px;
-    background: theme('colors.sage');
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .hv-sweep:hover::after { transform: scaleX(1); }
+  .hv-tint { transition: background-color 260ms ease-out; }
+  .hv-tint:hover { background-color: theme('colors.sage-tint'); }
 
   /* ── Easing comparison ─────────────────────────────────────────────── */
   .ease-row {
@@ -498,8 +438,7 @@ const easings = [
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .anim, .anim::after, .ease-dot, .hv-underline::after, .hv-arrow__i,
-    .hv-lift, .hv-sweep::after, .scroll-demo, .scroll-demo__bar {
+    .anim, .anim::after, .ease-dot, .hv-arrow__i, .hv-lift, .hv-tint, .scroll-demo, .scroll-demo__bar {
       transition: none !important;
       animation: none !important;
     }
