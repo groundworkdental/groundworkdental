@@ -326,3 +326,20 @@
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: none; }
 }
+
+/*
+ * Going back reverses the gesture: the page you are returning to arrives from
+ * above rather than below. Forward moves you down a stack, back moves you up
+ * it. Without this, back feels like another forward step and the history
+ * stops making sense underfoot.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-nav='back']::view-transition-new(root) {
+    animation-name: gw-page-in-back;
+  }
+}
+
+@keyframes gw-page-in-back {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: none; }
+}

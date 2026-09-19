@@ -282,6 +282,25 @@ const breadcrumbSchema = pathSegments.length > 0 ? {
 
   markAndObserve();
   document.addEventListener('astro:page-load', markAndObserve);
+
+  /**
+   * Record navigation direction so the page transition can reverse on back.
+   * The router knows the direction but never exposes it to CSS.
+   *
+   * The direction is only available at before-preparation, but the swap then
+   * replaces <html>'s attributes with the incoming document's — so setting it
+   * there gets wiped before the transition runs. Stash it, then write it onto
+   * the incoming document at swap time.
+   */
+  let navDirection = 'forward';
+
+  document.addEventListener('astro:before-preparation', (e) => {
+    navDirection = (e as any).direction === 'back' ? 'back' : 'forward';
+  });
+
+  document.addEventListener('astro:before-swap', (e) => {
+    (e as any).newDocument.documentElement.dataset.nav = navDirection;
+  });
 </script>
 </body>
 </html>

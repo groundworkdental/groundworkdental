@@ -230,6 +230,68 @@ const easings = [
       </div>
     </section>
 
+    <!-- 10 ──────────────────────────────── already shipped, for completeness -->
+    <section class="demo">
+      <header class="demo-head">
+        <h2 class="demo-title">10 · Already on the site <span class="demo-tag">not proposals — these ship today</span></h2>
+      </header>
+      <p class="demo-note">
+        Everything above is a choice to make. These are already live, and were missing from this page,
+        so the menu was not actually a full inventory. Interact with them the same way.
+      </p>
+
+      <div class="demo-stage space-y-8">
+        <div>
+          <p class="shipped-label">FAQ accordion · <code>grid-template-rows</code> 220ms</p>
+          <details class="ship-faq">
+            <summary class="font-serif text-charcoal cursor-pointer py-3">What do I actually own after the build?</summary>
+            <div class="ship-faq__panel">
+              <p class="font-serif text-mid-gray pb-3">Everything. Domain, content, hosting account, code repository, and your Google accounts.</p>
+            </div>
+          </details>
+          <p class="demo-note mt-1">Animating height without a fixed value. The chevron rotate is part of the same interaction.</p>
+        </div>
+
+        <div>
+          <p class="shipped-label">Form label swap · blur, 150ms</p>
+          <button class="btn-primary" id="ship-submit"><span class="ship-swap" data-label>Build My Free Preview</span></button>
+          <p class="demo-note mt-2">Old label leaves upward and blurs, new one arrives from below. Live on /get-started.</p>
+        </div>
+
+        <div>
+          <p class="shipped-label">Success check · SVG stroke draw, 420ms</p>
+          <div class="flex items-center gap-4">
+            <span class="ship-check w-14 h-14 rounded-full bg-sage/20 flex items-center justify-center" data-state="out">
+              <svg class="w-7 h-7 text-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" pathLength="1" d="M5 13l4 4L19 7" />
+              </svg>
+            </span>
+            <button class="replay" id="ship-check-replay">Replay</button>
+          </div>
+          <p class="demo-note mt-2">Same technique as §3. This one is the real thing, on form submit.</p>
+        </div>
+
+        <div>
+          <p class="shipped-label">Button press · 1px translate</p>
+          <button class="btn-primary">Press and hold me</button>
+          <p class="demo-note mt-2">Every button already does this on <code>:active</code>.</p>
+        </div>
+
+        <div>
+          <p class="shipped-label">Animated gradient field · WebGL, 1.6KB</p>
+          <p class="demo-note mt-1">
+            Not reproducible in a box — it is the drifting sage field behind every <code>surface-2</code>
+            band. Scroll this page's own header, or any tinted section on the site.
+          </p>
+        </div>
+
+        <div>
+          <p class="shipped-label">Header dropdown · opacity + 2px translate, 150ms</p>
+          <p class="demo-note mt-1">Hover "How it works" in the nav above.</p>
+        </div>
+      </div>
+    </section>
+
     <section class="demo">
       <h2 class="demo-title mb-3">Not shown, and why</h2>
       <ul class="font-serif text-mid-gray text-sm space-y-2 max-w-2xl">
@@ -386,6 +448,36 @@ const easings = [
   .hv-tint { transition: background-color 260ms ease-out; }
   .hv-tint:hover { background-color: theme('colors.sage-tint'); }
 
+  .shipped-label {
+    @apply font-sans text-xs uppercase tracking-widest text-mid-gray mb-2;
+  }
+
+  .ship-faq__panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ship-faq[open] .ship-faq__panel { grid-template-rows: 1fr; }
+  .ship-faq__panel > * { overflow: hidden; }
+
+  .ship-swap {
+    display: inline-block;
+    transition: opacity 150ms ease-in-out, transform 150ms ease-in-out, filter 150ms ease-in-out;
+  }
+  .ship-swap.is-exit { opacity: 0; transform: translateY(-4px); filter: blur(2px); }
+  .ship-swap.is-enter { opacity: 0; transform: translateY(4px); filter: blur(2px); transition: none; }
+
+  .ship-check { opacity: 0; transform: translateY(6px) scale(0.94); }
+  .ship-check[data-state='in'] {
+    opacity: 1; transform: none;
+    transition: opacity 260ms ease-out, transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ship-check path { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .ship-check[data-state='in'] path {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 420ms cubic-bezier(0.65, 0, 0.35, 1) 120ms;
+  }
+
   /* ── Easing comparison ─────────────────────────────────────────────── */
   .ease-row {
     display: grid;
@@ -492,6 +584,28 @@ const easings = [
         // just looks like lag before the replay starts.
         requestAnimationFrame(() => requestAnimationFrame(() => play(scope)));
       });
+    });
+
+    // Shipped-behaviour demos
+    const swap = document.querySelector<HTMLElement>('.ship-swap');
+    document.getElementById('ship-submit')?.addEventListener('click', () => {
+      if (!swap) return;
+      const next = swap.textContent?.trim() === 'Sending...' ? 'Build My Free Preview' : 'Sending...';
+      swap.classList.add('is-exit');
+      window.setTimeout(() => {
+        swap.textContent = next;
+        swap.classList.remove('is-exit');
+        swap.classList.add('is-enter');
+        void swap.offsetWidth;
+        swap.classList.remove('is-enter');
+      }, 150);
+    });
+
+    const check = document.querySelector<HTMLElement>('.ship-check');
+    document.getElementById('ship-check-replay')?.addEventListener('click', () => {
+      if (!check) return;
+      check.dataset.state = 'out';
+      requestAnimationFrame(() => requestAnimationFrame(() => { check.dataset.state = 'in'; }));
     });
 
     const note = document.getElementById('sd-support');
