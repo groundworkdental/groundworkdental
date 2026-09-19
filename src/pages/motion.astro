@@ -1,0 +1,560 @@
+---
+/**
+ * Motion showcase — internal, noindex, excluded from the sitemap.
+ *
+ * Every demo below runs on real site components (real headings, the real
+ * tick list, the real comparison rows) so the choice is made against actual
+ * content rather than lorem boxes. Nothing here is imported by the rest of
+ * the site; deleting this file removes it entirely.
+ *
+ * All motion is CSS. No library, no React island.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const painPoints = [
+  'Patients aren\'t finding your practice on Google or ChatGPT',
+  'You\'re tired of paying monthly website fees',
+  'You want a website that brings in new patients',
+  'Your website feels outdated',
+];
+
+const tableRows = [
+  { feature: 'Setup cost', diy: 'Free', trad: '$2,000–$15,000', gw: '$2,000 flat' },
+  { feature: 'Yearly cost', diy: '$0–$200/yr', trad: '$2,400+/yr', gw: '~$12/yr' },
+  { feature: 'Ownership', diy: 'Their platform', trad: 'Varies', gw: 'You own it' },
+  { feature: 'Build time', diy: 'Weeks', trad: '4–12 weeks', gw: '3–7 days' },
+];
+
+const easings = [
+  { id: 'linear',    label: 'linear',                                   note: 'Mechanical. Never right for UI.' },
+  { id: 'ease-out',  label: 'ease-out',                                 note: 'The browser default. Fine, unremarkable.' },
+  { id: 'quint',     label: 'ease-out-quint',           note: 'What the site uses now. Decisive, settles clean.' },
+  { id: 'expo',      label: 'ease-out-expo',            note: 'Faster commit, longer tail. Slightly more dramatic.' },
+  { id: 'spring',    label: 'damped spring',       note: 'Spring physics sampled into linear(). No overshoot.' },
+  { id: 'overshoot', label: 'overshoot (rejected)',        note: 'Bounce. Flagged as an AI-slop tell, and off-voice.' },
+];
+---
+
+<BaseLayout
+  title="Motion showcase — internal"
+  description="Internal motion options for the Groundwork Dental site."
+  noindex={true}
+>
+  <section class="border-b border-border-light bg-surface-2">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <p class="font-sans text-xs uppercase tracking-widest text-mid-gray mb-3">Internal · not linked, not indexed</p>
+      <h1 class="section-heading mb-4">Motion options</h1>
+      <p class="font-serif text-mid-gray leading-relaxed max-w-2xl">
+        Each option below runs on real components. Press <strong class="text-charcoal">Replay</strong> to see
+        it again, or scroll away and back for the scroll-linked ones. Note which you want, per element —
+        the goal is a short menu, not all of them.
+      </p>
+    </div>
+  </section>
+
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+
+    <!-- 1 ─────────────────────────────────────────────── fade + rise -->
+    <section class="demo" data-demo="fade">
+      <header class="demo-head">
+        <h2 class="demo-title">1 · Fade + rise <span class="demo-tag">current default</span></h2>
+        <button class="replay" data-replay="fade">Replay</button>
+      </header>
+      <p class="demo-note">Neutral. Reads well for prose, says nothing about the content. The problem is only that it is currently applied to everything.</p>
+      <div class="demo-stage">
+        <div class="anim anim-fade">
+          <h3 class="font-serif text-2xl text-charcoal mb-2">Dental Websites Built for Dentists</h3>
+          <p class="font-serif text-mid-gray">SEO and AI-ready, Google Business Profile included.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 ─────────────────────────────────────────────── clip wipe -->
+    <section class="demo" data-demo="wipe">
+      <header class="demo-head">
+        <h2 class="demo-title">2 · Clip wipe <span class="demo-tag">headings</span></h2>
+        <button class="replay" data-replay="wipe">Replay</button>
+      </header>
+      <p class="demo-note">The type is uncovered rather than moved. Because nothing shifts position it reads settled and editorial — the closest thing to "printed" motion.</p>
+      <div class="demo-stage">
+        <h3 class="anim anim-wipe font-serif text-3xl text-charcoal">One price. Everything included.</h3>
+        <p class="anim anim-wipe font-serif text-mid-gray mt-3" style="--d:120ms">Ready in a week, not months.</p>
+      </div>
+    </section>
+
+    <!-- 3 ─────────────────────────────────────────────── tick draw -->
+    <section class="demo" data-demo="tick">
+      <header class="demo-head">
+        <h2 class="demo-title">3 · Tick draw <span class="demo-tag">the pain-point list</span></h2>
+        <button class="replay" data-replay="tick">Replay</button>
+      </header>
+      <p class="demo-note">Each tick draws itself, so the list checks itself off. Same technique as the success check already on /get-started. The motion says what the content says.</p>
+      <div class="demo-stage">
+        <ul class="space-y-3">
+          {painPoints.map((item, i) => (
+            <li class="anim anim-tick flex items-start gap-3" style={`--d:${i * 130}ms`}>
+              <svg class="w-4 h-4 text-sage-dark shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" pathLength="1" d="M5 13l4 4L19 7" />
+              </svg>
+              <span class="font-serif text-charcoal leading-snug">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- 4 ─────────────────────────────────────────────── origin-aware -->
+    <section class="demo" data-demo="origin">
+      <header class="demo-head">
+        <h2 class="demo-title">4 · Origin-aware columns <span class="demo-tag">comparison table</span></h2>
+        <button class="replay" data-replay="origin">Replay</button>
+      </header>
+      <p class="demo-note">Each column enters from its own side and the Groundwork column resolves last. The motion performs the argument the table is making.</p>
+      <div class="demo-stage overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-border-light">
+              <th class="text-left py-2 font-sans text-xs uppercase tracking-widest text-mid-gray">Feature</th>
+              <th class="anim anim-from-left py-2 font-sans text-xs uppercase tracking-widest text-mid-gray">DIY</th>
+              <th class="anim anim-from-left py-2 font-sans text-xs uppercase tracking-widest text-mid-gray" style="--d:80ms">Agency</th>
+              <th class="anim anim-from-right py-2 font-sans text-xs uppercase tracking-widest text-sage-dark bg-sage-tint" style="--d:260ms">Groundwork</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tableRows.map((r, i) => (
+              <tr class="border-b border-border-light">
+                <td class="py-2.5 font-serif text-charcoal">{r.feature}</td>
+                <td class="anim anim-from-left py-2.5 font-serif text-mid-gray text-center" style={`--d:${i * 50}ms`}>{r.diy}</td>
+                <td class="anim anim-from-left py-2.5 font-serif text-mid-gray text-center" style={`--d:${i * 50 + 80}ms`}>{r.trad}</td>
+                <td class="anim anim-from-right py-2.5 font-serif text-charcoal text-center bg-sage-tint" style={`--d:${i * 50 + 260}ms`}>{r.gw}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 5 ─────────────────────────────────────────────── rule draw -->
+    <section class="demo" data-demo="rule">
+      <header class="demo-head">
+        <h2 class="demo-title">5 · Rule draw <span class="demo-tag">dividers, card edges</span></h2>
+        <button class="replay" data-replay="rule">Replay</button>
+      </header>
+      <p class="demo-note">Hairlines draw across. Very quiet — you register it as the page assembling rather than as an animation. Suits a brand whose claim is engineering.</p>
+      <div class="demo-stage">
+        <div class="ruled anim anim-rule py-4">
+          <p class="font-serif text-charcoal">SEO Foundation</p>
+          <p class="font-serif text-sm text-mid-gray">Every page set up so patients searching nearby can find you.</p>
+        </div>
+        <div class="ruled anim anim-rule py-4" style="--d:140ms">
+          <p class="font-serif text-charcoal">Google Business Profile</p>
+          <p class="font-serif text-sm text-mid-gray">Hours, services, and photos, set up properly.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 ─────────────────────────────────────────────── scale + blur -->
+    <section class="demo" data-demo="scale">
+      <header class="demo-head">
+        <h2 class="demo-title">6 · Scale + blur-to-sharp <span class="demo-tag">cards, numerals</span></h2>
+        <button class="replay" data-replay="scale">Replay</button>
+      </header>
+      <p class="demo-note">Comes into focus rather than sliding. Works for figures because the number never moves — it just resolves. No counting.</p>
+      <div class="demo-stage grid grid-cols-2 gap-8 max-w-md">
+        <div class="anim anim-scale text-center">
+          <p class="font-mono text-4xl text-charcoal leading-none">$2,000</p>
+          <p class="font-sans text-xs uppercase tracking-widest text-mid-gray mt-2">One-time build</p>
+        </div>
+        <div class="anim anim-scale text-center" style="--d:110ms">
+          <p class="font-mono text-4xl text-charcoal leading-none">$0</p>
+          <p class="font-sans text-xs uppercase tracking-widest text-mid-gray mt-2">Per year after</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 ─────────────────────────────────────────────── scroll-linked -->
+    <section class="demo">
+      <header class="demo-head">
+        <h2 class="demo-title">7 · Scroll-<em>linked</em> <span class="demo-tag">continuous, zero JS</span></h2>
+        <span class="demo-hint">scroll slowly ↕</span>
+      </header>
+      <p class="demo-note">
+        Everything above is scroll-<em>triggered</em>: it fires once and finishes. This is tied to scroll
+        position, so it moves with you and reverses when you scroll back. Pure CSS
+        (<code>animation-timeline</code>), no JavaScript at all.
+      </p>
+      <div class="demo-stage">
+        <div class="scroll-demo">
+          <div class="scroll-demo__bar"></div>
+          <p class="font-serif text-charcoal">This block's tint and offset track your scroll position.</p>
+          <p class="font-serif text-sm text-mid-gray mt-1">Nothing "fires" — there is no before and after, only position.</p>
+        </div>
+        <p class="font-serif text-xs text-mid-gray mt-3" id="sd-support"></p>
+      </div>
+    </section>
+
+    <!-- 8 ─────────────────────────────────────────────── hover -->
+    <section class="demo">
+      <header class="demo-head">
+        <h2 class="demo-title">8 · Hover <span class="demo-tag">hover these</span></h2>
+        <span class="demo-hint">point at them ↓</span>
+      </header>
+      <p class="demo-note">Today every hover on the site is a colour change (43 of them). These cost nothing and carry more character.</p>
+      <div class="demo-stage space-y-5">
+        <p><a href="#" class="hv-underline font-serif text-sage-dark">Underline draws from the left</a></p>
+        <p><a href="#" class="hv-arrow font-sans text-sm text-sage-dark">See an example <span class="hv-arrow__i">→</span></a></p>
+        <div class="grid sm:grid-cols-2 gap-4 max-w-lg">
+          <div class="hv-lift card">
+            <p class="font-serif text-charcoal">Card lift</p>
+            <p class="font-serif text-sm text-mid-gray">Rises 2px, border warms to sage.</p>
+          </div>
+          <div class="hv-sweep card">
+            <p class="font-serif text-charcoal">Edge sweep</p>
+            <p class="font-serif text-sm text-mid-gray">A sage rule runs along the bottom.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9 ─────────────────────────────────────────────── easing -->
+    <section class="demo" data-demo="ease">
+      <header class="demo-head">
+        <h2 class="demo-title">9 · Easing, same distance <span class="demo-tag">the character dial</span></h2>
+        <button class="replay" data-replay="ease">Replay</button>
+      </header>
+      <p class="demo-note">Identical move, different curve. This is where "calm" versus "springy" is actually decided — more than the distance or duration.</p>
+      <div class="demo-stage space-y-3">
+        {easings.map((e) => (
+          <div class="ease-row">
+            <span class="ease-label font-sans text-xs text-mid-gray">{e.label}</span>
+            <span class="ease-track"><span class={`ease-dot ease-${e.id}`}></span></span>
+            <span class="font-serif text-xs text-mid-gray">{e.note}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- 10 ────────────────────────────────────────────── view transition -->
+    <section class="demo">
+      <header class="demo-head">
+        <h2 class="demo-title">10 · Shared-element transition <span class="demo-tag">between pages</span></h2>
+        <span class="demo-hint">click it ↓</span>
+      </header>
+      <p class="demo-note">
+        The router is already installed and currently uses zero of these. The figure below is tagged with
+        the same name as the one on /pricing, so it morphs across the navigation instead of redrawing.
+        Click through and watch the number.
+      </p>
+      <div class="demo-stage">
+        <a href="/pricing" class="inline-block group">
+          <p class="font-mono text-5xl text-charcoal leading-none" transition:name="price-figure">$2,000</p>
+          <p class="font-sans text-xs uppercase tracking-widest text-mid-gray mt-2 group-hover:text-sage-dark transition-colors">Go to pricing →</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="demo">
+      <h2 class="demo-title mb-3">Not shown, and why</h2>
+      <ul class="font-serif text-mid-gray text-sm space-y-2 max-w-2xl">
+        <li>— <strong class="text-charcoal">Counting numerals.</strong> Your voice guide says state the number, don't perform it.</li>
+        <li>— <strong class="text-charcoal">Card tilt / 3D.</strong> The generic-AI look the design system is positioned against.</li>
+        <li>— <strong class="text-charcoal">Parallax on text.</strong> Hurts readability and LCP.</li>
+        <li>— <strong class="text-charcoal">Overshoot.</strong> Shown in §9 only so you can reject it deliberately.</li>
+      </ul>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .demo { scroll-margin-top: 6rem; }
+
+  .demo-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    border-top: 1px solid theme('colors.border-light');
+    padding-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .demo-title {
+    @apply font-serif text-xl text-charcoal;
+  }
+
+  .demo-tag {
+    @apply font-sans text-xs uppercase tracking-widest text-mid-gray;
+    margin-left: 0.5rem;
+  }
+
+  .demo-hint {
+    @apply font-sans text-xs uppercase tracking-widest text-sage-dark;
+    white-space: nowrap;
+  }
+
+  .demo-note {
+    @apply font-serif text-sm text-mid-gray leading-relaxed;
+    max-width: 46rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .demo-stage {
+    @apply rounded border border-border-light bg-surface-1 p-6 md:p-8;
+  }
+
+  .replay {
+    @apply font-sans text-xs uppercase tracking-widest text-sage-dark border border-border-light rounded px-3 py-1.5;
+    white-space: nowrap;
+    transition: border-color 200ms, color 200ms;
+  }
+  .replay:hover { border-color: theme('colors.sage-dark'); color: theme('colors.charcoal'); }
+
+  /* ── Entrance treatments ───────────────────────────────────────────── */
+  /* `.is-out` is the resting hidden state; removing it plays the motion. */
+
+  .anim { --d: 0ms; }
+
+  .anim-fade.is-out { opacity: 0; transform: translateY(10px); }
+  .anim-fade {
+    transition: opacity 450ms ease-out var(--d),
+                transform 450ms cubic-bezier(0.22, 1, 0.36, 1) var(--d);
+  }
+
+  .anim-wipe.is-out { opacity: 0; clip-path: inset(0 100% 0 0); }
+  .anim-wipe {
+    clip-path: inset(0 0 0 0);
+    transition: opacity 200ms linear var(--d),
+                clip-path 700ms cubic-bezier(0.22, 1, 0.36, 1) var(--d);
+  }
+
+  .anim-tick.is-out { opacity: 0; }
+  .anim-tick { transition: opacity 260ms ease-out var(--d); }
+  .anim-tick path { stroke-dasharray: 1; stroke-dashoffset: 0; }
+  .anim-tick.is-out path { stroke-dashoffset: 1; }
+  .anim-tick path {
+    transition: stroke-dashoffset 420ms cubic-bezier(0.65, 0, 0.35, 1) calc(var(--d) + 120ms);
+  }
+
+  .anim-from-left.is-out  { opacity: 0; transform: translateX(-14px); }
+  .anim-from-right.is-out { opacity: 0; transform: translateX(14px); }
+  .anim-from-left, .anim-from-right {
+    transition: opacity 400ms ease-out var(--d),
+                transform 500ms cubic-bezier(0.22, 1, 0.36, 1) var(--d);
+  }
+
+  .ruled { position: relative; }
+  .ruled::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 1px;
+    background: theme('colors.border-light');
+    transform-origin: left;
+    transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1) var(--d);
+  }
+  .anim-rule.is-out::after { transform: scaleX(0); }
+  .anim-rule.is-out { opacity: 0; }
+  .anim-rule { transition: opacity 300ms ease-out var(--d); }
+
+  .anim-scale.is-out { opacity: 0; transform: scale(0.96); filter: blur(6px); }
+  .anim-scale {
+    transition: opacity 400ms ease-out var(--d),
+                transform 550ms cubic-bezier(0.22, 1, 0.36, 1) var(--d),
+                filter 450ms ease-out var(--d);
+  }
+
+  /* ── Scroll-linked ─────────────────────────────────────────────────── */
+  .scroll-demo {
+    position: relative;
+    padding: 1.25rem 1.25rem 1.25rem 1.5rem;
+    border-radius: 4px;
+    background: theme('colors.surface.2');
+  }
+
+  .scroll-demo__bar {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: theme('colors.sage');
+    transform-origin: top;
+  }
+
+  @supports (animation-timeline: view()) {
+    .scroll-demo {
+      animation: sd-tint linear both;
+      animation-timeline: view();
+      animation-range: entry 10% exit 90%;
+    }
+    .scroll-demo__bar {
+      animation: sd-bar linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
+
+  @keyframes sd-tint {
+    0%   { background: theme('colors.surface.2'); transform: translateY(8px); }
+    50%  { background: theme('colors.sage-tint'); transform: translateY(0); }
+    100% { background: theme('colors.surface.2'); transform: translateY(-8px); }
+  }
+
+  @keyframes sd-bar {
+    0%   { transform: scaleY(0); }
+    100% { transform: scaleY(1); }
+  }
+
+  /* ── Hover ─────────────────────────────────────────────────────────── */
+  .hv-underline {
+    position: relative;
+    text-decoration: none;
+  }
+  .hv-underline::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: -3px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .hv-underline:hover::after { transform: scaleX(1); }
+
+  .hv-arrow { text-decoration: none; }
+  .hv-arrow__i {
+    display: inline-block;
+    transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .hv-arrow:hover .hv-arrow__i { transform: translateX(5px); }
+
+  .hv-lift {
+    transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 260ms ease-out;
+  }
+  .hv-lift:hover {
+    transform: translateY(-2px);
+    border-color: theme('colors.sage');
+  }
+
+  .hv-sweep { position: relative; overflow: hidden; }
+  .hv-sweep::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 2px;
+    background: theme('colors.sage');
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .hv-sweep:hover::after { transform: scaleX(1); }
+
+  /* ── Easing comparison ─────────────────────────────────────────────── */
+  .ease-row {
+    display: grid;
+    grid-template-columns: 9rem 1fr 1fr;
+    align-items: center;
+    gap: 1rem;
+  }
+  @media (max-width: 640px) {
+    .ease-row { grid-template-columns: 7rem 1fr; }
+    .ease-row > :last-child { display: none; }
+  }
+
+  .ease-track {
+    position: relative;
+    display: block;
+    height: 10px;
+    border-bottom: 1px dashed theme('colors.border-light');
+  }
+
+  .ease-dot {
+    position: absolute;
+    left: 0; top: 0;
+    width: 10px; height: 10px;
+    border-radius: 999px;
+    background: theme('colors.sage-dark');
+    transform: translateX(calc(100cqw - 10px));
+  }
+
+  .ease-track { container-type: inline-size; }
+  .is-out .ease-dot, .ease-row.is-out .ease-dot { transform: translateX(0); }
+
+  .ease-linear    { transition: transform 900ms linear; }
+  .ease-ease-out  { transition: transform 900ms ease-out; }
+  .ease-quint     { transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1); }
+  .ease-expo      { transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1); }
+  /* A critically damped spring, sampled into linear(). No overshoot. */
+  .ease-spring    { transition: transform 900ms linear(0, 0.06, 0.22, 0.44, 0.66, 0.82, 0.92, 0.97, 0.99, 1); }
+  .ease-overshoot { transition: transform 900ms cubic-bezier(0.22, 1.5, 0.36, 1); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .anim, .anim::after, .ease-dot, .hv-underline::after, .hv-arrow__i,
+    .hv-lift, .hv-sweep::after, .scroll-demo, .scroll-demo__bar {
+      transition: none !important;
+      animation: none !important;
+    }
+    .anim.is-out { opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; }
+    .anim.is-out path { stroke-dashoffset: 0 !important; }
+  }
+</style>
+
+<script>
+  /**
+   * Demo harness. Puts each group into its hidden state, then plays it when
+   * it scrolls into view, and again on Replay. Showcase-only — the real site
+   * uses the reveal system in BaseLayout.
+   */
+  const groups = () => document.querySelectorAll<HTMLElement>('[data-demo]');
+
+  function setOut(scope: HTMLElement) {
+    scope.querySelectorAll<HTMLElement>('.anim').forEach((el) => el.classList.add('is-out'));
+    scope.querySelectorAll<HTMLElement>('.ease-row').forEach((el) => el.classList.add('is-out'));
+  }
+
+  function play(scope: HTMLElement) {
+    // Force the hidden state to be committed before releasing it, or the
+    // browser collapses both into one paint and nothing animates.
+    void scope.offsetWidth;
+    scope.querySelectorAll<HTMLElement>('.anim').forEach((el) => el.classList.remove('is-out'));
+    scope.querySelectorAll<HTMLElement>('.ease-row').forEach((el) => el.classList.remove('is-out'));
+  }
+
+  function init() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    groups().forEach(setOut);
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            play(e.target as HTMLElement);
+            io.unobserve(e.target);
+          }
+        }
+      },
+      { rootMargin: '0px 0px -20% 0px', threshold: 0 }
+    );
+    groups().forEach((g) => io.observe(g));
+
+    document.querySelectorAll<HTMLButtonElement>('[data-replay]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const scope = document.querySelector<HTMLElement>(`[data-demo="${btn.dataset.replay}"]`);
+        if (!scope) return;
+        setOut(scope);
+        window.setTimeout(() => play(scope), 60);
+      });
+    });
+
+    const note = document.getElementById('sd-support');
+    if (note) {
+      note.textContent = CSS.supports('animation-timeline', 'view()')
+        ? 'Your browser supports scroll-linked CSS — the block above is tracking your scroll position.'
+        : 'Your browser does not support animation-timeline, so the block above is static. That is the fallback.';
+    }
+  }
+
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>
