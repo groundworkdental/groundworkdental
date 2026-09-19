@@ -31,7 +31,7 @@ const related = scored.map(s => s.post);
       <h2 class="font-serif text-2xl text-charcoal mb-6">Related Articles</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {related.map((post) => (
-          <a href={`/blog/${post.id}`} class="card hover:border-sage transition-colors group">
+          <a href={`/blog/${post.id}`} class="card hover:border-sage transition-colors group hover-lift">
             <div class="flex flex-wrap gap-1.5 mb-2">
               {post.data.tags.slice(0, 2).map((tag: string) => (
                 <span class="font-sans text-[10px] uppercase tracking-wider text-sage-dark bg-sage/10 px-2 py-0.5 rounded-full">

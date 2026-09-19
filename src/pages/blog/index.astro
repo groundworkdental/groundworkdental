@@ -58,7 +58,7 @@ const allTags = [...new Set(posts.flatMap(post => post.data.tags))].sort();
           {posts.map((post) => (
             <a
               href={`/blog/${post.id}`}
-              class="card hover:border-sage transition-colors group"
+              class="card hover:border-sage transition-colors group hover-lift"
               data-tags={JSON.stringify(post.data.tags)}
             >
               <div class="flex flex-wrap items-center gap-2 mb-3">
