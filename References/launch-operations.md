@@ -457,6 +457,11 @@ A zone we inherit carries whatever the previous provider left. This is
 invisible from the repo and from the rendered site, and it is where the
 expensive failures live.
 
+> This section is about a zone you already hold. The decision that comes
+> first — whether to take their nameservers at all, what to capture before
+> you do, and what changes per email provider — is in
+> [dns-and-email.md](dns-and-email.md).
+
 Run `node scripts/pipeline/audit-client-zone.js <domain>` from
 groundwork-builder at onboarding and before go-live.
 
