@@ -488,6 +488,15 @@ const easings = [
   .ease-spring    { transition: transform 900ms linear(0, 0.06, 0.22, 0.44, 0.66, 0.82, 0.92, 0.97, 0.99, 1); }
   .ease-overshoot { transition: transform 900ms cubic-bezier(0.22, 1.5, 0.36, 1); }
 
+  /*
+   * Applied for one frame while the demo is reset. Without it, adding the
+   * hidden class TRANSITIONS toward hidden, and replaying 60ms later catches
+   * it ~13% of the way there — which reads as a jitter, not an animation.
+   */
+  .no-anim, .no-anim *, .no-anim *::after {
+    transition: none !important;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .anim, .anim::after, .ease-dot, .hv-underline::after, .hv-arrow__i,
     .hv-lift, .hv-sweep::after, .scroll-demo, .scroll-demo__bar {
@@ -507,17 +516,20 @@ const easings = [
    */
   const groups = () => document.querySelectorAll<HTMLElement>('[data-demo]');
 
+  const targets = (scope: HTMLElement) =>
+    scope.querySelectorAll<HTMLElement>('.anim, .ease-row');
+
+  /** Snap to the hidden state with transitions off, so nothing animates out. */
   function setOut(scope: HTMLElement) {
-    scope.querySelectorAll<HTMLElement>('.anim').forEach((el) => el.classList.add('is-out'));
-    scope.querySelectorAll<HTMLElement>('.ease-row').forEach((el) => el.classList.add('is-out'));
+    scope.classList.add('no-anim');
+    targets(scope).forEach((el) => el.classList.add('is-out'));
+    void scope.offsetWidth;        // commit the hidden state to this frame
+    scope.classList.remove('no-anim');
   }
 
   function play(scope: HTMLElement) {
-    // Force the hidden state to be committed before releasing it, or the
-    // browser collapses both into one paint and nothing animates.
-    void scope.offsetWidth;
-    scope.querySelectorAll<HTMLElement>('.anim').forEach((el) => el.classList.remove('is-out'));
-    scope.querySelectorAll<HTMLElement>('.ease-row').forEach((el) => el.classList.remove('is-out'));
+    void scope.offsetWidth;        // ...and commit the removal of .no-anim
+    targets(scope).forEach((el) => el.classList.remove('is-out'));
   }
 
   function init() {
@@ -543,7 +555,9 @@ const easings = [
         const scope = document.querySelector<HTMLElement>(`[data-demo="${btn.dataset.replay}"]`);
         if (!scope) return;
         setOut(scope);
-        window.setTimeout(() => play(scope), 60);
+        // One frame is enough now that the reset is instant; a longer wait
+        // just looks like lag before the replay starts.
+        requestAnimationFrame(() => requestAnimationFrame(() => play(scope)));
       });
     });
 
