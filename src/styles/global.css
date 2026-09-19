@@ -285,3 +285,44 @@
     @apply status-badge bg-danger-bg text-danger;
   }
 }
+
+/*
+ * Page transition.
+ *
+ * ClientRouter already cross-fades every navigation; this only replaces the
+ * default curve and timing. The outgoing page just fades — moving it as well
+ * reads as two pages fighting. The incoming one fades and rises 8px, the same
+ * gesture the scroll reveal uses, so navigation and scrolling feel like the
+ * same system.
+ *
+ * The header is pinned with its own name so it holds still while the content
+ * beneath it swaps, instead of cross-fading with everything else. It is NOT
+ * transition:persist — the DOM still updates, so the active nav state stays
+ * correct; only the animation is suppressed.
+ *
+ * These are document-level pseudo-elements, so they live outside any layer.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) {
+    animation: gw-page-out 160ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  ::view-transition-new(root) {
+    animation: gw-page-in 320ms cubic-bezier(0.16, 1, 0.3, 1) 40ms both;
+  }
+
+  ::view-transition-old(site-header),
+  ::view-transition-new(site-header) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+}
+
+@keyframes gw-page-out {
+  to { opacity: 0; }
+}
+
+@keyframes gw-page-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}

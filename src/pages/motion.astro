@@ -211,22 +211,22 @@ const easings = [
       </div>
     </section>
 
-    <!-- 10 ────────────────────────────────────────────── view transition -->
+    <!-- 9 ─────────────────────────────────────────── page transition -->
     <section class="demo">
       <header class="demo-head">
-        <h2 class="demo-title">9 · Shared-element transition <span class="demo-tag">between pages</span></h2>
-        <span class="demo-hint">click it ↓</span>
+        <h2 class="demo-title">9 · Page transition <span class="demo-tag">between pages</span></h2>
+        <span class="demo-hint">click a link ↓</span>
       </header>
       <p class="demo-note">
-        The router is already installed and currently uses zero of these. The figure below is tagged with
-        the same name as the one on /pricing, so it morphs across the navigation instead of redrawing.
-        Click through and watch the number.
+        Not a shared element — the whole page. The outgoing page fades, the incoming one fades and
+        rises 8px. The header is pinned so it does not flicker while the content swaps. This is the
+        router that is already installed; the only change is the curve and duration.
       </p>
-      <div class="demo-stage">
-        <a href="/pricing" class="inline-block group">
-          <p class="font-mono text-5xl text-charcoal leading-none" transition:name="price-figure">$2,000</p>
-          <p class="font-sans text-xs uppercase tracking-widest text-mid-gray mt-2 group-hover:text-sage-dark transition-colors">Go to pricing →</p>
-        </a>
+      <div class="demo-stage flex flex-wrap gap-3">
+        <a href="/pricing" class="btn-secondary">Pricing</a>
+        <a href="/how-it-works" class="btn-secondary">How it works</a>
+        <a href="/about" class="btn-secondary">About</a>
+        <a href="/motion" class="btn-primary">Back here</a>
       </div>
     </section>
 
