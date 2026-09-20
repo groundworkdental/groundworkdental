@@ -78,6 +78,46 @@ defects — see platform-gotchas.md.
 - GBP: the practice should hold **Owner**, we hold **Manager**. Never the
   reverse.
 
+### Never sign in as the client
+
+The rule above says what to give *them*. This says what to take for *ourselves*:
+a named role on our own identity, never a seat in their account.
+
+Borrowing the practice's login feels faster on the setup call and costs you
+three things that only show up later:
+
+| | Shared login | Delegated role |
+|---|---|---|
+| Their password or 2FA changes | You are locked out, silently | Unaffected |
+| Who did what | Everything reads as the owner | Attributable to you |
+| Offboarding | They must change a password and hope | They remove a role, done |
+
+The third is the one that matters. An engagement that ends cleanly is one where
+**the client can revoke us without our cooperation**. That is impossible if our
+access *is* their account.
+
+So grant yourself, signed in as them exactly once:
+
+| Service | Where | Take |
+|---|---|---|
+| Business Profile | business.google.com → Settings → People | **Manager** |
+| Search Console | Settings → Users and permissions | **Owner** if verifying or automating, else Full |
+| Analytics | Admin → Property access management | **Editor**, or Administrator if you will manage access |
+| **Google Cloud project** | Cloud Console → IAM | **Editor** |
+
+The Cloud project is the one that gets forgotten, because nothing on the site
+points at it. It holds the OAuth client, the consent screen and any service
+account — so without Editor there you cannot rotate a credential, enable an
+API, or fix a consent screen without booking time with the practice. Every
+Google credential in the engagement ultimately depends on it.
+
+**OAuth consent must be published, and it must be ours.** A refresh token binds
+to whichever identity clicked Allow, and an app left in *Testing* publishing
+status issues tokens Google expires after seven days. Both failures surface as
+a bare `invalid_grant` weeks later, with nothing saying which. Full procedure:
+`groundwork-builder/docs/gbp/gbp-setup-walkthrough.md`; the matching teardown is
+`gbp-offboarding.md`.
+
 ### Cloudflare access
 
 The zone often lives in the client's own account, or their **MSP's**. Establish
