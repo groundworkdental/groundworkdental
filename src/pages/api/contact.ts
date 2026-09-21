@@ -132,7 +132,7 @@ async function notify(
     const clean = (v: string) => v.replace(/[\r\n]+/g, ' ').trim();
 
     const raw = [
-      `From: Groundwork Dental <${from}>`,
+      `From: Groundwork Website <${from}>`,
       `To: ${to}`,
       // Replying to the notification reaches the prospect, not ourselves.
       `Reply-To: ${clean(lead.email)}`,
