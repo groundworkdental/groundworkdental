@@ -77,10 +77,7 @@ const steps = [
     action: 'Where your Google listing lives.',
     link: { href: 'https://business.google.com', label: 'Open Business Profile' },
     essential: 'Add hello@groundworkdental.com as a Manager (not Owner — you keep Owner) under People and access. Run into an error adding it? Let us know and we\'ll troubleshoot it with you.',
-    edge: {
-      summary: 'Why does this take a while?',
-      body: 'Google\'s approval on our end can take days to weeks, so the earlier this happens, the better — it does not block your site from being live.',
-    },
+    edge: null,
   },
 ];
 
@@ -132,7 +129,17 @@ const faqs = [
             <div class="flex-1 min-w-0">
               <h2 class="text-xl font-serif text-charcoal mb-1">{step.title}</h2>
               <p class="text-mid-gray mb-2">{step.action}</p>
-              <p class="text-sm text-charcoal font-medium mb-4">{step.essential}</p>
+
+              <label class="flex items-start gap-2.5 mb-4 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  class="step-check mt-0.5 flex-none w-4 h-4 rounded border-hairline accent-sage-dark cursor-pointer"
+                  data-step-check={step.id}
+                />
+                <span class="text-sm text-charcoal font-medium group-has-[:checked]:line-through group-has-[:checked]:text-mid-gray group-has-[:checked]:font-normal transition-colors">
+                  {step.essential}
+                </span>
+              </label>
 
               <a
                 href={step.link.href}
@@ -213,6 +220,41 @@ const faqs = [
 </style>
 
 <script>
+  // Per-viewer convenience only — remembers checked steps in this browser so
+  // returning to the page doesn't lose progress. Never assumed to be reliable
+  // (private windows, cleared storage), so a missing value just means an
+  // unchecked box, never an error.
+  const STORAGE_KEY = 'groundwork-handoff-checked';
+
+  function loadChecked() {
+    try {
+      return new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
+    } catch {
+      return new Set();
+    }
+  }
+
+  function saveChecked(set) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify([...set]));
+    } catch {
+      // storage unavailable — the checkbox still works for this page view
+    }
+  }
+
+  const checked = loadChecked();
+  const checkboxes = document.querySelectorAll('[data-step-check]');
+
+  checkboxes.forEach((box) => {
+    const id = box.getAttribute('data-step-check');
+    if (checked.has(id)) box.checked = true;
+
+    box.addEventListener('change', () => {
+      box.checked ? checked.add(id) : checked.delete(id);
+      saveChecked(checked);
+    });
+  });
+
   const buttons = document.querySelectorAll('[data-edge-btn]');
 
   buttons.forEach((btn) => {
