@@ -1,3 +1,8 @@
+# Rule: build vars and bindings ([vars], [[d1_databases]], etc.) live HERE,
+# never in the dashboard — Cloudflare silently ignores dashboard values for
+# anything already defined in this file. Secrets (API keys, tokens) go the
+# other way: dashboard or `wrangler secret put` only, never in this file.
+
 name = "groundworkdental"
 pages_build_output_dir = "dist"
 compatibility_date = "2026-03-10"
