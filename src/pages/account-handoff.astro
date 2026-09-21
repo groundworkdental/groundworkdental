@@ -29,7 +29,7 @@ const steps = [
     n: '1',
     id: 'step-1',
     title: 'Create a GitHub account',
-    action: 'Holds your website\'s code. Free, and you\'ll rarely need to open it.',
+    action: 'Holds your website\'s code.',
     link: { href: 'https://github.com/signup', label: 'Create GitHub account' },
     essential: 'When you\'re done, send us your username — it\'s in the URL, right after github.com/ (like github.com/your-username).',
     edge: {
@@ -41,19 +41,19 @@ const steps = [
     n: '2',
     id: 'step-2',
     title: 'Create a Cloudflare account',
-    action: 'Hosts your site and manages your domain. Free, no monthly fee.',
+    action: 'Hosts your site and its DNS.',
     link: { href: 'https://dash.cloudflare.com/sign-up', label: 'Create Cloudflare account' },
     essential: 'Add hello@groundworkdental.com as an Administrator (Manage Account → Members → Invite).',
     edge: {
       summary: 'Already have Cloudflare from a previous developer or MSP?',
-      body: 'Use that account instead of creating a new one — a second account just splits your DNS across two places. Add hello@groundworkdental.com there instead.',
+      body: 'Use that account instead of creating a new one — a second account just splits your DNS across two places. Add hello@groundworkdental.com there instead. (Your domain\'s registrar — where you renew it each year — can be a completely different company. That\'s normal and doesn\'t need to change.)',
     },
   },
   {
     n: '3',
     id: 'step-3',
     title: 'Create a Google Analytics (GA4) property',
-    action: 'Shows how many people visit your site and what they do there.',
+    action: 'Tracks who visits your site.',
     link: { href: 'https://analytics.google.com', label: 'Open Google Analytics' },
     essential: 'Create it in your own Google account, add hello@groundworkdental.com as Administrator, then send us the Measurement ID — find it under Admin → Data Streams → your stream, it starts with "G-".',
     edge: null,
@@ -62,7 +62,7 @@ const steps = [
     n: '4',
     id: 'step-4',
     title: 'Verify your domain in Search Console',
-    action: 'Shows whether your pages are actually indexed on Google.',
+    action: 'Shows if Google can find your pages.',
     link: { href: 'https://search.google.com/search-console', label: 'Open Search Console' },
     essential: 'Choose "Domain" as the property type, then add hello@groundworkdental.com as a user once verified.',
     edge: {
@@ -74,7 +74,7 @@ const steps = [
     n: '5',
     id: 'step-5',
     title: 'Add us as a Manager on your Business Profile',
-    action: 'Lets us help manage reviews and posts on your Google listing.',
+    action: 'Where your Google listing lives.',
     link: { href: 'https://business.google.com', label: 'Open Business Profile' },
     essential: 'Add hello@groundworkdental.com as a Manager (not Owner — you keep Owner) under People and access.',
     edge: {
@@ -112,8 +112,11 @@ const faqs = [
     <GradientBackdrop intensity={0.68} />
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
       <h1 class="section-heading mb-4">Setting Up Your Accounts</h1>
+      <p class="font-serif text-lg text-mid-gray leading-relaxed mb-3">
+        Five accounts below. For each one: create or verify it, then add <span class="text-charcoal font-medium">hello@groundworkdental.com</span> so we can help manage it.
+      </p>
       <p class="font-serif text-lg text-mid-gray leading-relaxed">
-        Five accounts, so your site and data stay yours. Each takes a couple minutes — tap "More info" only if you want the details.
+        All five are free, they belong to you, and you'll rarely need to open any of them again. Each step takes a couple minutes — tap the arrow only if you want more detail.
       </p>
     </div>
   </section>
