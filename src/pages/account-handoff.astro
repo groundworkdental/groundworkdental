@@ -1,0 +1,157 @@
+---
+/**
+ * The account-handoff walkthrough, served at /account-handoff.
+ *
+ * Linked from the paid-in-full email to every client, not built per-client.
+ * It exists because the same four accounts (GitHub, Cloudflare, GA4, Search
+ * Console) come up on every handoff, and most practices have never created
+ * any of them — walking each one through it by hand in an email thread does
+ * not scale past a handful of clients.
+ *
+ * GBP is deliberately NOT a "create an account" step here: every practice
+ * already has a Business Profile (Google creates one from Maps/search
+ * activity whether you asked for it or not) — the client-owned step is
+ * granting Groundwork Manager access to the existing listing, not making a
+ * new one.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FAQBlock from '../components/FAQBlock.astro';
+import CTABlock from '../components/CTABlock.astro';
+import GradientBackdrop from '../components/GradientBackdrop.astro';
+
+const steps = [
+  {
+    n: '1',
+    title: 'Create a GitHub account',
+    who: 'Whoever should hold the keys — the practice owner, or an office manager you trust with admin access.',
+    body: [
+      'This is where your website\'s code lives. You will almost never need to look at it directly — Groundwork pushes changes here, and Cloudflare deploys automatically from it — but the practice, not Groundwork, needs to be the one who owns it.',
+      'Go to github.com/signup and create a free account using an email the practice controls long-term (not a personal Gmail that leaves with an employee).',
+      'If more than one person needs access, create a free GitHub Organization instead of a personal account — Settings → "New organization" — so access survives any one person leaving.',
+      'Once created, send us the account or organization name so we can push your site into it and add ourselves as a collaborator for ongoing changes.',
+    ],
+    link: { href: 'https://github.com/signup', label: 'Create a GitHub account →' },
+  },
+  {
+    n: '2',
+    title: 'Create a Cloudflare account',
+    who: 'Same person as above, ideally — one login for hosting.',
+    body: [
+      'Cloudflare hosts your site (free, no monthly fee) and manages your domain\'s DNS. If your site already has a Cloudflare account from a previous developer or MSP, you may already have one — check with whoever managed your domain before asking us to set up a new one.',
+      'Go to dash.cloudflare.com/sign-up and create a free account.',
+      'Once created, add hello@groundworkdental.com as an Administrator (not just a member) under Manage Account → Members → Invite, so we can deploy and troubleshoot without needing your login.',
+    ],
+    link: { href: 'https://dash.cloudflare.com/sign-up', label: 'Create a Cloudflare account →' },
+  },
+  {
+    n: '3',
+    title: 'Create a Google Analytics 4 (GA4) property — in your own Google account',
+    who: 'Whoever manages the practice\'s Google account (often tied to Google Business Profile already).',
+    body: [
+      'This is what shows you how many people visit your site, where they come from, and what they do once they land. It must live in your own Google account, not Groundwork\'s — otherwise a future handoff becomes a migration instead of a login change.',
+      'Go to analytics.google.com, sign in with your practice\'s Google account, and create a new GA4 property for your domain.',
+      'Add hello@groundworkdental.com as an Administrator on the property (Admin → Property Access Management → Add users) at creation, not after — this avoids a second round-trip later.',
+      'Send us the Measurement ID (starts with "G-") so we can wire it into your site\'s build.',
+    ],
+    link: { href: 'https://analytics.google.com', label: 'Open Google Analytics →' },
+  },
+  {
+    n: '4',
+    title: 'Verify your domain in Google Search Console',
+    who: 'Same Google account as GA4, ideally.',
+    body: [
+      'Search Console is how Google tells you whether your pages are actually indexed and showing up in search — separate from GA4, which only tracks visitors after they arrive.',
+      'Go to search.google.com/search-console, choose "Domain" property type (not "URL prefix" — Domain covers both the apex and www version of your site in one property), and enter your domain.',
+      'Verification requires adding one DNS TXT record. If Groundwork or your MSP manages your DNS, send us the TXT value Google gives you and we\'ll add it — this step is often the longest pole in the process because it depends on whoever holds DNS access.',
+      'Add hello@groundworkdental.com as a user (Settings → Users and permissions → Add user) once verified.',
+    ],
+    link: { href: 'https://search.google.com/search-console', label: 'Open Search Console →' },
+  },
+  {
+    n: '5',
+    title: 'Grant Manager access to your Google Business Profile',
+    who: 'Whoever currently manages your listing on Google Maps/Search.',
+    body: [
+      'Unlike the accounts above, you almost certainly already have a Business Profile — Google creates one automatically once your practice starts appearing in Maps or local search, whether or not anyone at the practice ever claimed it.',
+      'Go to business.google.com, and if you haven\'t already, claim/verify your existing listing (Google will guide you through a postcard or phone verification if it isn\'t already verified).',
+      'Add hello@groundworkdental.com as a Manager (not Owner — you keep Owner) under Business Profile Settings → People and access → Add.',
+      'Google\'s own API access approval for this can take days to weeks on our end — the sooner this step happens, the sooner automated review responses and posting can start.',
+    ],
+    link: { href: 'https://business.google.com', label: 'Open Business Profile →' },
+  },
+];
+
+const faqs = [
+  {
+    question: 'Why do I need to create these myself instead of Groundwork just setting them up?',
+    answer: 'Ownership. If Groundwork creates these accounts under our own identity, closing out the relationship later means migrating your analytics history, your search data, and your business listing to a new owner — with real risk of losing history in the process. Creating them under your own accounts from day one means nothing has to move, ever.',
+  },
+  {
+    question: 'What if I already have some of these from a previous developer or agency?',
+    answer: 'Use what you already have rather than creating duplicates — a second GA4 property or a second Search Console verification for the same domain just creates confusing, split data. Send us access to what already exists and we\'ll work with it.',
+  },
+  {
+    question: 'Do I need to do all five before my site can go live?',
+    answer: 'No. GitHub and Cloudflare are needed before launch, since that\'s where your site actually lives. GA4, Search Console, and Business Profile access can follow shortly after — but the sooner they\'re done, the sooner you get real data on how your new site is performing.',
+  },
+  {
+    question: 'I\'m not technical — can someone else do this for me?',
+    answer: 'Yes. Any of these can be done by an office manager, a family member, or a trusted contact — the only requirement is that the account belongs to the practice, not to Groundwork or any one individual who might leave.',
+  },
+];
+---
+
+<BaseLayout
+  title="Account Handoff Guide | Groundwork Dental"
+  description="Step-by-step setup for the accounts your practice needs to own — GitHub, Cloudflare, GA4, Search Console, and Google Business Profile — so your website and data are always yours."
+>
+  <section class="relative isolate bg-surface-2">
+    <GradientBackdrop intensity={0.68} />
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+      <h1 class="section-heading mb-6">Setting Up Your Accounts</h1>
+      <p class="font-serif text-xl text-mid-gray leading-relaxed">
+        Your website, your analytics, and your Google listing should always belong to your practice — never to us. This page walks through the five accounts we ask every client to create, why each one matters, and exactly what to send us once it's done.
+      </p>
+    </div>
+  </section>
+
+  <section class="reveal py-10">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
+      {steps.map((step) => (
+        <div class="border-t border-hairline pt-10 first:border-0 first:pt-0">
+          <div class="flex items-start gap-4">
+            <span class="flex-none w-10 h-10 rounded-full bg-sage-dark text-white flex items-center justify-center font-serif text-lg">
+              {step.n}
+            </span>
+            <div class="flex-1">
+              <h2 class="text-2xl font-serif text-charcoal mb-1">{step.title}</h2>
+              <p class="text-sm text-mid-gray mb-4 italic">Who should do this: {step.who}</p>
+              {step.body.map((p) => (
+                <p class="text-mid-gray leading-relaxed mb-3">{p}</p>
+              ))}
+              <a
+                href={step.link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-block mt-2 text-sage-dark hover:text-sage-darker font-medium"
+              >
+                {step.link.label}
+              </a>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <FAQBlock faqs={faqs} heading="Questions About Handoff" />
+
+  <CTABlock
+    heading="Sent us your account details already?"
+    subheading="We'll confirm everything is wired up correctly and follow up if anything's missing."
+    primaryCTA="Contact Us"
+    primaryHref="/get-started"
+    secondaryCTA="Back to FAQ"
+    secondaryHref="/faq"
+  />
+</BaseLayout>
