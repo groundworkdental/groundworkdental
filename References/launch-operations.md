@@ -154,6 +154,48 @@ change one line in `groundwork-builder/scripts/pipeline/standards/practice-contr
 `check-readiness.js` prints it, so the migration list generates itself rather
 than being reconstructed by logging into four consoles per client.
 
+### Search Console: property type, and who can read it
+
+Two mistakes that each make the reporting silently useless.
+
+**Use a Domain property, not a URL-prefix one.** `sc-domain:practice.com`
+covers www, non-www, http and https at once. `https://practice.com/` covers
+that exact string and nothing else, so anything landing on a variant is
+invisible. Verify by DNS TXT — it is the only method a Domain property accepts,
+and the record is a fingerprint you can check from outside:
+
+```
+dig +short TXT practice.com | grep google-site-verification
+```
+
+**Then add the service account as a user.** A property nobody granted the
+service account is a property it cannot read, and the failure is a permission
+error that looks like a broken credential. hbimplants had a working service
+account, a verified Domain property, and a reporting script that returned
+nothing for months because the two had never been introduced.
+
+Both values belong in the practice's `accounts` row — `gsc_site_url` in the
+`sc-domain:` form. A script that hardcodes the site URL will hardcode the wrong
+one; hbimplants' did.
+
+### Publishing a Google OAuth consent screen
+
+Every practice needs one for Business Profile automation, and two things about
+it are counterintuitive enough to cost weeks if discovered late.
+
+**Publishing status must be "In production".** In "Testing", Google expires
+every refresh token after seven days. Everything works on the setup call, works
+that week, then fails with a bare `invalid_grant` naming no cause. Publishing
+does **not** submit the app for verification review — it only stops the clock.
+
+**Publishing requires a privacy policy URL** on the site, plus a homepage URL.
+So the practice's site needs a privacy page before its OAuth app can leave
+Testing, which makes the two tasks one task. `verify-launch.js` gates the page;
+this is why.
+
+Do not upload an app logo. The consent screen warns, correctly, that a logo
+forces the app into verification review — days to weeks — for no benefit here.
+
 ### Service accounts are the third kind
 
 Not every job wants a human identity. Unattended reporting — GA4, GSC,
