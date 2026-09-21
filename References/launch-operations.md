@@ -96,20 +96,73 @@ The third is the one that matters. An engagement that ends cleanly is one where
 **the client can revoke us without our cooperation**. That is impossible if our
 access *is* their account.
 
-So grant yourself, signed in as them exactly once:
+### Address, identity, role
 
-| Service | Where | Take |
-|---|---|---|
-| Business Profile | business.google.com → Settings → People | **Manager** |
-| Search Console | Settings → Users and permissions | **Owner** if verifying or automating, else Full |
-| Analytics | Admin → Property access management | **Editor**, or Administrator if you will manage access |
-| **Google Cloud project** | Cloud Console → IAM | **Editor** |
+Three things get collapsed because they all look like an email address:
+
+- An **address** is where mail lands. An alias is only this. It holds nothing.
+- An **identity** is something that can sign in. It has its own credentials.
+- A **role** is what one identity may do on one resource. Granted, revoked,
+  audited.
+
+Vendors grant roles to identities, never to addresses. That is the whole reason
+`hello@` cannot be made a Manager of anything while it is an alias — there is
+no account there to grant to. Cloudflare will mint an identity from any address
+you invite; Google will not, because a Google identity costs a seat.
+
+**Roles belong to a function, not a person.** `hello@` survives a hire, a
+holiday and a handover. `garrett@` is a person and can never be re-pointed at
+anyone else. It is the same rule we hold clients to when we insist the practice
+holds Owner rather than the doctor personally — and it does not stop being true
+on our side of the table.
+
+The test either way: **can access change hands without the person cooperating?**
+
+### Which identity to grant
+
+Signed in as the practice exactly once:
+
+| Service | Where | Take | As |
+|---|---|---|---|
+| Business Profile | business.google.com → Settings → People | **Manager** | `garrett@` |
+| Search Console | Settings → Users and permissions | **Owner** if verifying or automating, else Full | `garrett@` |
+| Analytics | Admin → Property access management | **Editor**, or Administrator if you will manage access | `garrett@` |
+| **Google Cloud project** | Cloud Console → IAM | **Editor** | `garrett@` |
+| Cloudflare (client account) | Members | **Administrator** or DNS Administrator | `hello@` |
 
 The Cloud project is the one that gets forgotten, because nothing on the site
 points at it. It holds the OAuth client, the consent screen and any service
-account — so without Editor there you cannot rotate a credential, enable an
-API, or fix a consent screen without booking time with the practice. Every
-Google credential in the engagement ultimately depends on it.
+account — so without Editor there you cannot rotate a credential, enable an API
+or fix a consent screen without booking time with the practice. Every Google
+credential in the engagement ultimately depends on it.
+
+**`garrett@` on Google is a documented exception, not the design.** Google is
+the only vendor here that charges for an identity, so client Google roles sit
+on a personal account until a Workspace seat is worth buying. Every other
+vendor accepts an arbitrary address and therefore gets `hello@` for free —
+which is why Cloudflare, holding the most dangerous access we have, is already
+on the functional one.
+
+While that exception stands, put a hardware key on `garrett@`. It holds every
+client's GBP, GSC, GA4 and Cloud project, so one phishing success there is a
+multi-client incident.
+
+**Upgrade trigger:** the first time someone other than Garrett needs access, or
+the first client who asks who else can act on their behalf. Buy the seat, then
+change one line in `groundwork-builder/scripts/pipeline/standards/practice-contract.js`
+— `OPERATOR_IDENTITY`. Every practice's grantee is recorded per access item and
+`check-readiness.js` prints it, so the migration list generates itself rather
+than being reconstructed by logging into four consoles per client.
+
+### Service accounts are the third kind
+
+Not every job wants a human identity. Unattended reporting — GA4, GSC,
+PageSpeed, Places — belongs to a **service account**: no seat, no password to
+rotate, no dependency on anyone's inbox.
+
+**GBP is the exception that forces a human**, because Google offers no
+service-account path for it. That is precisely the case the functional identity
+exists to cover, and the reason it will eventually be worth the seat.
 
 **OAuth consent must be published, and it must be ours.** A refresh token binds
 to whichever identity clicked Allow, and an app left in *Testing* publishing
