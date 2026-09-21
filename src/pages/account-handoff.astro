@@ -27,57 +27,60 @@ import GradientBackdrop from '../components/GradientBackdrop.astro';
 const steps = [
   {
     n: '1',
+    id: 'step-1',
     title: 'Create a GitHub account',
     action: 'Holds your website\'s code. Free, and you\'ll rarely need to open it.',
-    link: { href: 'https://github.com/signup', label: 'Create account →' },
-    details: [
-      'Use an email the practice controls long-term, not a personal inbox that leaves with an employee.',
-      'More than one person needs access? Create a free GitHub Organization instead of a personal account.',
-      'Once it exists, send us the account or organization name.',
-    ],
+    link: { href: 'https://github.com/signup', label: 'Create GitHub account' },
+    essential: 'Once it exists, send us the account name.',
+    edge: {
+      summary: 'More than one person needs access?',
+      body: 'Create a free GitHub Organization instead of a personal account — Settings → "New organization" — so access survives any one person leaving.',
+    },
   },
   {
     n: '2',
+    id: 'step-2',
     title: 'Create a Cloudflare account',
     action: 'Hosts your site and manages your domain. Free, no monthly fee.',
-    link: { href: 'https://dash.cloudflare.com/sign-up', label: 'Create account →' },
-    details: [
-      'Already have one from a previous developer or MSP? Use that instead of creating a new one.',
-      'Add hello@groundworkdental.com as an Administrator under Manage Account → Members → Invite.',
-    ],
+    link: { href: 'https://dash.cloudflare.com/sign-up', label: 'Create Cloudflare account' },
+    essential: 'Add hello@groundworkdental.com as an Administrator (Manage Account → Members → Invite).',
+    edge: {
+      summary: 'Already have Cloudflare from a previous developer or MSP?',
+      body: 'Use that account instead of creating a new one — a second account just splits your DNS across two places. Add hello@groundworkdental.com there instead.',
+    },
   },
   {
     n: '3',
+    id: 'step-3',
     title: 'Create a Google Analytics (GA4) property',
     action: 'Shows how many people visit your site and what they do there.',
-    link: { href: 'https://analytics.google.com', label: 'Open Analytics →' },
-    details: [
-      'Create it inside your own practice\'s Google account — not ours — so nothing needs to migrate later.',
-      'Add hello@groundworkdental.com as Administrator at creation (Admin → Property Access Management).',
-      'Send us the Measurement ID (starts with "G-").',
-    ],
+    link: { href: 'https://analytics.google.com', label: 'Open Google Analytics' },
+    essential: 'Create it in your own Google account, add hello@groundworkdental.com as Administrator, then send us the Measurement ID (starts with "G-").',
+    edge: null,
   },
   {
     n: '4',
+    id: 'step-4',
     title: 'Verify your domain in Search Console',
     action: 'Shows whether your pages are actually indexed on Google.',
-    link: { href: 'https://search.google.com/search-console', label: 'Open Search Console →' },
-    details: [
-      'Choose "Domain" as the property type — it covers both the apex and www version in one step.',
-      'Verification needs one DNS TXT record. If we manage your DNS, just send us the value Google gives you.',
-      'Add hello@groundworkdental.com as a user once verified.',
-    ],
+    link: { href: 'https://search.google.com/search-console', label: 'Open Search Console' },
+    essential: 'Choose "Domain" as the property type, then add hello@groundworkdental.com as a user once verified.',
+    edge: {
+      summary: 'We manage your DNS?',
+      body: 'Verification needs one DNS TXT record. Send us the value Google gives you and we\'ll add it for you.',
+    },
   },
   {
     n: '5',
+    id: 'step-5',
     title: 'Add us as a Manager on your Business Profile',
     action: 'Lets us help manage reviews and posts on your Google listing.',
-    link: { href: 'https://business.google.com', label: 'Open Business Profile →' },
-    details: [
-      'You almost certainly already have a listing — Google creates one automatically once you appear in Maps or search.',
-      'Add hello@groundworkdental.com as a Manager (not Owner — you keep Owner) under People and access.',
-      'Google\'s approval on our end can take days to weeks, so the earlier this happens, the better.',
-    ],
+    link: { href: 'https://business.google.com', label: 'Open Business Profile' },
+    essential: 'Add hello@groundworkdental.com as a Manager (not Owner — you keep Owner) under People and access.',
+    edge: {
+      summary: 'Why does this take a while?',
+      body: 'Google\'s approval on our end can take days to weeks, so the earlier this happens, the better — it does not block your site from being live.',
+    },
   },
 ];
 
@@ -118,36 +121,35 @@ const faqs = [
   <section class="reveal py-10">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
       {steps.map((step) => (
-        <div class="border border-hairline rounded-lg p-5 md:p-6">
+        <div id={step.id} class="border border-hairline rounded-lg p-5 md:p-6 scroll-mt-24">
           <div class="flex items-start gap-4">
             <span class="flex-none w-9 h-9 rounded-full bg-sage-dark text-white flex items-center justify-center font-serif text-base">
               {step.n}
             </span>
             <div class="flex-1 min-w-0">
               <h2 class="text-xl font-serif text-charcoal mb-1">{step.title}</h2>
-              <p class="text-mid-gray mb-3">{step.action}</p>
+              <p class="text-mid-gray mb-2">{step.action}</p>
+              <p class="text-sm text-charcoal font-medium mb-4">{step.essential}</p>
 
-              <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
-                <a
-                  href={step.link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-sage-dark hover:text-sage-darker font-medium"
-                >
-                  {step.link.label}
-                </a>
+              <a
+                href={step.link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-block bg-sage-dark text-white hover:bg-sage-darker font-sans font-medium text-sm px-5 py-2.5 rounded transition-colors"
+              >
+                {step.link.label}
+              </a>
 
-                {step.details?.length > 0 && (
-                  <details class="details-toggle">
-                    <summary class="cursor-pointer text-sm text-mid-gray hover:text-charcoal select-none">
-                      More info
-                    </summary>
-                    <ul class="mt-3 space-y-2 text-sm text-mid-gray leading-relaxed list-disc pl-5">
-                      {step.details.map((d) => <li>{d}</li>)}
-                    </ul>
-                  </details>
-                )}
-              </div>
+              {step.edge && (
+                <details class="details-toggle mt-4">
+                  <summary class="cursor-pointer inline-flex items-center text-sm text-sage-dark hover:text-sage-darker font-medium select-none">
+                    {step.edge.summary}
+                  </summary>
+                  <p class="mt-2 text-sm text-mid-gray leading-relaxed max-w-xl">
+                    {step.edge.body}
+                  </p>
+                </details>
+              )}
             </div>
           </div>
         </div>
@@ -174,10 +176,18 @@ const faqs = [
   .details-toggle summary::-webkit-details-marker {
     display: none;
   }
-  .details-toggle summary::before {
-    content: '+ ';
+  .details-toggle summary::after {
+    content: '';
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-left: 0.4rem;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 160ms ease;
   }
-  .details-toggle[open] summary::before {
-    content: '– ';
+  .details-toggle[open] summary::after {
+    transform: rotate(225deg);
   }
 </style>
